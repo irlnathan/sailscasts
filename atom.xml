@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
-  <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-07-27T23:09:36-05:00</updated>
-  <id>http://irlnathan.github.io/sailscasts/</id>
+  <link href="http://irlnathan.github.io//github/atom.xml" rel="self"/>
+  <link href="http://irlnathan.github.io//github/"/>
+  <updated>2013-07-27T23:17:45-05:00</updated>
+  <id>http://irlnathan.github.io//github/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
