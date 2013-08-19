@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io//sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io//sailscasts/"/>
-  <updated>2013-08-19T14:02:35-05:00</updated>
+  <updated>2013-08-19T16:08:01-05:00</updated>
   <id>http://irlnathan.github.io//sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What the heck is activityOverlord and why should I care?]]></title>
+    <link href="http://irlnathan.github.io//sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/"/>
+    <updated>2013-08-19T16:04:00-05:00</updated>
+    <id>http://irlnathan.github.io//sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care</id>
+    <content type="html"><![CDATA[<p>activityOverlord is a project I&rsquo;m building to learn sails.js.  The application currently has authentication, rights management, real-time presence, activity logging, and much more.  This video is a brief look at the partially completed app.</p>
+
+<iframe width="640" height="390" src="http://www.youtube.com/embed/1H0UfbGdwd8" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Creating a restful json api in less than 15 seconds using sails.js]]></title>
