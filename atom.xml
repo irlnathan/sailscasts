@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[sailsCasts]]></title>
-  <link href="http://irlnathan.github.io//sailscasts/atom.xml" rel="self"/>
-  <link href="http://irlnathan.github.io//sailscasts/"/>
-  <updated>2013-08-19T16:08:01-05:00</updated>
-  <id>http://irlnathan.github.io//sailscasts/</id>
+  <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
+  <link href="http://irlnathan.github.io/sailscasts/"/>
+  <updated>2013-08-19T16:43:00-05:00</updated>
+  <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[What the heck is activityOverlord and why should I care?]]></title>
-    <link href="http://irlnathan.github.io//sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/"/>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/"/>
     <updated>2013-08-19T16:04:00-05:00</updated>
-    <id>http://irlnathan.github.io//sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care</id>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care</id>
     <content type="html"><![CDATA[<p>activityOverlord is a project I&rsquo;m building to learn sails.js.  The application currently has authentication, rights management, real-time presence, activity logging, and much more.  This video is a brief look at the partially completed app.</p>
 
 <iframe width="640" height="390" src="http://www.youtube.com/embed/1H0UfbGdwd8" frameborder="0" allowfullscreen></iframe>
@@ -27,9 +27,9 @@
   
   <entry>
     <title type="html"><![CDATA[Creating a restful json api in less than 15 seconds using sails.js]]></title>
-    <link href="http://irlnathan.github.io//sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js/"/>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js/"/>
     <updated>2013-08-19T13:56:00-05:00</updated>
-    <id>http://irlnathan.github.io//sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js</id>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js</id>
     <content type="html"><![CDATA[<p>In a very short amount of time I was able to create a powerful api that I can use to immediately feed my front-in application.</p>
 
 <iframe width="640" height="390" src="http://www.youtube.com/embed/xlOolpwwGQg" frameborder="0" allowfullscreen></iframe>
@@ -39,9 +39,9 @@
   
   <entry>
     <title type="html"><![CDATA[The Prequels to Sails.js]]></title>
-    <link href="http://irlnathan.github.io//sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/"/>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/"/>
     <updated>2013-08-18T22:28:00-05:00</updated>
-    <id>http://irlnathan.github.io//sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js</id>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js</id>
     <content type="html"><![CDATA[<p>The Prequel videos are not about sails specifically but instead cover aspects of node.js and its related ecosystem that I found relevant to understanding sails itself.</p>
 
 <h2>The Prequel to Sails.js and Node &ndash; Part 1: Understanding and creating a node-based HTTP server.</h2>
