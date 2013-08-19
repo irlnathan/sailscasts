@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://irlnathan.github.io//github/atom.xml" rel="self"/>
-  <link href="http://irlnathan.github.io//github/"/>
-  <updated>2013-07-27T23:20:44-05:00</updated>
-  <id>http://irlnathan.github.io//github/</id>
+  <title><![CDATA[sailsCasts]]></title>
+  <link href="http://irlnathan.github.io//sailscasts/atom.xml" rel="self"/>
+  <link href="http://irlnathan.github.io//sailscasts/"/>
+  <updated>2013-08-18T22:29:39-05:00</updated>
+  <id>http://irlnathan.github.io//sailscasts/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[irl nathan]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Prequels to Sails.js]]></title>
+    <link href="http://irlnathan.github.io//sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/"/>
+    <updated>2013-08-18T22:28:00-05:00</updated>
+    <id>http://irlnathan.github.io//sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js</id>
+    <content type="html"><![CDATA[<p>The Prequel videos are not about sails specifically but instead cover aspects of node.js and its related ecosystem that I found relevant to understanding sails itself.</p>
+
+<h2>The Prequel to Sails.js and Node &ndash; Part 1: Understanding and creating a node-based HTTP server.</h2>
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/WDRmyZmJl4g?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>The Prequel to Sails.js and Node &ndash; Part 2: Creating a module and parsing a URL in node.js.</h2>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/IJZqR-uS5B0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>The Prequel to Sails.js and Node &ndash; Part 3: Creating a router and controller from scratch.</h2>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/BBFKkVBzHwU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
 </feed>

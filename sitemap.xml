@@ -1,19 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://irlnathan.github.io//github/blog/archives/</loc>
+        <loc>
+            http://irlnathan.github.io//sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/
+        </loc>
+        <lastmod>2013-08-18T22:29:39-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://irlnathan.github.io//sailscasts/blog/archives/</loc>
+        <lastmod>2013-08-18T22:29:39-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://irlnathan.github.io//sailscasts/</loc>
+        <lastmod>2013-08-18T22:29:39-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://irlnathan.github.io//sailscasts/robots.txt</loc>
         <lastmod>2013-07-27T23:20:37-05:00</lastmod>
     </url>
     <url>
-        <loc>http://irlnathan.github.io//github/</loc>
-        <lastmod>2013-07-27T23:20:37-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://irlnathan.github.io//github/robots.txt</loc>
-        <lastmod>2013-07-27T23:20:37-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://irlnathan.github.io//github/search.html</loc>
+        <loc>http://irlnathan.github.io//sailscasts/search.html</loc>
         <lastmod>2013-07-27T23:20:36-05:00</lastmod>
     </url>
 </urlset>
