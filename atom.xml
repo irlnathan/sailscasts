@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-08-19T17:10:22-05:00</updated>
+  <updated>2013-08-21T16:21:59-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/"/>
+    <updated>2013-08-21T16:17:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page</id>
+    <content type="html"><![CDATA[<iframe width="640" height="360" src="http://www.youtube.com/embed/ZE7ye2G_H9Q?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep1 - Installing Sails and Create Initial Project]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/"/>
+    <updated>2013-08-20T11:09:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project</id>
+    <content type="html"><![CDATA[<p>This is a part of a series of screencasts which build a sails application from scratch.  Episode 1 goes over installing sails and creating the initial sails project.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/ZE7ye2G_H9Q?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What the heck is activityOverlord and why should I care?]]></title>

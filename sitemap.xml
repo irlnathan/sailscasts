@@ -19,12 +19,28 @@
         <lastmod>2013-08-19T16:05:18-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/
+        </loc>
+        <lastmod>2013-08-21T16:21:03-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/
+        </loc>
+        <lastmod>2013-08-21T16:19:03-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-08-19T16:05:18-05:00</lastmod>
+        <lastmod>2013-08-21T16:21:03-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-08-19T16:05:18-05:00</lastmod>
+        <lastmod>2013-08-21T16:21:03-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>
+        <lastmod>2013-08-20T15:19:29-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/robots.txt</loc>
