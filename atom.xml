@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-08-22T17:17:37-05:00</updated>
+  <updated>2013-08-23T17:53:29-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep3 - Creating a user model and controller]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/"/>
+    <updated>2013-08-23T16:28:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller</id>
+    <content type="html"><![CDATA[<p>In episode 3 you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/bjd3UvNvoCI?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep2a - Stuff I forgot to mention in episode two...because I'm old.]]></title>

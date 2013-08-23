@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>What the heck is activityOverlord and why should I care? - sailsCasts</title>
+  <title>Building a Sails Application: Ep3 - Creating a user model and controller - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="activityOverlord is a project I&rsquo;m building to learn sails.js. The application currently has authentication, rights management, real-time &hellip;">
+  <meta name="description" content="In episode 3 you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -70,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">What the Heck Is activityOverlord and Why Should I Care?</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep3 - Creating a User Model and Controller</h1>
     
     
       <p class="meta">
@@ -86,7 +86,7 @@
   
 
 
-<time datetime="2013-08-19T16:04:00-05:00" pubdate data-updated="true">Aug 19<span>th</span>, 2013</time>
+<time datetime="2013-08-23T16:28:00-05:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -95,9 +95,9 @@
   </header>
 
 
-<div class="entry-content"><p>activityOverlord is a project I&rsquo;m building to learn sails.js.  The application currently has authentication, rights management, real-time presence, activity logging, and much more.  This video is a brief look at the partially completed app.</p>
+<div class="entry-content"><p>In episode 3 you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
 
-<iframe width="640" height="390" src="http://www.youtube.com/embed/1H0UfbGdwd8" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="http://www.youtube.com/embed/bjd3UvNvoCI?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-08-19T16:04:00-05:00" pubdate data-updated="true">Aug 19<span>th</span>, 2013</time>
+<time datetime="2013-08-23T16:28:00-05:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2013</time>
       
 
 
@@ -129,7 +129,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/" >Tweet</a>
   
   
   
@@ -138,10 +138,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js/" title="Previous Post: Creating a restful json api in less than 15 seconds using sails.js">&laquo; Creating a restful json api in less than 15 seconds using sails.js</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/" title="Previous Post: Building a Sails Application: Ep2a - Stuff I forgot to mention in episode two...because I'm old.">&laquo; Building a Sails Application: Ep2a - Stuff I forgot to mention in episode two...because I'm old.</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/" title="Next Post: Building a Sails Application: Ep1 - Installing Sails and Create Initial Project">Building a Sails Application: Ep1 - Installing Sails and Create Initial Project &raquo;</a>
       
     </p>
   </footer>
@@ -207,8 +205,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/';
         var disqus_script = 'embed.js';
       
     (function () {
