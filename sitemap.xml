@@ -43,12 +43,18 @@
         <lastmod>2013-08-23T17:53:03-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/
+        </loc>
+        <lastmod>2013-08-25T17:48:54-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-08-23T17:53:03-05:00</lastmod>
+        <lastmod>2013-08-25T17:48:54-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-08-23T17:53:03-05:00</lastmod>
+        <lastmod>2013-08-25T17:48:54-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>
