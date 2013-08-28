@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-08-27T22:22:25-05:00</updated>
+  <updated>2013-08-28T10:31:42-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page/"/>
+    <updated>2013-08-28T10:28:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page</id>
+    <content type="html"><![CDATA[<p>In episode 7 you&rsquo;ll create a show action which will be our very humble profile page.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/HozWtywQNMo?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep6 - Creating a policy and adding client-side validation]]></title>
