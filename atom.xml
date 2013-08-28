@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-08-28T10:31:42-05:00</updated>
+  <updated>2013-08-28T17:17:34-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep8 - Building an admin page.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list/"/>
+    <updated>2013-08-28T17:12:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list</id>
+    <content type="html"><![CDATA[<p>In episode 8 you&rsquo;ll prevent html from being run on user generated content, create a user administrative page as well as flesh out the index, edit, and update action.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/GHp1g7Z0Yo4?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page]]></title>

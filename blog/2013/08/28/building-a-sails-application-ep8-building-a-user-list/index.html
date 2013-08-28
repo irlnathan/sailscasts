@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep3[Updated] - Creating a user model and controller - sailsCasts</title>
+  <title>Building a Sails Application: Ep8 - Building an admin page. - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 3[Updated] you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints. ">
+  <meta name="description" content="In episode 8 you&rsquo;ll prevent html from being run on user generated content, create a user administrative page as well as flesh out the index, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep3[Updated] - Creating a User Model and Controller</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep8 - Building an Admin Page.</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-08-25T17:46:00-05:00" pubdate data-updated="true">Aug 25<span>th</span>, 2013</time>
+<time datetime="2013-08-28T17:12:00-05:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,9 +107,9 @@
   </header>
 
 
-<div class="entry-content"><p>In episode 3[Updated] you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
+<div class="entry-content"><p>In episode 8 you&rsquo;ll prevent html from being run on user generated content, create a user administrative page as well as flesh out the index, edit, and update action.</p>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/qUAzpyThAB0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="http://www.youtube.com/embed/GHp1g7Z0Yo4?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -133,7 +133,7 @@
   
 
 
-<time datetime="2013-08-25T17:46:00-05:00" pubdate data-updated="true">Aug 25<span>th</span>, 2013</time>
+<time datetime="2013-08-28T17:12:00-05:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
       
 
 
@@ -141,7 +141,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list/" >Tweet</a>
   
   
   
@@ -150,10 +150,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/" title="Previous Post: Building a Sails Application: Ep3 - Creating a user model and controller">&laquo; Building a Sails Application: Ep3 - Creating a user model and controller</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page/" title="Previous Post: Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page">&laquo; Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/26/building-a-sails-application-ep4-creating-a-user-account/" title="Next Post: Building a Sails Application: Ep4 - Creating a user account">Building a Sails Application: Ep4 - Creating a user account &raquo;</a>
       
     </p>
   </footer>
@@ -219,8 +217,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list/';
         var disqus_script = 'embed.js';
       
     (function () {
