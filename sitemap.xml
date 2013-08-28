@@ -49,12 +49,30 @@
         <lastmod>2013-08-25T17:48:54-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/26/building-a-sails-application-ep4-creating-a-user-account/
+        </loc>
+        <lastmod>2013-08-27T21:55:32-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/27/building-a-sails-application-ep4-handling-validation-errors-with-a-flash-message/
+        </loc>
+        <lastmod>2013-08-27T22:08:36-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/
+        </loc>
+        <lastmod>2013-08-27T22:22:03-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-08-25T17:48:54-05:00</lastmod>
+        <lastmod>2013-08-27T22:22:03-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-08-25T17:48:54-05:00</lastmod>
+        <lastmod>2013-08-27T22:22:03-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>
