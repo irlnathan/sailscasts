@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap. - sailsCasts</title>
+  <title>Building a Sails Application: Ep11 - Encrypting passwords with bcrypt. - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content=" ">
+  <meta name="description" content="In episode 11 you&rsquo;ll start encrypting passwords with bcrypt. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep2 - Creating a Sign-up Page, 'First-look' at Routes, and Adding Twitter Bootstrap.</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep11 - Encrypting Passwords With Bcrypt.</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-08-21T16:17:00-05:00" pubdate data-updated="true">Aug 21<span>st</span>, 2013</time>
+<time datetime="2013-08-30T11:19:00-05:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,7 +107,9 @@
   </header>
 
 
-<div class="entry-content"><iframe width="640" height="360" src="http://www.youtube.com/embed/ZE7ye2G_H9Q?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<div class="entry-content"><p>In episode 11 you&rsquo;ll start encrypting passwords with bcrypt.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/1wziI6l0NyE?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -131,7 +133,7 @@
   
 
 
-<time datetime="2013-08-21T16:17:00-05:00" pubdate data-updated="true">Aug 21<span>st</span>, 2013</time>
+<time datetime="2013-08-30T11:19:00-05:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
       
 
 
@@ -139,7 +141,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/" >Tweet</a>
   
   
   
@@ -148,10 +150,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/" title="Previous Post: Building a Sails Application: Ep1 - Installing Sails and Create Initial Project">&laquo; Building a Sails Application: Ep1 - Installing Sails and Create Initial Project</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/30/building-a-sails-application-ep10-changing-databases-to-mongodb-with-sails-adapters/" title="Previous Post: Building a Sails Application: Ep10 - Changing databases to mongoDB with sails adapters.">&laquo; Building a Sails Application: Ep10 - Changing databases to mongoDB with sails adapters.</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/" title="Next Post: Building a Sails Application: Ep2a - Stuff I forgot to mention in episode two...because I'm old.">Building a Sails Application: Ep2a - Stuff I forgot to mention in episode two...because I'm old. &raquo;</a>
       
     </p>
   </footer>
@@ -217,8 +217,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/';
         var disqus_script = 'embed.js';
       
     (function () {

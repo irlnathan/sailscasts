@@ -91,12 +91,18 @@
         <lastmod>2013-08-30T08:33:52-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/
+        </loc>
+        <lastmod>2013-08-30T11:39:33-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-08-30T08:33:52-05:00</lastmod>
+        <lastmod>2013-08-30T11:39:33-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-08-30T08:33:52-05:00</lastmod>
+        <lastmod>2013-08-30T11:39:33-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>

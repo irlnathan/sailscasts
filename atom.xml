@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-08-30T08:34:02-05:00</updated>
+  <updated>2013-08-30T11:39:56-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep11 - Encrypting passwords with bcrypt.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/"/>
+    <updated>2013-08-30T11:19:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt</id>
+    <content type="html"><![CDATA[<p>In episode 11 you&rsquo;ll start encrypting passwords with bcrypt.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/1wziI6l0NyE?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep10 - Changing databases to mongoDB with sails adapters.]]></title>
