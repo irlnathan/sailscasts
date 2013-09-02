@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-09-01T16:15:37-05:00</updated>
+  <updated>2013-09-02T18:28:45-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep15 - Improving user authenticated navigation.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/"/>
+    <updated>2013-09-02T18:26:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation</id>
+    <content type="html"><![CDATA[<p>In episode 15 you&rsquo;ll change the layout page to greatly improve post authentication navigation.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/P0K36-c5G4A?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep14 - User authentication and restricting access through policies.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/"/>
+    <updated>2013-09-02T12:25:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies</id>
+    <content type="html"><![CDATA[<p>In episode 14 learn more about user authentication, creating the create and destroy actions of the session controller as well as restricting access to the application through the use of policies.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/AooPVuYGnuU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: EP13 - Sign-in page, session controller, new action, and sessions.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/01/building-a-sails-application-ep13-sign-in-page/"/>
+    <updated>2013-09-01T12:22:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/01/building-a-sails-application-ep13-sign-in-page</id>
+    <content type="html"><![CDATA[<p>In episode 13 learn how to create a sign-in page, create a session controller with a new action and take a relatively deep dive into understanding sessions.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/SY2AcAHxIiU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep12 - Starting a project in the middle using git clone.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/31/building-a-sails-application-ep12-starting-a-project-in-the-middle-using-git-clone/"/>
+    <updated>2013-08-31T12:02:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/31/building-a-sails-application-ep12-starting-a-project-in-the-middle-using-git-clone</id>
+    <content type="html"><![CDATA[<p>In episode 12 learn how to clone the activityOverlord project, install the necessary dependencies as well as tasks to get the application up and running from the github repository.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/xotjd935ARY?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep11 - Encrypting passwords with bcrypt.]]></title>

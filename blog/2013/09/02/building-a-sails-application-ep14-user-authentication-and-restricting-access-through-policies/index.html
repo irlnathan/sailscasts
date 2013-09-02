@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep6 - Creating a policy and adding client-side validation - sailsCasts</title>
+  <title>Building a Sails Application: Ep14 - User authentication and restricting access through policies. - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 6 you&rsquo;ll create your first policy and add client-side validation to the sign-up page. ">
+  <meta name="description" content="In episode 14 learn more about user authentication, creating the create and destroy actions of the session controller as well as restricting access &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep6 - Creating a Policy and Adding Client-side Validation</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep14 - User Authentication and Restricting Access Through Policies.</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-08-28T01:45:00-05:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+<time datetime="2013-09-02T12:25:00-05:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,11 +107,9 @@
   </header>
 
 
-<div class="entry-content"><p>In episode 6 you&rsquo;ll create your first policy and add client-side validation to the sign-up page.</p>
+<div class="entry-content"><p>In episode 14 learn more about user authentication, creating the create and destroy actions of the session controller as well as restricting access to the application through the use of policies.</p>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/_wL2cS0GmJQ?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-
+<iframe width="640" height="360" src="http://www.youtube.com/embed/AooPVuYGnuU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -135,7 +133,7 @@
   
 
 
-<time datetime="2013-08-28T01:45:00-05:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+<time datetime="2013-09-02T12:25:00-05:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2013</time>
       
 
 
@@ -143,7 +141,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/" >Tweet</a>
   
   
   
@@ -152,10 +150,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/27/building-a-sails-application-ep4-handling-validation-errors-with-a-flash-message/" title="Previous Post: Building a Sails Application: Ep5 - handling validation errors with a flash message">&laquo; Building a Sails Application: Ep5 - handling validation errors with a flash message</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/09/01/building-a-sails-application-ep13-sign-in-page/" title="Previous Post: Building a Sails Application: EP13 - Sign-in page, session controller, new action, and sessions.">&laquo; Building a Sails Application: EP13 - Sign-in page, session controller, new action, and sessions.</a>
       
       
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page/" title="Next Post: Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page">Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page &raquo;</a>
+        <a class="basic-alignment right" href="/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/" title="Next Post: Building a Sails Application: Ep15 - Improving user authenticated navigation.">Building a Sails Application: Ep15 - Improving user authenticated navigation. &raquo;</a>
       
     </p>
   </footer>
@@ -221,8 +219,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/';
         var disqus_script = 'embed.js';
       
     (function () {
