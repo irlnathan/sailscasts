@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-09-02T18:28:45-05:00</updated>
+  <updated>2013-09-05T15:11:57-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep17 - Creating a distinction between admin and regular users]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/05/building-a-sails-application-ep17-creating-a-distinction-between-admin-and-regular-users/"/>
+    <updated>2013-09-05T14:22:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/05/building-a-sails-application-ep17-creating-a-distinction-between-admin-and-regular-users</id>
+    <content type="html"><![CDATA[<p>In episode 17 you&rsquo;ll add a distinction between a regular user and an admin user through the use of additional policies.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/DI85AWW_TEk?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep16 - Fixing and issue with policies from episode 14.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/"/>
+    <updated>2013-09-04T12:21:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14</id>
+    <content type="html"><![CDATA[<p>In episode 16 you&rsquo;ll make a change to the policies and sign a user in when an account is created.  This will fix some stuff I forgot to do back in episode 14.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/-wF07sqGmW0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep15 - Improving user authenticated navigation.]]></title>
@@ -229,42 +253,6 @@
     <content type="html"><![CDATA[<p>activityOverlord is a project I&rsquo;m building to learn sails.js.  The application currently has authentication, rights management, real-time presence, activity logging, and much more.  This video is a brief look at the partially completed app.</p>
 
 <iframe width="640" height="390" src="http://www.youtube.com/embed/1H0UfbGdwd8" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Creating a restful json api in less than 15 seconds using sails.js]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js/"/>
-    <updated>2013-08-19T13:56:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js</id>
-    <content type="html"><![CDATA[<p>In a very short amount of time I was able to create a powerful api that I can use to immediately feed my front-in application.</p>
-
-<iframe width="640" height="390" src="http://www.youtube.com/embed/xlOolpwwGQg" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Prequels to Sails.js]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/"/>
-    <updated>2013-08-18T22:28:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js</id>
-    <content type="html"><![CDATA[<p>The Prequel videos are not about sails specifically but instead cover aspects of node.js and its related ecosystem that I found relevant to understanding sails itself.</p>
-
-<h2>The Prequel to Sails.js and Node &ndash; Part 1: Understanding and creating a node-based HTTP server.</h2>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/WDRmyZmJl4g?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-
-<h2>The Prequel to Sails.js and Node &ndash; Part 2: Creating a module and parsing a URL in node.js.</h2>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/IJZqR-uS5B0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-
-<h2>The Prequel to Sails.js and Node &ndash; Part 3: Creating a router and controller from scratch.</h2>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/BBFKkVBzHwU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
