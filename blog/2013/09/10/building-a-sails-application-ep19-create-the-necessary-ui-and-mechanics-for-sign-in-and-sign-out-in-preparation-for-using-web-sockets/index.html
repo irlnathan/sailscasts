@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep15 - Improving user authenticated navigation. - sailsCasts</title>
+  <title>Building a Sails Application: Ep19 - Create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets. - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 15 you&rsquo;ll change the layout page to greatly improve post authentication navigation. ">
+  <meta name="description" content="In episode 19 you&rsquo;ll create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep15 - Improving User Authenticated Navigation.</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep19 - Create the Necessary Ui and Mechanics for Sign-in and Sign-out in Preparation for Using Web Sockets.</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-09-02T18:26:00-05:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2013</time>
+<time datetime="2013-09-10T12:55:00-05:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,9 +107,9 @@
   </header>
 
 
-<div class="entry-content"><p>In episode 15 you&rsquo;ll change the layout page to greatly improve post authentication navigation.</p>
+<div class="entry-content"><p>In episode 19 you&rsquo;ll create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets.</p>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/P0K36-c5G4A?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="http://www.youtube.com/embed/v-Q-Hp9nBwM?feature=player_embedded" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -133,7 +133,7 @@
   
 
 
-<time datetime="2013-09-02T18:26:00-05:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2013</time>
+<time datetime="2013-09-10T12:55:00-05:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
       
 
 
@@ -141,7 +141,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/" >Tweet</a>
   
   
   
@@ -150,10 +150,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/" title="Previous Post: Building a Sails Application: Ep14 - User authentication and restricting access through policies.">&laquo; Building a Sails Application: Ep14 - User authentication and restricting access through policies.</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/09/06/building-a-sails-application-ep18-understanding-web-sockets-and-socket-io-including-room-creation-and-management/" title="Previous Post: Building a Sails Application: Ep18 - Understanding Web sockets and socket IO including room creation and management">&laquo; Building a Sails Application: Ep18 - Understanding Web sockets and socket IO including room creation and management</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/" title="Next Post: Building a Sails Application: Ep16 - Fixing and issue with policies from episode 14.">Building a Sails Application: Ep16 - Fixing and issue with policies from episode 14. &raquo;</a>
       
     </p>
   </footer>
@@ -219,8 +217,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/';
         var disqus_script = 'embed.js';
       
     (function () {
