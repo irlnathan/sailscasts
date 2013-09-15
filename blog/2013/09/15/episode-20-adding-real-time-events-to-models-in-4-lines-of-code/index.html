@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep1 - Installing Sails and Create Initial Project - sailsCasts</title>
+  <title>Episode 20: Adding real-time events to models in 4 lines of code - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="This is a part of a series of screencasts which build a sails application from scratch. Episode 1 goes over installing sails and creating the initial &hellip;">
+  <meta name="description" content="In episode 20 you&rsquo;ll use an app to explore and understand how socket.io works within sails using a client side app that renders the majority of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep1 - Installing Sails and Create Initial Project</h1>
+      <h1 class="entry-title">Episode 20: Adding Real-time Events to Models in 4 Lines of Code</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-08-20T11:09:00-05:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time>
+<time datetime="2013-09-15T16:39:00-05:00" pubdate data-updated="true">Sep 15<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,9 +107,11 @@
   </header>
 
 
-<div class="entry-content"><p>This is a part of a series of screencasts which build a sails application from scratch.  Episode 1 goes over installing sails and creating the initial sails project.</p>
+<div class="entry-content"><p>In episode 20 you&rsquo;ll use an app to explore and understand how socket.io works within sails using a client side app that renders the majority of its views via ajax.  With four lines of code, the app monitors the user model and alerts any subscribing sockets with changes to the model.</p>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/ep6EQ5f82Ts?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<p>Special thanks to Srinivas Tamada and his <a href="" title="http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html">tutorial</a> on adding sound via jquery.</p>
+
+<iframe width="640" height="390" src="http://www.youtube.com/embed/a4aVdEw7HlM" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -133,7 +135,7 @@
   
 
 
-<time datetime="2013-08-20T11:09:00-05:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time>
+<time datetime="2013-09-15T16:39:00-05:00" pubdate data-updated="true">Sep 15<span>th</span>, 2013</time>
       
 
 
@@ -141,7 +143,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/" >Tweet</a>
   
   
   
@@ -150,10 +152,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/" title="Previous Post: What the heck is activityOverlord and why should I care?">&laquo; What the heck is activityOverlord and why should I care?</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/" title="Previous Post: Building a Sails Application: Ep19 - Create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets.">&laquo; Building a Sails Application: Ep19 - Create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets.</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/" title="Next Post: Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap.">Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap. &raquo;</a>
       
     </p>
   </footer>
@@ -219,8 +219,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-09-10T16:57:19-05:00</updated>
+  <updated>2013-09-15T16:41:40-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Episode 20: Adding real-time events to models in 4 lines of code]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/"/>
+    <updated>2013-09-15T16:39:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code</id>
+    <content type="html"><![CDATA[<p>In episode 20 you&rsquo;ll use an app to explore and understand how socket.io works within sails using a client side app that renders the majority of its views via ajax.  With four lines of code, the app monitors the user model and alerts any subscribing sockets with changes to the model.</p>
+
+<p>Special thanks to Srinivas Tamada and his <a href="" title="http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html">tutorial</a> on adding sound via jquery.</p>
+
+<iframe width="640" height="390" src="http://www.youtube.com/embed/a4aVdEw7HlM" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep19 - Create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets.]]></title>
@@ -243,16 +257,6 @@
 <iframe width="640" height="360" src="http://www.youtube.com/embed/zootilxmo4M?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/"/>
-    <updated>2013-08-21T16:17:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page</id>
-    <content type="html"><![CDATA[<iframe width="640" height="360" src="http://www.youtube.com/embed/ZE7ye2G_H9Q?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
