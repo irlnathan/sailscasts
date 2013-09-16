@@ -153,6 +153,38 @@
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/ep6EQ5f82Ts?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
+
+<p>activityOverlord Episode 1</p>
+
+<h2>Websites referenced</h2>
+
+<ul>
+<li><a href="http://sailsjs.com">http://sailsjs.com</a></li>
+<li><a href="http://npmjs.org">http://npmjs.org</a></li>
+</ul>
+
+
+<h2>The Transcript</h2>
+
+<p>So I’m going to assume that you have node up and running. So the first thing we’re going to do is install sails. To do that we’re going to use npm, the node package manager that comes with node itself. It’s really easy to use if you want some references, you can go to the sailsjs.com website, getting started or you can go to npmjs.org, what we’re going to do is go straight to the terminal and type npm install sails -g:</p>
+
+<p><img class="center" src="/sailscasts/images/ep1-1.jpg"></p>
+
+<p>which stands for global, the dash g stand for global and what that does it installs sails globally and allows us access to some functionality like sails new which we’re going to use in a second to create the initial project.</p>
+
+<p>So go ahead and install sails and we get back we’ll start creating this new project. One thing to note if you have an issue, you might need to use sudo, you might need to have administrator or super access to install sails globally, so you might want to use sudo npm install sails -g, see you in a second.</p>
+
+<p>Okay, now that you have sails installed let’s create this project. To do that we’re just going to type sails new activityOverlord &mdash;linker.</p>
+
+<p><img class="center" src="/sailscasts/images/ep1-2.jpg"></p>
+
+<p>The linker designation utilizes some new functionality starting with .9 of sails dealing with assets and grunt. I’m going to have separate screencasts that will go into detail about that functionality but for now just go ahead and use the dash dash linker. And that’s it. we have our application.</p>
+
+<p>So change directory (cd) into the new directory and let’s just make sure it’s running, so type sails lift to start the sails server.  We’re going to be running on localhost port 1337 (localhost:1337) and it’s running just fine.</p>
+
+<p>In the next screencasts were going to be connecting this application to the mongodb database.</p>
+
+<p>Thanks for watching.</p>
 </div>
   
   
@@ -194,6 +226,24 @@
 
 <iframe width="640" height="390" src="http://www.youtube.com/embed/1H0UfbGdwd8" frameborder="0" allowfullscreen></iframe>
 
+
+<h2>The Transcript</h2>
+
+<p>Howdy and welcome to activityOverlord.</p>
+
+<p>What the heck is activityOverlord.</p>
+
+<p>It’s an example application that I’m building to try and learn sails.js and I thank everybody over at Balderdash Mike, Zoli, Cody and everybody that’s helped me figure out this application along the way.</p>
+
+<p>I was going to have it fully fleshed out and then provide these screencasts all laid out and then I decided in the spirit of minimally viable development, instead I was going to get something out which has a fair built of functionality already, which I’ll show you in just a second and then produce screencasts as I go.</p>
+
+<p>So, let’s take a look at the application. It’s using twitter bootstrap as far as styling and I’ll show you how to set-up all the assets to do that. We’re using a mongodb back-end database, I’m gonna show you how to do that, how to deploy this application.</p>
+
+<p>Let’s go ahead and sign-in, so we’ve got user authentication, rights and policy management, you can tell that I’m an admin, so it’s giving me rights to the list of users as well as activities, pagination, a lot of different things that are going on.</p>
+
+<p>Let’s look at the real-time side of things. I’m going to bring up another chrome instance.  I’m going to log in as a different user so now it gave me a flash message, it updated my status as far as presence for this particular page in real-time, I can do things like delete Aimee Mann here and you can see that that’s been updated in my list here, there’s a ton of things to go over, I can’t wait to get started, I’ll see you in the next screencast which will start with really getting sails.js up and running.</p>
+
+<p>See ya there.</p>
 </div>
   
   
@@ -235,6 +285,39 @@
 
 <iframe width="640" height="390" src="http://www.youtube.com/embed/xlOolpwwGQg" frameborder="0" allowfullscreen></iframe>
 
+
+<h2>The Transcript</h2>
+
+<p>Howdy,</p>
+
+<p>I’m going to create a restful json api in less than 15 seconds using sails.js</p>
+
+<p>Here’s a timer to keep me honest
+Ready, go
+Okay that was quick, but what do I get for all my hard work?
+First I’ll start the sails server to see what I’ve created.
+You may of noticed I generated both a user controller and user model
+When I look at the user list there’s no users, but I can quickly change that by adding users right here in the browser
+First I’ll create user with the name attribute of John Galt
+Next, the user Aimmee Man
+My personal hero Nikola Tesla
+and finally Thomas Edison.</p>
+
+<p>But wait, I’ve mispelled Aimme Mann’s last name&hellip;.no worries I can update it from here&hellip;.
+Also I’ve included Nikola Tesla’s arch enemy Thomas Edison
+I’m not a big fan of old Tom so I’ll destroy him from our list</p>
+
+<p>In a very short amount of time I’ve created a powerful api that I can use to  immediately feed my front in application.</p>
+
+<p>By the way if you’re concerned with the convience functionality of creating, deleting, and updating users from the browser you can easily turn it off.</p>
+
+<p>just go into your the controllers config file and set the short-cuts to false.</p>
+
+<p>Now when I try to create a user I get a 404.</p>
+
+<p>To learn more about sails go to their website at sailsjs.com and be sure to check back to this website where I’ll be posting screencasts on how to use other parts of sails.</p>
+
+<p>Thanks for watching.</p>
 </div>
   
   
