@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-09-15T23:30:58-05:00</updated>
+  <updated>2013-09-17T10:12:24-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[sailsCasts Answers: Ep2 - How do I create a global helper function in sails?]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails/"/>
+    <updated>2013-09-17T10:02:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails</id>
+    <content type="html"><![CDATA[<p>Here&rsquo;s the question: Hi I want to ask, if you could tell me where to put my helper functions, that I want to use in different Controllers. Should I create a custom config file for this purpose?</p>
+
+<p>Here&rsquo;s the Answer:</p>
+
+<iframe width="640" height="390" src="http://irlnathan.github.io/sailscasts//www.youtube.com/embed/877gSvq05fM" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sailsCasts Answers: Ep1 - Question about using a service to allow inheritance in a model.]]></title>
@@ -249,18 +263,6 @@
     <content type="html"><![CDATA[<p>In episode 3[Updated] you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/qUAzpyThAB0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep3 - Creating a user model and controller]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/"/>
-    <updated>2013-08-23T16:28:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller</id>
-    <content type="html"><![CDATA[<p>In episode 3 you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/bjd3UvNvoCI?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
