@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep16 - Fixing and issue with policies from episode 14. - sailsCasts</title>
+  <title>Building a Sails Application: Ep17a - Marshalling request parameters - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 16 you&rsquo;ll make a change to the policies and sign a user in when an account is created. This will fix some stuff I forgot to do back &hellip;">
+  <meta name="description" content="In episode 17a you&rsquo;ll fix an issue by marshalling request parameters, that allowed a user to inject html to create an admin user. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep16 - Fixing and Issue With Policies From Episode 14.</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep17a - Marshalling Request Parameters</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-09-04T12:21:00-05:00" pubdate data-updated="true">Sep 4<span>th</span>, 2013</time>
+<time datetime="2013-09-24T16:38:00-05:00" pubdate data-updated="true">Sep 24<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,9 +107,9 @@
   </header>
 
 
-<div class="entry-content"><p>In episode 16 you&rsquo;ll make a change to the policies and sign a user in when an account is created.  This will fix some stuff I forgot to do back in episode 14.</p>
+<div class="entry-content"><p>In episode 17a you&rsquo;ll fix an issue by marshalling request parameters, that allowed a user to inject html to create an admin user.</p>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/-wF07sqGmW0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="390" src="http://www.youtube.com/embed/TgiK34eDGOU" frameborder="0" allowfullscreen></iframe>
 
 </div>
 
@@ -133,7 +133,7 @@
   
 
 
-<time datetime="2013-09-04T12:21:00-05:00" pubdate data-updated="true">Sep 4<span>th</span>, 2013</time>
+<time datetime="2013-09-24T16:38:00-05:00" pubdate data-updated="true">Sep 24<span>th</span>, 2013</time>
       
 
 
@@ -141,7 +141,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/" >Tweet</a>
   
   
   
@@ -150,10 +150,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/" title="Previous Post: Building a Sails Application: Ep15 - Improving user authenticated navigation.">&laquo; Building a Sails Application: Ep15 - Improving user authenticated navigation.</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails/" title="Previous Post: sailsCasts Answers: Ep2 - How do I create a global helper function in sails?">&laquo; sailsCasts Answers: Ep2 - How do I create a global helper function in sails?</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/09/05/building-a-sails-application-ep17-creating-a-distinction-between-admin-and-regular-users/" title="Next Post: Building a Sails Application: Ep17 - Creating a distinction between admin and regular users">Building a Sails Application: Ep17 - Creating a distinction between admin and regular users &raquo;</a>
       
     </p>
   </footer>
@@ -219,8 +217,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/';
         var disqus_script = 'embed.js';
       
     (function () {

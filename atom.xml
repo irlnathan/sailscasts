@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-09-17T10:20:22-05:00</updated>
+  <updated>2013-09-24T16:47:23-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep17a - Marshalling request parameters]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/"/>
+    <updated>2013-09-24T16:38:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters</id>
+    <content type="html"><![CDATA[<p>In episode 17a you&rsquo;ll fix an issue by marshalling request parameters, that allowed a user to inject html to create an admin user.</p>
+
+<iframe width="640" height="390" src="http://www.youtube.com/embed/TgiK34eDGOU" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sailsCasts Answers: Ep2 - How do I create a global helper function in sails?]]></title>
@@ -253,18 +265,6 @@
     <content type="html"><![CDATA[<p>In episode 4 you&rsquo;ll build a user account and enable csrf protection.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/WKtmKha6Ehw?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep3[Updated] - Creating a user model and controller]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/"/>
-    <updated>2013-08-25T17:46:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller</id>
-    <content type="html"><![CDATA[<p>In episode 3[Updated] you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/qUAzpyThAB0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
