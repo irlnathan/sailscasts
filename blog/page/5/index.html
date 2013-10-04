@@ -237,6 +237,30 @@
 
   <div class="entry-content"><iframe width="640" height="360" src="http://www.youtube.com/embed/ZE7ye2G_H9Q?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
+
+<h1>Transcript</h1>
+
+<p>Okay, welcome back.  Now we’re going to go through and look at the layout of our application. So first of all, let’s go ahead and start the server, sails lift.  And you’ll see the default route, launches this sails welcome page, which was generated when we created the new project.  So let’s take a look at this file. First I want to go into config/routes.js. So this is where the routing is taking place for the root route to <code>/home/index</code>. And if we look at the /views directory under <code>/home</code> we can find that index.ejs file being rendered here in this default page. But we want to change that.</p>
+
+<p>So we’ll go back in the project and we’re going to go look in our /views folder and actually create a new folder in this case static. This is what is going to hold our static pages. And then within the <code>/static</code> folder, I’m going to create a new file and this file is going to be called index.ejs. And then let’s just put a header in here that says, <code>&lt;h1&gt;This is our home page.&lt;/h1&gt;</code> Alright.</p>
+
+<p>Then we’re going to go into the routes.js file and change this default root route and instead of <code>home/index</code>  we’re going to rename that <code>static/index</code>. Let’s restart the server. And now when I refresh the page, we’re on our new home page.</p>
+
+<p>Let’s look a little deeper into this file, I’m going to go ahead and look at the source and there’s a bunch going on. What’s going on really derives from a file called layout.ejs, so let’s look at that in our project.  So layout.ejs is going to be the wrapper of content that’s not going to change from page to page. Whereas your views are going to be the dynamic content that will change.  So in this case our static index page, this h1 that says this is our home page is the view, dynamic view, that’s inserted here where it says body into our layout and sails is going to wrap the layout.ejs file around our index.ejs file.</p>
+
+<p>One other thing to note is the linker designation. If you look under <code>assets/linker</code>, what that’s going to do is as a convenience, all the javascript that you put under <code>/js</code>, the styles that you put under /styles will be compiled and minified via this layout.ejs file when sails’ lifts. So this is a way we can use twitter bootstrap and we can drop our twitter bootstrap javascript files and css files right into here and they’ll be available on every page via the layout.ejs file and I’m going to show you how that works right now.</p>
+
+<p>So through the magic of editing, I’ve dropped bootstrap.js and bootstrap.css right into our project and let’s see what changes were made here. If we go back to our file and reload that page you can see that some of the styling form bootstrap is already taking effect.</p>
+
+<p>If we go back to layout.ejs you’ll also notice that our css and javascript have been inserted into the layout.ejs file. How that’s done is using grunt and I’m going to have a separate screencast that will go over how to customize this grunt file.</p>
+
+<p>The last thing we need to do is customize our index.ejs file for our sign-up page and let’s do that now. So through the magic of cut and paste I’m going to put some new code here and save it and then go see what it looks like.</p>
+
+<p>After I refresh the browser that’s much better.  I also want to add some navigation. But here the navigation isn’t going to change from page to page, so that would be better put in my layout.ejs file. So let’s go place it there.</p>
+
+<p>So above this <code>&lt;%- body %&gt;</code> I’m going to place our nav code.  And below the body I’m going to put our footer code.  I’m going to save this and let’s go back to the browser and referesh.  We now have our basic nav bar, footer, and at least link to the sign-up page.</p>
+
+<p>Alright, in the next screencast we’re going to go over creating our first model and controller and hooking that up to the sign-up page. Thanks for watching.</p>
 </div>
   
   
