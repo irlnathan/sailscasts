@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 8 you&rsquo;ll prevent html from being run on user generated content, create a user administrative page as well as flesh out the index, &hellip;">
+  <meta name="description" content="In episode 10 you&rsquo;ll quickly switch out the applications underlying database to mongoDB with a few changes to the adapter configuration files. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +79,88 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/08/30/building-a-sails-application-ep10-changing-databases-to-mongodb-with-sails-adapters/">Building a Sails Application: Ep10 - Changing Databases to mongoDB With Sails Adapters.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-30T08:32:00-05:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
+        
+         | <a href="/sailscasts/blog/2013/08/30/building-a-sails-application-ep10-changing-databases-to-mongodb-with-sails-adapters/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In episode 10 you&rsquo;ll quickly switch out the applications underlying database to mongoDB with a few changes to the adapter configuration files.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/G4-fm_h8z-0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/08/29/building-a-sails-application-ep9-deleting-a-user-account/">Building a Sails Application: Ep9 - Deleting a User Account.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-29T15:47:00-05:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+        
+         | <a href="/sailscasts/blog/2013/08/29/building-a-sails-application-ep9-deleting-a-user-account/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In episode 9 you&rsquo;ll create a delete action and implement a best practices methodolgy using a form with a hidden input field for deleting a user account.</p>
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/6sIrHPlJJQk?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -207,88 +289,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/08/27/building-a-sails-application-ep4-handling-validation-errors-with-a-flash-message/">Building a Sails Application: Ep5 - Handling Validation Errors With a Flash Message</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-27T20:53:00-05:00" pubdate data-updated="true">Aug 27<span>th</span>, 2013</time>
-        
-         | <a href="/sailscasts/blog/2013/08/27/building-a-sails-application-ep4-handling-validation-errors-with-a-flash-message/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In episode 5 you&rsquo;ll create a flash message and inject it into the sign-up page.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/4Gbc9ZA2-YY?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/08/26/building-a-sails-application-ep4-creating-a-user-account/">Building a Sails Application: Ep4 - Creating a User Account</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-26T02:25:00-05:00" pubdate data-updated="true">Aug 26<span>th</span>, 2013</time>
-        
-         | <a href="/sailscasts/blog/2013/08/26/building-a-sails-application-ep4-creating-a-user-account/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In episode 4 you&rsquo;ll build a user account and enable csrf protection.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/WKtmKha6Ehw?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/5/">&larr; Older</a>
@@ -306,6 +306,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Building a Sails Application: Ep22 - Manipulating the DOM Based Upon Changes via Real Time Model Events.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/">Building a Sails Application: Ep21 - Integrating socket.io and Sails With Custom Controller Actions Using Real Time Model Events.</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/">Building a Sails Application: Ep17a - Marshalling Request Parameters</a>
       </li>
     
@@ -315,14 +323,6 @@
     
       <li class="post">
         <a href="/sailscasts/blog/2013/09/15/sailscasts-answers-ep1-question-about-using-a-service-to-allow-inheritance-in-a-model/">sailsCasts Answers: Ep1 - Question About Using a Service to Allow Inheritance in a Model.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/">Episode 20: Adding Real-time Events to Models in 4 Lines of Code</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/">Building a Sails Application: Ep19 - Create the Necessary Ui and Mechanics for Sign-in and Sign-out in Preparation for Using Web Sockets.</a>
       </li>
     
   </ul>
