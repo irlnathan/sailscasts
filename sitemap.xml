@@ -181,12 +181,18 @@
         <lastmod>2013-10-10T17:51:18-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/
+        </loc>
+        <lastmod>2013-10-16T09:30:29-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-10-10T17:51:18-05:00</lastmod>
+        <lastmod>2013-10-16T09:30:29-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-10-10T17:51:18-05:00</lastmod>
+        <lastmod>2013-10-16T09:30:29-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>

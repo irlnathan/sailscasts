@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-10-10T17:52:20-05:00</updated>
+  <updated>2013-10-16T09:31:22-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep23 - Adding real-time flash messages using real-time model events.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/"/>
+    <updated>2013-10-16T09:25:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/uvmPeuu2IYM" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>In this screencast, we’ll add a flash message that will  let all users know when someone logs-in, logs-out, is added or deleted.  So here, I’ve logged in on one browser normally and I’ll log in on another browser using  icognito mode&hellip;and there’s our flash message.  When I log out I see the flash message indicating the logout on the other browser.  Now I’ll create a new user account and we see the corresponding flash message.  Finally, I’ll delete the account and the flash message notifying us of the change is displayed..</p>
+
+<p>So following our Real Time Model Events pattern from episodes 21 and 22, we’re already subscribed to the user class room and instance models.  We did that on the server-side by creating a subscribe action to our user controller which does the actual room subscriptions.  On the client-side within app.js we initiate the subscription by using: <code>socket.get('/user/subscribe');</code>which, similar to an http get, hits our subscribe action.</p>
+
+<p>So now all we have to do is use the publish methods to let the socket of any browser tab know that one of our events has occurred.  First, let’s look at when the user logs-in. For that we’ll go into our session controller.  We’re already using publishUpdate to let the socket know that someone has logged in, now we can expand this object to pass the user.name and an action attribute with a value of ‘ has logged in.’</p>
+
+<p>On the client side, I’m going to open app.js and add to our popularly named cometMessageReceivedFromServer method to include an if statement that checks whether the message.verb is not equal to destroy and if it’s not call the displayFlashActivity method. This method, plays a sound and then through jquery displays the flash message.</p>
+
+<p>In order to set this up we need to do a couple of quick things.  First, I created a sounds folder which not surprisingly contain sound files.  And then since I want this sound available on every page I put the following tags in the layout.ejs file.</p>
+
+<p>So let’s see if this works.  I’ll log-in and great, we get a slightly annoying sound and our flash message.</p>
+
+<p>Back in the session controller’s destroy action, I’ll add an update when the user logs out. We expand the object again to include the user.name but this time an action attribute with the value of ‘ has logged out.’</p>
+
+<p>Next, let’s open the User Controller’s create action and we’re already using <code>publishCreate(user)</code> to update our User Administration page.  So here I’ll just add the action attribute to the user object and we’ll be good to go.</p>
+
+<p>Finally, let’s look at the destroy action of the user controller.  Here we’re using the publishDestroy method to let our User Administration page know that a user was destroyed.  The publishDestroy method only passes the id of the destroyed model, so I’m going to also use the publishUpdate method to pass the user.name and user.action to our client.</p>
+
+<p>Now let’s see if this all works.</p>
+
+<p>I have our two browsers open one in regular one in incognito mode.  I’ve logged into one side and now I’ll log into the other&hellip;there’s our flash message. When I log out we see the flash message. When I add a user we get the appropriate flash message. Finally, when I delete the user account, we’re notified of the event.</p>
+
+<p>Although this all works, I’d really prefer that you have to be logged in order to receive the flash messages.  I’d also like the flexibility of making the activities persistent, that is saved to a database.  So in the next screencast we’ll refactor this code to do just that.</p>
+
+<p>Thanks for watching.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep22 - Manipulating the DOM based upon changes via Real Time Model Events.]]></title>
@@ -359,20 +397,6 @@
     <content type="html"><![CDATA[<p>In episode 7 you&rsquo;ll create a show action which will be our very humble profile page.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/HozWtywQNMo?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep6 - Creating a policy and adding client-side validation]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/"/>
-    <updated>2013-08-28T01:45:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation</id>
-    <content type="html"><![CDATA[<p>In episode 6 you&rsquo;ll create your first policy and add client-side validation to the sign-up page.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/_wL2cS0GmJQ?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 
 

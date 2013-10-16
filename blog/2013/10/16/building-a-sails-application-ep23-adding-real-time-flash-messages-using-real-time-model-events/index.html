@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep6 - Creating a policy and adding client-side validation - sailsCasts</title>
+  <title>Building a Sails Application: Ep23 - Adding real-time flash messages using real-time model events. - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 6 you&rsquo;ll create your first policy and add client-side validation to the sign-up page. ">
+  <meta name="description" content="Transcript In this screencast, we’ll add a flash message that will let all users know when someone logs-in, logs-out, is added or deleted. So here, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep6 - Creating a Policy and Adding Client-side Validation</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep23 - Adding Real-time Flash Messages Using Real-time Model Events.</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-08-28T01:45:00-05:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+<time datetime="2013-10-16T09:25:00-05:00" pubdate data-updated="true">Oct 16<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,12 +107,36 @@
   </header>
 
 
-<div class="entry-content"><p>In episode 6 you&rsquo;ll create your first policy and add client-side validation to the sign-up page.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/_wL2cS0GmJQ?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/uvmPeuu2IYM" frameborder="0" allowfullscreen></iframe>
 
 
+<h1>Transcript</h1>
 
+<p>In this screencast, we’ll add a flash message that will  let all users know when someone logs-in, logs-out, is added or deleted.  So here, I’ve logged in on one browser normally and I’ll log in on another browser using  icognito mode&hellip;and there’s our flash message.  When I log out I see the flash message indicating the logout on the other browser.  Now I’ll create a new user account and we see the corresponding flash message.  Finally, I’ll delete the account and the flash message notifying us of the change is displayed..</p>
+
+<p>So following our Real Time Model Events pattern from episodes 21 and 22, we’re already subscribed to the user class room and instance models.  We did that on the server-side by creating a subscribe action to our user controller which does the actual room subscriptions.  On the client-side within app.js we initiate the subscription by using: <code>socket.get('/user/subscribe');</code>which, similar to an http get, hits our subscribe action.</p>
+
+<p>So now all we have to do is use the publish methods to let the socket of any browser tab know that one of our events has occurred.  First, let’s look at when the user logs-in. For that we’ll go into our session controller.  We’re already using publishUpdate to let the socket know that someone has logged in, now we can expand this object to pass the user.name and an action attribute with a value of ‘ has logged in.’</p>
+
+<p>On the client side, I’m going to open app.js and add to our popularly named cometMessageReceivedFromServer method to include an if statement that checks whether the message.verb is not equal to destroy and if it’s not call the displayFlashActivity method. This method, plays a sound and then through jquery displays the flash message.</p>
+
+<p>In order to set this up we need to do a couple of quick things.  First, I created a sounds folder which not surprisingly contain sound files.  And then since I want this sound available on every page I put the following tags in the layout.ejs file.</p>
+
+<p>So let’s see if this works.  I’ll log-in and great, we get a slightly annoying sound and our flash message.</p>
+
+<p>Back in the session controller’s destroy action, I’ll add an update when the user logs out. We expand the object again to include the user.name but this time an action attribute with the value of ‘ has logged out.’</p>
+
+<p>Next, let’s open the User Controller’s create action and we’re already using <code>publishCreate(user)</code> to update our User Administration page.  So here I’ll just add the action attribute to the user object and we’ll be good to go.</p>
+
+<p>Finally, let’s look at the destroy action of the user controller.  Here we’re using the publishDestroy method to let our User Administration page know that a user was destroyed.  The publishDestroy method only passes the id of the destroyed model, so I’m going to also use the publishUpdate method to pass the user.name and user.action to our client.</p>
+
+<p>Now let’s see if this all works.</p>
+
+<p>I have our two browsers open one in regular one in incognito mode.  I’ve logged into one side and now I’ll log into the other&hellip;there’s our flash message. When I log out we see the flash message. When I add a user we get the appropriate flash message. Finally, when I delete the user account, we’re notified of the event.</p>
+
+<p>Although this all works, I’d really prefer that you have to be logged in order to receive the flash messages.  I’d also like the flexibility of making the activities persistent, that is saved to a database.  So in the next screencast we’ll refactor this code to do just that.</p>
+
+<p>Thanks for watching.</p>
 </div>
 
 
@@ -135,7 +159,7 @@
   
 
 
-<time datetime="2013-08-28T01:45:00-05:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+<time datetime="2013-10-16T09:25:00-05:00" pubdate data-updated="true">Oct 16<span>th</span>, 2013</time>
       
 
 
@@ -143,7 +167,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/" >Tweet</a>
   
   
   
@@ -152,10 +176,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/27/building-a-sails-application-ep4-handling-validation-errors-with-a-flash-message/" title="Previous Post: Building a Sails Application: Ep5 - handling validation errors with a flash message">&laquo; Building a Sails Application: Ep5 - handling validation errors with a flash message</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/" title="Previous Post: Building a Sails Application: Ep22 - Manipulating the DOM based upon changes via Real Time Model Events.">&laquo; Building a Sails Application: Ep22 - Manipulating the DOM based upon changes via Real Time Model Events.</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page/" title="Next Post: Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page">Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page &raquo;</a>
       
     </p>
   </footer>
@@ -221,8 +243,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/';
         var disqus_script = 'embed.js';
       
     (function () {
