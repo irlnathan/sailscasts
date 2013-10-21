@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-10-16T09:31:22-05:00</updated>
+  <updated>2013-10-21T10:18:21-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Sails Application: Ep24 - Correcting a publishUpdate event and adding a policy to the user controller's subscribe action]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/"/>
+    <updated>2013-10-21T10:15:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/iF3y0AqDpLU" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.</p>
+
+<p>I want to clean-up a use case that will unfortunately crash the server.  The situation occurs if a user creates an account and then while they are logged-in a different user with admin privileges deletes them from the database.  When the deleted user attempts to sign out the following server error occurs:
+TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
+
+<p>This is because publishUpdate tries to send the user.name attribute and the user instance no longer exists.  This is an easy fix, let’s head over to the session controller.  We can wrap the userUpdate(), userPublish(), req.session.destroy(), and res.redirect() methods in an if statement that checks whether a user exists.  If the user doesn’t exist then we’ll just redirect to session/new via res.redirect(&lsquo;/session/new&rsquo;);</p>
+
+<p>If the user does exist we’ll let just pass through to our existing logic. So now when we try to do the same use case, the browser is redirected to session/new.</p>
+
+<p>One other change I want to make is to prevent the socket from subscribing to the user model events unless the user is authenticated.  To do this, we’ll modify the authenticated policy so that it looks for req.session.User, if it exists, the user is authenticated, and if not, we send a 403.  We’ll then use that policy in policies.js within the config folder for the subscription action of the user controller.  By doing this, the socket cannot subscribe to /user/subscribe unless the user is authenticated.  Let’s check it out.</p>
+
+<p>So now, when the user logs in, the non-authenticated socket does not respond to the event because they are not yet authenticated and therefore not subscribed.  Once the other user logs in, however, they receive the original user’s logout event.</p>
+
+<p>Thanks for watching.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a Sails Application: Ep23 - Adding real-time flash messages using real-time model events.]]></title>
@@ -385,20 +412,6 @@
     <content type="html"><![CDATA[<p>In episode 8 you&rsquo;ll prevent html from being run on user generated content, create a user administrative page as well as flesh out the index, edit, and update action.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/GHp1g7Z0Yo4?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep7 - Adding a show action (a.k.a. a Profile Page]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page/"/>
-    <updated>2013-08-28T10:28:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page</id>
-    <content type="html"><![CDATA[<p>In episode 7 you&rsquo;ll create a show action which will be our very humble profile page.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/HozWtywQNMo?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-
 
 ]]></content>
   </entry>

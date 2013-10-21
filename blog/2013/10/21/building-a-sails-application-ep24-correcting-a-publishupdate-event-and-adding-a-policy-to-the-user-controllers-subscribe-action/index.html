@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep2a - Stuff I forgot to mention in episode two...because I'm old. - sailsCasts</title>
+  <title>Building a Sails Application: Ep24 - Correcting a publishUpdate event and adding a policy to the user controller's subscribe action - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In this quickie I added jquery, showed ya how to load jquery.js before bootstrap.js by changing Gruntfile.js, minor changes to layout.ejs and added a &hellip;">
+  <meta name="description" content="Transcript Howdy and welcome back. I want to clean-up a use case that will unfortunately crash the server. The situation occurs if a user creates an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep2a - Stuff I Forgot to Mention in Episode two...because I'm Old.</h1>
+      <h1 class="entry-title">Building a Sails Application: Ep24 - Correcting a publishUpdate Event and Adding a Policy to the User Controller's Subscribe Action</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2013-08-22T17:10:00-05:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2013</time>
+<time datetime="2013-10-21T10:15:00-05:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -107,12 +107,25 @@
   </header>
 
 
-<div class="entry-content"><p>In this quickie I added jquery, showed ya how to load jquery.js before bootstrap.js by changing Gruntfile.js, minor changes to layout.ejs and added a custom.less file to styles.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/zootilxmo4M?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/iF3y0AqDpLU" frameborder="0" allowfullscreen></iframe>
 
 
+<h1>Transcript</h1>
 
+<p>Howdy and welcome back.</p>
+
+<p>I want to clean-up a use case that will unfortunately crash the server.  The situation occurs if a user creates an account and then while they are logged-in a different user with admin privileges deletes them from the database.  When the deleted user attempts to sign out the following server error occurs:
+TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
+
+<p>This is because publishUpdate tries to send the user.name attribute and the user instance no longer exists.  This is an easy fix, let’s head over to the session controller.  We can wrap the userUpdate(), userPublish(), req.session.destroy(), and res.redirect() methods in an if statement that checks whether a user exists.  If the user doesn’t exist then we’ll just redirect to session/new via res.redirect(&lsquo;/session/new&rsquo;);</p>
+
+<p>If the user does exist we’ll let just pass through to our existing logic. So now when we try to do the same use case, the browser is redirected to session/new.</p>
+
+<p>One other change I want to make is to prevent the socket from subscribing to the user model events unless the user is authenticated.  To do this, we’ll modify the authenticated policy so that it looks for req.session.User, if it exists, the user is authenticated, and if not, we send a 403.  We’ll then use that policy in policies.js within the config folder for the subscription action of the user controller.  By doing this, the socket cannot subscribe to /user/subscribe unless the user is authenticated.  Let’s check it out.</p>
+
+<p>So now, when the user logs in, the non-authenticated socket does not respond to the event because they are not yet authenticated and therefore not subscribed.  Once the other user logs in, however, they receive the original user’s logout event.</p>
+
+<p>Thanks for watching.</p>
 </div>
 
 
@@ -135,7 +148,7 @@
   
 
 
-<time datetime="2013-08-22T17:10:00-05:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2013</time>
+<time datetime="2013-10-21T10:15:00-05:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
       
 
 
@@ -143,7 +156,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/" >Tweet</a>
   
   
   
@@ -152,10 +165,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/" title="Previous Post: Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap.">&laquo; Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap.</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/" title="Previous Post: Building a Sails Application: Ep23 - Adding real-time flash messages using real-time model events.">&laquo; Building a Sails Application: Ep23 - Adding real-time flash messages using real-time model events.</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/" title="Next Post: Building a Sails Application: Ep3 - Creating a user model and controller">Building a Sails Application: Ep3 - Creating a user model and controller &raquo;</a>
       
     </p>
   </footer>
@@ -221,8 +232,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/';
         var disqus_script = 'embed.js';
       
     (function () {
