@@ -193,12 +193,18 @@
         <lastmod>2013-10-21T10:17:21-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/
+        </loc>
+        <lastmod>2013-10-26T23:02:52-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-10-21T10:17:21-05:00</lastmod>
+        <lastmod>2013-10-26T23:02:52-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-10-21T10:17:21-05:00</lastmod>
+        <lastmod>2013-10-26T23:02:52-05:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>
