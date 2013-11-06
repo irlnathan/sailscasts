@@ -31,18 +31,6 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-43421644-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
 
 </head>
 
@@ -53,7 +41,6 @@
     <h2>Learning about sails.js one screencast at a time.</h2>
   
 </hgroup>
-  <a href="https://github.com/irlnathan/activityoverlord"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
@@ -109,40 +96,12 @@
 
 <div class="entry-content"><p>This is a part of a series of screencasts which build a sails application from scratch.  Episode 1 goes over installing sails and creating the initial sails project.</p>
 
+<p>Helpful Links
+nodejs.com &ndash;
+sails.js &ndash; getting started page</p>
+
 <iframe width="640" height="360" src="http://www.youtube.com/embed/ep6EQ5f82Ts?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
-
-<p>activityOverlord Episode 1</p>
-
-<h2>Websites referenced</h2>
-
-<ul>
-<li><a href="http://sailsjs.com">http://sailsjs.com</a></li>
-<li><a href="http://npmjs.org">http://npmjs.org</a></li>
-</ul>
-
-
-<h2>The Transcript</h2>
-
-<p>So I’m going to assume that you have node up and running. So the first thing we’re going to do is install sails. To do that we’re going to use npm, the node package manager that comes with node itself. It’s really easy to use if you want some references, you can go to the sailsjs.com website, getting started or you can go to npmjs.org, what we’re going to do is go straight to the terminal and type npm install sails -g:</p>
-
-<p><img class="center" src="/sailscasts/images/ep1-1.jpg"></p>
-
-<p>which stands for global, the dash g stand for global and what that does it installs sails globally and allows us access to some functionality like sails new which we’re going to use in a second to create the initial project.</p>
-
-<p>So go ahead and install sails and we get back we’ll start creating this new project. One thing to note if you have an issue, you might need to use sudo, you might need to have administrator or super access to install sails globally, so you might want to use sudo npm install sails -g, see you in a second.</p>
-
-<p>Okay, now that you have sails installed let’s create this project. To do that we’re just going to type sails new activityOverlord &mdash;linker.</p>
-
-<p><img class="center" src="/sailscasts/images/ep1-2.jpg"></p>
-
-<p>The linker designation utilizes some new functionality starting with .9 of sails dealing with assets and grunt. I’m going to have separate screencasts that will go into detail about that functionality but for now just go ahead and use the dash dash linker. And that’s it. we have our application.</p>
-
-<p>So change directory (cd) into the new directory and let’s just make sure it’s running, so type sails lift to start the sails server.  We’re going to be running on localhost port 1337 (localhost:1337) and it’s running just fine.</p>
-
-<p>In the next screencasts were going to be connecting this application to the mongodb database.</p>
-
-<p>Thanks for watching.</p>
 </div>
 
 
@@ -185,8 +144,6 @@
         <a class="basic-alignment left" href="/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/" title="Previous Post: What the heck is activityOverlord and why should I care?">&laquo; What the heck is activityOverlord and why should I care?</a>
       
       
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/" title="Next Post: Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap.">Building a Sails Application: Ep2 - Creating a sign-up page, 'first-look' at routes, and adding twitter bootstrap. &raquo;</a>
-      
     </p>
   </footer>
 </article>
@@ -206,23 +163,19 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/">Building a Sails Application Ep25 - What Is CommonJS in Relation to Node? What Does It Do? How Do I Use It?</a>
+        <a href="/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/">Building a Sails Application: Ep1 - Installing Sails and Create Initial Project</a>
       </li>
     
       <li class="post">
-        <a href="/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/">Building a Sails Application: Ep24 - Correcting a publishUpdate Event and Adding a Policy to the User Controller's Subscribe Action</a>
+        <a href="/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/">What the Heck Is activityOverlord and Why Should I Care?</a>
       </li>
     
       <li class="post">
-        <a href="/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/">Building a Sails Application: Ep23 - Adding Real-time Flash Messages Using Real-time Model Events.</a>
+        <a href="/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js/">Creating a Restful Json Api in Less Than 15 Seconds Using sails.js</a>
       </li>
     
       <li class="post">
-        <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Building a Sails Application: Ep22 - Manipulating the DOM Based Upon Changes via Real Time Model Events.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/">Building a Sails Application: Ep21 - Integrating socket.io and Sails With Custom Controller Actions Using Real Time Model Events.</a>
+        <a href="/sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/">The Prequels to Sails.js</a>
       </li>
     
   </ul>
