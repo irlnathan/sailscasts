@@ -4,48 +4,224 @@
         <loc>
             http://irlnathan.github.io/sailscasts/blog/2013/08/18/the-prequels-to-sails-dot-js/
         </loc>
-        <lastmod>2013-08-18T22:29:39-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://irlnathan.github.io/sailscasts/blog/2013/08/19/creating-a-restful-json-api-in-less-than-15-seconds-using-sails-dot-js/
         </loc>
-        <lastmod>2013-08-19T14:02:34-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://irlnathan.github.io/sailscasts/blog/2013/08/19/what-the-heck-is-activityoverlord-and-why-should-i-care/
         </loc>
-        <lastmod>2013-08-19T16:05:18-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://irlnathan.github.io/sailscasts/blog/2013/08/20/building-a-sails-application-ep1-installing-sails-and-create-initial-project/
         </loc>
-        <lastmod>2013-08-20T11:16:37-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
     </url>
     <url>
-        <loc>http://irlnathan.github.io/sailscasts/about/</loc>
-        <lastmod>2013-08-20T13:51:02-05:00</lastmod>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/21/building-a-sails-application-ep2-creating-a-sign-up-page/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/22/building-a-sails-application-ep2a-a-quick-supplement-to-some-stuff-i-forgot-to-mention-in-episode-2/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/26/building-a-sails-application-ep4-creating-a-user-account/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/27/building-a-sails-application-ep4-handling-validation-errors-with-a-flash-message/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep5-creating-a-policy-and-adding-client-side-validation/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep7-adding-a-show-action-a-dot-k-a-a-profile-page/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/28/building-a-sails-application-ep8-building-a-user-list/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/29/building-a-sails-application-ep9-deleting-a-user-account/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep10-changing-databases-to-mongodb-with-sails-adapters/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/08/31/building-a-sails-application-ep12-starting-a-project-in-the-middle-using-git-clone/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/01/building-a-sails-application-ep13-sign-in-page/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep15-improving-user-authenticated-navigation/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/05/building-a-sails-application-ep17-creating-a-distinction-between-admin-and-regular-users/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/06/building-a-sails-application-ep18-understanding-web-sockets-and-socket-io-including-room-creation-and-management/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/15/sailscasts-answers-ep1-question-about-using-a-service-to-allow-inheritance-in-a-model/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/
+        </loc>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2013/11/05/building-a-sails-application-ep26-deploying-a-sails-app-to-heroku/
+        </loc>
+        <lastmod>2013-11-06T12:47:31-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2013-08-20T11:16:37-05:00</lastmod>
+        <lastmod>2013-11-06T12:47:31-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2013-08-20T11:16:37-05:00</lastmod>
+        <lastmod>2013-11-06T12:47:31-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>
-        <lastmod>2013-08-20T13:31:45-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/robots.txt</loc>
-        <lastmod>2013-07-27T23:20:37-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:04-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/search.html</loc>
-        <lastmod>2013-07-27T23:20:36-05:00</lastmod>
+        <lastmod>2013-11-06T11:14:03-06:00</lastmod>
     </url>
 </urlset>

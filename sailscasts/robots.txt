@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://irlnathan.github.io/sailscasts/sitemap.xml 
