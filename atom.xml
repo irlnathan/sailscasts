@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-11-06T13:10:34-06:00</updated>
+  <updated>2013-11-14T15:14:29-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -1558,7 +1558,7 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <id>http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code</id>
     <content type="html"><![CDATA[<p>In episode 20 you&rsquo;ll use an app to explore and understand how socket.io works within sails using a client side app that renders the majority of its views via ajax.  With four lines of code, the app monitors the user model and alerts any subscribing sockets with changes to the model.</p>
 
-<p>Special thanks to Srinivas Tamada and his <a href="" title="http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html">tutorial</a> on adding sound via jquery.</p>
+<p>Special thanks to Srinivas Tamada and his on adding sound via jquery and can found at (&ldquo;<a href="http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html">http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html</a>&rdquo;).</p>
 
 <p>The repo for this episode can be found at: (&ldquo;<a href="https://github.com/irlnathan/uglyGuineaPig">https://github.com/irlnathan/uglyGuineaPig</a>&rdquo;)</p>
 
