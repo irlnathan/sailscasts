@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>sailsCasts</title>
+  <title>sailsCasts Answers: Ep3 - How do I create sample 'dummy' users for my sails project? - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="The Kitchen Sink So this is where I&rsquo;m building up the docs for each screencast. I&rsquo;m attempting to group the information in some coherent &hellip;">
+  <meta name="description" content="Transcript Howdy, I was recently asked whether there was a way to create dummy or fake data for testing in a sails project. One way to accomplish &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/making-activityoverlord">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -76,19 +76,92 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
-  <h2>The Kitchen Sink</h2>
+  <header>
+    
+      <h1 class="entry-title">sailsCasts Answers: Ep3 - How Do I Create Sample 'Dummy' Users for My Sails Project?</h1>
+    
+    
+      <p class="meta">
+        
 
-<p>So this is where I&rsquo;m building up the docs for each screencast.  I&rsquo;m attempting to group the information in some coherent way so that one can have recipe for starting the app from scratch.</p>
 
-<h3>Section 1:  Set-up</h3>
 
-<h4>Installing Sails</h4>
 
-<h4>Creating the Initial activityOverlord Project</h4>
+
+
+
 
   
+
+
+<time datetime="2013-11-19T15:02:00-06:00" pubdate data-updated="true">Nov 19<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/KYaAf9itjjo" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy, I was recently asked whether there was a way to create dummy or fake data for testing  in a sails project.  One way to accomplish this is using <code>/config/bootstrap.js</code>.  Although I can automate the creation of the users, I’ll still need some fake users for sails to create.  Instead of manually typing in each user’s attributes, I found this really handy online tool called <a href="http://www.generatedata.com/">generatedate</a>.  You have a bunch of options of how you want your data generated.  In this example I&rsquo;ll select name, company, and email selecting the simple json format.  I’ll copy all of these users and head over to the <code>bootstrap.js</code> file.</p>
+
+<p>I&rsquo;ll copy our new users into an array called dummyUsers.  Next I&rsquo;ll use the <code>count()</code> method on our <code>user</code> model.  If there are any records in the User model than I&rsquo;ll call the callback and nothing will be altered in the database.  However, if there is no data in the model, I&rsquo;ll use the <code>create()</code> method on the User model, passing in the array <code>dummyUsers</code> and then calling the callback.  Note that the <code>boostrap.js</code> is run once each time sails is started via <code>sails lift</code>.</p>
+
+<p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
+
+<p>I’ve posted a link to the github repo of this project and I hope this was helpful.  Thanks as always for watching.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">irl nathan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-19T15:02:00-06:00" pubdate data-updated="true">Nov 19<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sailscasts/blog/2013/11/05/building-a-sails-application-ep26-deploying-a-sails-app-to-heroku/" title="Previous Post: Building a sails application ep26 - Deploying a sails app to Heroku.">&laquo; Building a sails application ep26 - Deploying a sails app to Heroku.</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -151,8 +224,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/making-activityoverlord/index.html';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/making-activityoverlord/index.html';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/';
         var disqus_script = 'embed.js';
       
     (function () {

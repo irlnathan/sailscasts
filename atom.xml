@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-11-14T15:14:29-06:00</updated>
+  <updated>2013-11-19T17:05:18-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[sailsCasts Answers: Ep3 - How do I create sample 'dummy' users for my sails project?]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/"/>
+    <updated>2013-11-19T15:02:00-06:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/KYaAf9itjjo" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy, I was recently asked whether there was a way to create dummy or fake data for testing  in a sails project.  One way to accomplish this is using <code>/config/bootstrap.js</code>.  Although I can automate the creation of the users, I’ll still need some fake users for sails to create.  Instead of manually typing in each user’s attributes, I found this really handy online tool called <a href="http://www.generatedata.com/">generatedate</a>.  You have a bunch of options of how you want your data generated.  In this example I&rsquo;ll select name, company, and email selecting the simple json format.  I’ll copy all of these users and head over to the <code>bootstrap.js</code> file.</p>
+
+<p>I&rsquo;ll copy our new users into an array called dummyUsers.  Next I&rsquo;ll use the <code>count()</code> method on our <code>user</code> model.  If there are any records in the User model than I&rsquo;ll call the callback and nothing will be altered in the database.  However, if there is no data in the model, I&rsquo;ll use the <code>create()</code> method on the User model, passing in the array <code>dummyUsers</code> and then calling the callback.  Note that the <code>boostrap.js</code> is run once each time sails is started via <code>sails lift</code>.</p>
+
+<p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
+
+<p>I’ve posted a link to the github repo of this project and I hope this was helpful.  Thanks as always for watching.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a sails application ep26 - Deploying a sails app to Heroku.]]></title>
@@ -1671,18 +1691,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <content type="html"><![CDATA[<p>In episode 11 you&rsquo;ll start encrypting passwords with bcrypt.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/1wziI6l0NyE?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep10 - Changing databases to mongoDB with sails adapters.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep10-changing-databases-to-mongodb-with-sails-adapters/"/>
-    <updated>2013-08-30T08:32:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep10-changing-databases-to-mongodb-with-sails-adapters</id>
-    <content type="html"><![CDATA[<p>In episode 10 you&rsquo;ll quickly switch out the applications underlying database to mongoDB with a few changes to the adapter configuration files.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/G4-fm_h8z-0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
