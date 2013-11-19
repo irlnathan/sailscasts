@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-11-19T17:05:18-06:00</updated>
+  <updated>2013-11-19T17:07:21-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -29,7 +29,7 @@
 
 <p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
 
-<p>I’ve posted a link to the github repo of this project and I hope this was helpful.  Thanks as always for watching.</p>
+<p>I’ve posted a link to the <a href="https://github.com/irlnathan/sails-bootstrap-example">github repo</a> of this project and I hope this was helpful.  Thanks as always for watching.</p>
 ]]></content>
   </entry>
   
