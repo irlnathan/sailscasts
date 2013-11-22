@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-11-19T17:07:21-06:00</updated>
+  <updated>2013-11-21T19:21:02-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,133 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[sailsCasts Answers: Ep4 - Creating a more attractive url in sails with slugs...really?]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/"/>
+    <updated>2013-11-20T15:08:00-06:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really</id>
+    <content type="html"><![CDATA[<h1>Transcript</h1>
+
+<p>Howdy and welcome to another thought provoking, informative sailscasts answers.  Okay, maybe that&rsquo;s a bit of a stretch but welcome all the same.  I&rsquo;ve been asked a number of times how to implement a more attractive url system in sails&hellip;commonly using slugs.</p>
+
+<p>Let&rsquo;s take a look at an example. In activityOverlord when you&rsquo;re on the user profile page, the url is something like this <code>http://localhost:1337/user/show/5220fa7b8764043122000001</code>.  The ending part here is a mongoid.  And that id is not very human friendly.  What would be better is to have something like the person&rsquo;s username.  I&rsquo;ll be doing a separate episode incorporating attrative urls into activityOverlord, however, in this screencast I&rsquo;m going to show you how to do it generically for any project.</p>
+
+<p>So I&rsquo;ll create a new project called slugsville by entering <code>sails new slugsville --linker</code> with the linker flag.  Next I&rsquo;ll change into the slugsville folder and generate a user controller and model using <code>sails generate user</code>.  So, let&rsquo;s take a look at the user model.  I&rsquo;m going to paste in attributes for name, company, email, and phone as well as an attribute called slug.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">attributes</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">name</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">slug</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">email</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">email</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">unique</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">company</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">phone</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s switch to the user controller. I have a fairly generic create action that creates a user with params I&rsquo;ll send through the  <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">Postman</a> chrome extension and then we&rsquo;ll return a json object.  When the user is created, however, we need to put some logic in that will process the username removing any spaces and lower casing the string before saving the value into the slug model attribute.  We&rsquo;ll do this by adding a <code>beforeCreate()</code> method to our <code>User</code> model.</p>
+
+<p>So going back to the <code>User</code> model, I&rsquo;ll add the <code>beforeCreate()</code> method first chekcing whether <code>name</code> exists and then assigning the <code>slug</code> attribute the value of name with no spaces and all lowercase.  Finally we&rsquo;ll use the next() method to continue.  Let&rsquo;s see if that worked.</p>
+
+<p>I&rsquo;ll go into the terminal and start the sails server using <code>sails lift</code>.  Next, we&rsquo;ll go into the browser and using the postman chrome extension, I&rsquo;ll create a new user with the following attributes.  And great both the user and more importantly the slug were created.</p>
+
+<p>So now let&rsquo;s use this slug as a route parameter.  I&rsquo;ll head over into the `/config/routes.js file located in the config folder where we&rsquo;ll create two routes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">routes</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s1">&#39;get /:slug&#39;</span><span class="o">:</span> <span class="s1">&#39;UserController.profile&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;get /user/:slug&#39;</span><span class="o">:</span> <span class="s1">&#39;UserController.profile&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// By default, your root route (aka home page) points to a view</span>
+</span><span class='line'>  <span class="c1">// located at `views/home/index.ejs`</span>
+</span><span class='line'>  <span class="c1">// </span>
+</span><span class='line'>  <span class="c1">// (This would also work if you had a file at: `/views/home.ejs`)</span>
+</span><span class='line'>  <span class="s1">&#39;/&#39;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">view</span><span class="o">:</span> <span class="s1">&#39;home/index&#39;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Both <code>/:slug</code> and <code>/user/:slug</code> will bind themselves to the profile action of the User controller.  In the User controller, I&rsquo;ll create an action called profile. Next I&rsquo;ll grab the slug param and assign it to the var slug.  I want to let anything we catch with the slug param that has a dot in it like <code>image.png</code> to pass through without hitting our find method.  That way we reduce the overhead of searching for a user for params we know are not a name.  So if the param has a dot in it, we&rsquo;ll return next() which will continue to the next piece of middleware (if any).</p>
+
+<p>Next, we&rsquo;ll try to find a user by the slug attribute passing in the slug variable we obtained form the param.  If we don&rsquo;t find a user, we&rsquo;ll again return <code>next()</code>.  If we do have a user I&rsquo;m going to pass the entire user object to the view, in this case <code>profile.ejs</code>.</p>
+
+<p><code>profile.ejs</code> is a simple view template that displays the user name, company, email, and phone.  Finally, I&rsquo;m going to go back to the User controller and add a foo action to make sure that my action blueprint routes still work.  If your not familiar with blueprint routes, I&rsquo;m currently working on episode explaining blueprint routes, the first of which is devoted to action routes.  Here I&rsquo;m just adding the action foo that will return a 200 response.</p>
+
+<p>Okay, let&rsquo;s see if all of this worked?  First, I&rsquo;m going to create a few other users within postman.  Here&rsquo;s a list of our users.  I can still access them via the id using <code>/user/1</code>.  But now I can access them by their username either at <code>/username</code> or <code>/user/username</code>.  I can also access my foo action.</p>
+
+<p>I think that&rsquo;s a much better approach.  I&rsquo;ve left a link to this project&rsquo;s repo here if your interested and I hope that it was helpful and as always thanks for watching.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sailsCasts Answers: Ep3 - How do I create sample 'dummy' users for my sails project?]]></title>
@@ -1679,18 +1806,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <content type="html"><![CDATA[<p>In episode 12 learn how to clone the activityOverlord project, install the necessary dependencies as well as tasks to get the application up and running from the github repository.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/xotjd935ARY?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep11 - Encrypting passwords with bcrypt.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt/"/>
-    <updated>2013-08-30T11:19:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/08/30/building-a-sails-application-ep11-encrypting-passwords-with-bcrypt</id>
-    <content type="html"><![CDATA[<p>In episode 11 you&rsquo;ll start encrypting passwords with bcrypt.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/1wziI6l0NyE?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
