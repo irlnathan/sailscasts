@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-11-21T19:21:02-06:00</updated>
+  <updated>2013-11-21T19:24:30-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -18,7 +18,10 @@
     <link href="http://irlnathan.github.io/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/"/>
     <updated>2013-11-20T15:08:00-06:00</updated>
     <id>http://irlnathan.github.io/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really</id>
-    <content type="html"><![CDATA[<h1>Transcript</h1>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/TBj8RGS88jE" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
 
 <p>Howdy and welcome to another thought provoking, informative sailscasts answers.  Okay, maybe that&rsquo;s a bit of a stretch but welcome all the same.  I&rsquo;ve been asked a number of times how to implement a more attractive url system in sails&hellip;commonly using slugs.</p>
 
