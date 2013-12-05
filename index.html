@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Transcript Howdy and welcome to another thought provoking, informative sailscasts answers. Okay, maybe that&rsquo;s a bit of a stretch but welcome &hellip;">
+  <meta name="description" content="Transcript Howdy and welcome back. So I&rsquo;ve seen a bunch of questions asking where should you put your assets in your sail&rsquo;s project. In &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,214 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">sailsCasts Answers: Ep5 - Where Should I Put the Assets in My Sails Project?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-05T11:41:00-06:00" pubdate data-updated="true">Dec 5<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/8ugjV3dDmaU" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.</p>
+
+<p>So I&rsquo;ve seen a bunch of questions asking where should you put your assets in your sail&rsquo;s project. In this episode I&rsquo;m going to talk specficially about javascript and css assets.</p>
+
+<p>So, Sails uses <a href="http://gruntjs.com/">grunt</a> to manage assets.  And Grunt generically provides ways for you to automate repeititve tasks.  Sails uses grunt for tasks like syncing files between a project folder structure and the server&rsquo;s public folder, but as always, I&rsquo;m getting ahead of myself.</p>
+
+<p>The configuration of <code>grunt</code> is based upon a file called <code>Gruntfile.js</code> found in the root of your sails project.  There’s a lot going on in this file, however, again I’m going to concentrate on the javascript and css assets.</p>
+
+<h3>Your Project&rsquo;s Assets</h3>
+
+<p>When you first create a project, you have the option of using the <code>--linker</code> flag.  I&rsquo;m going to actually create two projects, one with the linker flag and one without.  Let&rsquo;s compare the two.  Both have an <code>/assets</code> folder.  But the project with linker, not surprisingly has a <code>/linker</code> folder and that&rsquo;s within the <code>/assets</code> folder.  In the linker example, an additional <code>/templates</code> folder is also created.</p>
+
+<p><strong>USING</strong> the <code>--linker</code> flag</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>/assets
+</span><span class='line'>  /images
+</span><span class='line'>  /linker
+</span><span class='line'>    /js
+</span><span class='line'>    /styles
+</span><span class='line'>    /templates
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>NOT USING</strong> the <code>--linker</code> flag</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>/assets
+</span><span class='line'>  /images
+</span><span class='line'>  /js
+</span><span class='line'>  /styles
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>The Server&rsquo;s Public Folder</h3>
+
+<p>Okay, great we have a <code>/linker</code> folder, but so what?  Well, let&rsquo;s add some javascript and css to both projects and see what happens. I&rsquo;ve replaced the <code>index.ejs</code> file in the `/views/home&#8217; folder of both projects with some very basic mark-up.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>Custom View<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;custom&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I added jquery to the <code>/js</code> folder of both projects.  I also added my own javascript file &mdash; <code>custom.js</code> to the <code>/js/</code> folder.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.custom&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;&lt;h1&gt;Yes Irl, javascript is here and if I&#39;m red css is working as well.&lt;/h1&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.custom&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;working&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally I added custom.css in the <code>/styles</code> folder:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.working</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If the javascript and css are being linked properly, this is what our page should look like.</p>
+
+<p>The custom.js file appends some html to the div in the <code>index.js</code> file. Then it will add a new class <code>working</code> to the div which will trigger the css located in the <code>custom.css</code> file.</p>
+
+<p>Let&rsquo;s take a look at the project where we used the <code>--linker</code> flag first.  I&rsquo;ll start sails using <code>sails lift</code>.  The first thing you&rsquo;ll notice is that a hidden <code>.tmp</code> folder is created. This is the server&rsquo;s public folder.  Opening up this folder reveals files that have been sync&rsquo;d with the <code>/assets</code> folder.  So we can see that jquery.js, custom.js, and custom.css files have all been copied into the public folder.  Next, I&rsquo;ll open up a browser and enter <code>localhost:1337</code>.  Our heading showed up, but something&rsquo;s up with my javascript because the appended html isn&rsquo;t showing up.  Let&rsquo;s take a look at the console.  Okay, there&rsquo;s our problem.  Jquery isn&rsquo;t being loaded.  Let&rsquo;s take a look at the page&rsquo;s source.  Jquery is there, however, it&rsquo;s being loaded in the wrong order.  You might be asking yourself, how, did those links make it into page in the first place.  That&rsquo;s where some addition Grunt magic happens.  Let&rsquo;s take a look at our layout.ejs file.</p>
+
+<p>Here is where the javascript links have been placed.  Notice the two tags SCRIPTS and SCRIPTS END.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--SCRIPTS--&gt;</span>
+</span><span class='line'><span class="c">&lt;!--SCRIPTS END--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is where Grunt will place links to any javascript files placed in the <code>/assets/linker/js</code> folder.  Grunt will also do this for our css between thse two tags, the STYLES and STYLES END:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--STYLES--&gt;</span>
+</span><span class='line'><span class="c">&lt;!--STYLES END--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you may have noticed these <code>socket.io.js</code>, <code>sails.io.js</code>, and <code>app.js</code> files that are being injected into <code>layout.ejs</code>. Not surprisingly these files have to do with socket.io and sails, however, for the purposes of this screencast we can ignore those files.</p>
+
+<p>But we still have this ordering problem with jquery.  To fix this we can go back into the <code>Grunfile.js</code> and towards the top of this file is where Grunt is cofigured to inject css and javascript into <code>layout.ejs</code>.  I&rsquo;m going to put a path to jquery below some other javascript files but before this default &ldquo;catch-all&rdquo; link and I say catch-all link because as you can see with these astericks, grunt is going to look at the linker folder and any folder underneath the linker folder it&rsquo;s going to look for any files with the .js ending. It&rsquo;s going to take those files and place them in between these two tags.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">jsFilesToInject</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Below, as a demonstration, you&#39;ll see the built-in dependencies </span>
+</span><span class='line'>    <span class="c1">// linked in the proper order order</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Bring in the socket.io client</span>
+</span><span class='line'>    <span class="s1">&#39;linker/js/socket.io.js&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// then beef it up with some convenience logic for talking to Sails.js</span>
+</span><span class='line'>    <span class="s1">&#39;linker/js/sails.io.js&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// A simpler boilerplate library for getting you up and running w/ an</span>
+</span><span class='line'>    <span class="c1">// automatic listener for incoming messages from Socket.io.</span>
+</span><span class='line'>    <span class="s1">&#39;linker/js/app.js&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// *-&gt;    put other dependencies here   &lt;-*</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="s1">&#39;linker/js/jquery.js&#39;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// All of the rest of your app scripts imported here</span>
+</span><span class='line'>    <span class="s1">&#39;linker/**/*.js&#39;</span>
+</span><span class='line'>  <span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now jquery will be loaded before any other javascript files located in the <code>assets/linker/js</code> folder.  Let&rsquo;s restart the sails server and go back to the browser and reload the page.  Great now links to both our javascript and css files are being injected correctly.  And just to make sure let&rsquo;s go back to the source.  And yes, we can see here that jquery is now being loaded before custom.js.</p>
+
+<p>So to sum it up, having the linker folder provides for the automatic injection of links to any javascript or css files that are placed in the &lsquo;assets/linker/js&rsquo; or &lsquo;assets/linker/styles&rsquo; folders.  Grunt based upon Gruntfile.js injects the links in <code>layout.ejs</code>.</p>
+
+<p>Now let&rsquo;s look at the project that doesn&rsquo;t have a linker folder.  When I start the sails server for this project using <code>sails lift</code>, the hidden <code>.tmp</code> folder is also created.  The javascript and css files are copied into the public folder this time without the <code>/linker</code> folder. I&rsquo;ll open up a browser and again go to <code>localhost:1337</code>.</p>
+
+<p>This time, however, we don&rsquo;t have the appended text from the <code>custom.js</code> file nor the red color to the text from the <code>custom.css</code> file.  Why is that?  If we look at the <code>layout.ejs</code> file, you&rsquo;ll notice that the STYLE and SCRIPT tags are missing.  These are automatically inserted when using the linker flag.  Therefore, grunt doesn&rsquo;t have these tags to tell it where to put the javascript and css file paths.</p>
+
+<p>We can &ldquo;upgrade&rdquo; this project simply by adding the tags in <code>layout.ejs</code>.  We also need to remove the paths that were initially added to layout.ejs when the project was created.  Now let&rsquo;s go into Gruntfile.js and insert the path to jquery like we did in the linker example.  Finally we&rsquo;ll need to move the css and javascript assets we currently have under a <code>/linker</code> folder.  Now when I start sails and open a browser, the appended html is displayed in red, just as we expected.  Looking at the page source, the css and javascript were injected properly and in the correct order into the page.</p>
+
+<p>I hope you found this helpful and thanks as always for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1643,63 +1851,6 @@ Okay so    the last thing I want to cover is a more extensive look at where we c
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/">Building a Sails Application: Ep24 - Correcting a publishUpdate Event and Adding a Policy to the User Controller&#8217;s Subscribe Action</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-21T10:15:00-05:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/iF3y0AqDpLU" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy and welcome back.</p>
-
-<p>I want to clean-up a use case that will unfortunately crash the server.  The situation occurs if a user creates an account and then while they are logged-in a different user with admin privileges deletes them from the database.  When the deleted user attempts to sign out the following server error occurs:
-TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
-
-<p>This is because publishUpdate tries to send the user.name attribute and the user instance no longer exists.  This is an easy fix, let’s head over to the session controller.  We can wrap the userUpdate(), userPublish(), req.session.destroy(), and res.redirect() methods in an if statement that checks whether a user exists.  If the user doesn’t exist then we’ll just redirect to session/new via res.redirect(&lsquo;/session/new&rsquo;);</p>
-
-<p>If the user does exist we’ll let just pass through to our existing logic. So now when we try to do the same use case, the browser is redirected to session/new.</p>
-
-<p>One other change I want to make is to prevent the socket from subscribing to the user model events unless the user is authenticated.  To do this, we’ll modify the authenticated policy so that it looks for req.session.User, if it exists, the user is authenticated, and if not, we send a 403.  We’ll then use that policy in policies.js within the config folder for the subscription action of the user controller.  By doing this, the socket cannot subscribe to /user/subscribe unless the user is authenticated.  Let’s check it out.</p>
-
-<p>So now, when the user logs in, the non-authenticated socket does not respond to the event because they are not yet authenticated and therefore not subscribed.  Once the other user logs in, however, they receive the original user’s logout event.</p>
-
-<p>Thanks for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/2/">&larr; Older</a>
@@ -1715,6 +1866,10 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">sailsCasts Answers: Ep5 - Where Should I Put the Assets in My Sails Project?</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs&#8230;really?</a>
       </li>
     
@@ -1728,10 +1883,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     
       <li class="post">
         <a href="/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/">Building a Sails Application Ep25 - What Is CommonJS in Relation to Node? What Does It Do? How Do I Use It?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/">Building a Sails Application: Ep24 - Correcting a publishUpdate Event and Adding a Policy to the User Controller&#8217;s Subscribe Action</a>
       </li>
     
   </ul>
