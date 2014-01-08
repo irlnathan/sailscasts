@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2013-12-05T11:43:08-06:00</updated>
+  <updated>2014-01-08T10:04:28-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[sailsCasts Answers: Ep6 - How does the http request/response protocol work  with routes]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/"/>
+    <updated>2014-01-08T09:48:00-06:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/MdMRtMEQhH4" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.</p>
+
+<p>This episode is the first of a three part series.  We&rsquo;ll start with how the http request/response protocol works with routes, controllers, actions and models to deliver a restful json CRUD api.  By the end of the second episode you&rsquo;ll use these concepts to build a restful json CRUD api from scratch. In the third episode we&rsquo;ll explore how sail&rsquo;s <em>blueprint: actions and routes</em> can be used to create that same restful json CRUD api automatically for any of your controllers and models.</p>
+
+<p>In lieu of being able to download this episode directly to your brain matrix-style, I&rsquo;ll instead provide a bird&rsquo;s eye view of all of the concepts we&rsquo;ll cover.  Nothing is more confusing than trying to learn something new in the abstract.  So let&rsquo;s begin with a tangible scenario for our restful json CRUD api.  Our api will be used to access and update information that tracks our sleep patterns including how much we sleep each night and the quality of that sleep.</p>
+
+<p>So, we want our client-side device to be able to make requests to a our api running on a server and for that api to respond to our client-side device&rsquo;s requests. I&rsquo;m using the term &ldquo;client-side device&rdquo; very loosely here because the device can reside on your lap, your phone, or even your refrigerator.  If it can make a request it can use our api regardless of the type of client-side device.</p>
+
+<p><strong>So, what types of requests will we be making to the api?</strong>  The request will interact with the api to either find, create, update or delete information about our sleep.  The api will in turn be listening for our request and using a router, routes, controllers, and utlimately actions to interact with our sleep information in something called a <code>model</code>.  The action will then respond to our client-side device with the status of our request and any additional information necessary to fulfill the request.</p>
+
+<p>Now let&rsquo;s break-down each concept in detail. First let&rsquo;s strip down this diagram to the basics.</p>
+
+<p><strong>So how do request and responses work?</strong> The request and response are part of the http protocol.  Don&rsquo;t let the term protocol throw you.  It&rsquo;s just a set of agreed upon rules that make it possible for different types of devices to communicate together across a network.</p>
+
+<p>So, why are we starting with the <code>http</code> protocol?  Well, you&rsquo;ve got to start somewhere and although we could have started at ohm&rsquo;s law and worked our way up levels of abstraction to <code>http</code>, this would take an awfully long time and more importantly my knowledge once we go below the level of <code>http</code> drops rapidly to pretty much zero.  As a tangent, in case you are a complete nerd like myself and would like to learn more about the very low levels of abstraction, there&rsquo;s a great MIT course <a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-002-circuits-and-electronics-spring-2007/index.htm">6.002</a> available on youtube which introduces the fundamentals of the lumped circuit abstraction.  But for our purposes anything below the <code>http</code> protocol we&rsquo;ll just say consists of <a href="http://en.wikipedia.org/wiki/Turtles_all_the_way_down">turtles all the way down</a>.</p>
+
+<p>Recall that our api will support requests to find, create, update, or delete sleep information.</p>
+
+<p><strong>But how will our api differentiate the requests?</strong>  That is, how will the api know that we want to find versus create, update versus delete a set of sleep information?</p>
+
+<p>The <code>http</code> protocol provides the means to accomplish this via the use of <code>http</code> verbs &ndash; <code>get</code>, <code>post</code>, <code>put</code>, and <code>delete</code> and each of the http verbs line up with the type of request.</p>
+
+<p>Most likely you use http verbs every day.  Each time you use your browser to open a web page, that browser is making a <code>get</code> request on your behalf.</p>
+
+<p>As a quick aside you&rsquo;ll often hear the term CRUD functions when working with a web api.  CRUD stands for create, read, update and delete each of which match up nicely to our http verbs and actions.</p>
+
+<p><strong>The verb is the first of three essential parts of our request.</strong> The other elements are the path, which relates to our controller, and we&rsquo;ll talk about in the next session and finally optional parameters which are just additional pieces of information we might want to send in our request.</p>
+
+<p>The important take away here is we can now combine http verbs and paths to convey our intent to the api.  By using <code>'post /sleep'</code> the api knows ahh, create a new instance of sleep and by passing it parameters the api knows that we want to use those parameters as part of the sleep instance. How the api interprets this is the subject of the next section.</p>
+
+<p>Before moving on though, you might be asking, how does my device generate a request.  I&rsquo;ve already said that when you request a web page in a browser you&rsquo;re making a <code>get</code> request.  Also most programming languages have a library associated with http.  In javascript, the jquery library uses $.get to make requests.</p>
+
+<p>Let&rsquo;s take a quick field trip to check out a request in action.</p>
+
+<p>I&rsquo;ll open a chrome browser which is using a chrome extension called POSTMAN.  POSTMAN allows me to make <code>http</code> requests using all of the verbs we were just talking about.  Without it, browsers are limited to <code>get</code> requests from the url window or <code>get</code> and <code>post</code> requests from an html form.  I&rsquo;m making the request to a completed version of our sails api, but don&rsquo;t worry about that for now.  I just want to show you an actual request in action.</p>
+
+<p>So I&rsquo;m going to make a request using the verb <code>get</code> to the path <code>/sleep</code>.  And when I send the request via POSTMAN I get back all 5 instances of our model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;great&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:29:55.921Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:29:55.921Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:03.544Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:03.544Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;so-so&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:13.998Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:13.998Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;bad&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:21.294Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:21.294Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">4</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;bad&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:25.998Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:25.998Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So that&rsquo;s it, that&rsquo;s a request.</p>
+
+<p>Now, by making the <code>http</code> request to a server, we&rsquo;re indicating that some bit of code should be executed on the server as a result of making the request. The chunk of code that is executed is known as an action and these actions can be grouped together into a controller.</p>
+
+<p><strong>But how do we link the request to the controller and action?</strong>  Well, that&rsquo;s where routes come in.</p>
+
+<p>Routes are the instructions that tie the request to the controller and ultimately to the action.</p>
+
+<p>So from our earlier example, the route consists of the verb&mdash; <code>post</code>, the path&mdash; <code>/sleep</code> which forms the request and pairs it with the sleep controller and the create action.</p>
+
+<p>Although not part of the route per se, as we&rsquo;ve already seen parameters can also be part of the request and these parameters can pass information to the action.</p>
+
+<p>So let&rsquo;s review, we now understand how the request and response works with the http protocol, that the router uses routes to tie the requests to the controller and action.</p>
+
+<p><strong>So what does the action actually do?</strong>  The action is where the code resides to find one or more model instances, create a new model instance, update an existing model instance, or delete a model instance.</p>
+
+<p><strong>What is a model?</strong>  A model is a representation of the attributes that describe the data your api will be managing. Our sleep model consists of hours_slept, and sleep_quality and sails automatically adds an id, createdAt and updatedAt attributes.  The sleep model is an object so in addition to model attributes like hours_slept, the sleep model also has methods like find, create, update, and delete.  These are the methods that are called within our actions.  Now don&rsquo;t be confused by the fact that the actions and model methods have the same name, they share the same name because the action name relates to the ultimate model method the action will use.  As you&rsquo;ll see when building the api in the next episode, the actions combine code necessary to complete the request including calls to the model methods.</p>
+
+<p>Having this seperation between the model and the place where your data resides is important because you might want to store your model in a sql database at first but later move it to a mongo database.  Or you might be using data that doesn&rsquo;t come from a database but instead from some other api.  That&rsquo;s really the power of a framework like sails in that we can learn one way of finding, creating, updating and deleting our model, and then let sails worry about how it actually accesses and/or stores it at the level of a database or other data source.  In fact, the sails community provides us with different adapters like posgresql and mongo from which we can pick and choose where our data ultimately resides at will.</p>
+
+<p><strong>What is the model versus model instances.</strong>  Think of the model as the instructions for building something whereas an instance of that model is one of the things you&rsquo;ve built.</p>
+
+<p>So let&rsquo;s finish this episode with looking at the response. Depending upon the request, our action is responsible for finding, creating, updating or deleting instances of our model. We&rsquo;ve learned that the model methods are called by the action. The action then responds to the request with the status of the request along with any model instance or instances associated with the action.</p>
+
+<p>If you&rsquo;re new to this your head might start to spin a bit but don&rsquo;t panic in the next episode we&rsquo;ll use all of this conceptual knowledge to build our own restful json CRUD api.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sailsCasts Answers: Ep5 - Where should I put the assets in my sails project?]]></title>
@@ -1963,18 +2116,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <content type="html"><![CDATA[<p>In episode 14 learn more about user authentication, creating the create and destroy actions of the session controller as well as restricting access to the application through the use of policies.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/AooPVuYGnuU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: EP13 - Sign-in page, session controller, new action, and sessions.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/01/building-a-sails-application-ep13-sign-in-page/"/>
-    <updated>2013-09-01T12:22:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/01/building-a-sails-application-ep13-sign-in-page</id>
-    <content type="html"><![CDATA[<p>In episode 13 learn how to create a sign-in page, create a session controller with a new action and take a relatively deep dive into understanding sessions.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/SY2AcAHxIiU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>

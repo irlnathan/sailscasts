@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Transcript Howdy and welcome back. I want to clean-up a use case that will unfortunately crash the server. The situation occurs if a user creates an &hellip;">
+  <meta name="description" content="Transcript Howdy. Today I’m here to talk about my quest to understand the mysterious world of node module dependencies. The good news is, in the end &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,513 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/">Building a Sails Application Ep25 - What Is CommonJS in Relation to Node? What Does It Do? How Do I Use It?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-25T17:45:00-05:00" pubdate data-updated="true">Oct 25<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/oS01dhrjR7s" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy.  Today I’m here to talk about my quest to understand the mysterious world of node module dependencies. The good news is, in the end, it’s really not very mysterious.  Hopefully, by the end of this screencast I’ll have answered:</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.004.jpg"></p>
+
+<p>Although I’ll be talking about CommonJS mainly from a node perspective this is completely relevant to sails in that you’ll be using the module pattern in your sails development.  If you’ve ever looked at the source of a node application you’ve come across some derivation of the following methods and objects.</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.005.jpg"></p>
+
+<p>Node applications are made up of modules, which are the equivalent of source text files.  Actually that’s not completely accurate, a module can also be a compiled node module file, but I’m getting ahead of myself.  Each module or text source file is its own domain and the objects, methods, variables, and classes contained in them are oblivious to other objects, methods, variables, and classes contained in other modules.  They are in effect private to the module file that contains them.  How do we make different module files aware of each other? That’s where the module pattern comes in and specifically node’s use of CommonJS.</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.008.jpg"></p>
+
+<p>The CommonJS implementation of the module pattern also protects the scope of your code to a particular module instead of opening up everything to a global scope. Therefore, only the modules that are connected in a way which I’m about to describe are aware of each other.</p>
+
+<p>First a quick note on what CommonJS isn’t.  At first I got confused between RequireJS and CommonJS.  Although CommonJS does use a method named require, CommonJS and RequireJS are not the same thing.</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.010.jpg"></p>
+
+<p>My understanding is that RequireJS was created out of a need for a module loader within the browser as opposed to node which is running on the server.  Anyway, don’t make the same mistake I did and start reading the RequireJS documentation thinking it’s the same thing as what’s used in node..</p>
+
+<p>Now on to the module pattern. This pattern consists of two basic steps. One of the steps involves “requiring” a module you want to include from one file while from the other file or module “exposing” the stuff that you want to make available to other modules.</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.011.jpg"></p>
+
+<p>I’m going to talk about the “require” part of pattern first. I think the best way to learn this stuff is through examples.  One of the early examples we’re exposed to in learning node is creating a server using the http module. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="err">‘</span><span class="nx">content</span><span class="o">-</span><span class="nx">type</span><span class="err">’</span><span class="o">:</span> <span class="err">‘</span><span class="nx">text</span><span class="o">/</span><span class="nx">plain</span><span class="err">’</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="err">‘</span><span class="nx">Hello</span> <span class="nx">World</span><span class="err">’</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I want to focus on the first line: <code>var http= require(‘http’);</code>  This line creates a reference or variable to the module <code>http</code>.  This happens to be one of the modules that comes compiled with node.  Armed with our http variable we can now access everything that was exposed in that module via dot notation.  For example, that’s how access the <code>createServer</code> method.</p>
+
+<p>However, let’s say we want to create our own module, how would we require it?  I’m going to explore several ways of requiring a module but one initial way is to use:</p>
+
+<p><code>var utility = require('./myModule.js');</code></p>
+
+<p>So let’s create a new file called index.js.</p>
+
+<p>index.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">utility</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./myModule.js&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip;and I’ll paste our new require line into the file.  Breaking this down we have an arbitrary var named utility referencing a javascript file myModule.JS located in the same directory or relative path as index.js.  So before we starting using our new module, we need to create it.  So, next I’m going to create another file called myModule.js in the same directory with the following code.</p>
+
+<p>myModule.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">balance</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">addDeposit</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">amount</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">amount</span> <span class="o">+</span> <span class="nx">balance</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="nx">balance</span><span class="p">;</span>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">addDeposit</span> <span class="o">=</span> <span class="nx">addDeposit</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this file I added a var called <code>balance</code> and initialized it with a value of 100. Next I created a function <code>addDeposit</code>.  The last two lines are the important part.  I exposed the var balance by exporting it via <code>module.exports</code>.  I could have named the attribute something other than balance but by convention I’m going to use the same name as the actual var.  I did the same thing to expose the addDeposit function, that is using <code>module.exports</code>.</p>
+
+<p>Now let’s go back to our index.js file and we’ll use our newly created module.</p>
+
+<p>index.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">utility</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./myModule.js&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;The current balance is: &quot;</span><span class="p">,</span> <span class="nx">utility</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;With your deposit, your new balance is &quot;</span><span class="p">,</span> <span class="nx">utility</span><span class="p">.</span><span class="nx">addDeposit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="err">”</span><span class="p">.</span><span class="err">”</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I can access the exported var and function from myModule through dot notation and my reference named utility.   In this case <code>utility.balance</code> for the balance and <code>utility.addDeposit(10)</code> for the function.  Again the use of the name utiityl is completely arbitrary, I could have named this reference foo. So let’s see this in action.</p>
+
+<p>I’ll go to the terminal and type node index.js to launch our module.  And as we wanted the module returned the balance before and after the deposit.</p>
+
+<p>Next, I’m going to expand this module to act like a class using a function as a constructor. Notice that in addition to the instance attributes and methods I also have class variables and methods (e.g. class_variable and class_method) that are not exposed via require.</p>
+
+<p>myModule1.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">account</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">balance</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">class_variable</span> <span class="o">=</span> <span class="s2">&quot;Classy&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">class_method</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      
+</span><span class='line'>    <span class="cm">/* Todo</span>
+</span><span class='line'><span class="cm">     * Debit account a few cents each day and put it</span>
+</span><span class='line'><span class="cm">     * Lumbergh&#39;s account</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Nothing to see here.&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="nx">balance</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">addDeposit</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">deposit</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">balance</span> <span class="o">+=</span> <span class="nx">deposit</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">account</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Keeping with the pattern after you expose or export the code you want to make available from your module, we’ll do the other step of the pattern by requiring the module. I’m creating a new file index1.js.</p>
+
+<p>index1.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Account</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./myModule1.js&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">account</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Account</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+</span><span class='line'><span class="nx">account</span><span class="p">.</span><span class="nx">deposit</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;The current balance is: &quot;</span><span class="p">,</span> <span class="nx">account</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;With your deposit of &quot;</span> <span class="o">+</span> <span class="nx">account</span><span class="p">.</span><span class="nx">deposit</span> <span class="o">+</span> <span class="s2">&quot; your new balance is &quot;</span> <span class="o">+</span> <span class="nx">account</span><span class="p">.</span><span class="nx">addDeposit</span><span class="p">(</span><span class="nx">account</span><span class="p">.</span><span class="nx">deposit</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here I’m instantiating the Account class reference using the var account while passing in a new balance for the account as an argument.  The other change is adding a deposit attribute to the account instance.  Now, let’s see this in action.</p>
+
+<p>I’ll go back to the terminal and type node index1.js to launch our module.  And as we wanted the module returned the balance before and after the deposit as well as the amount of the deposit itself.</p>
+
+<p>Next I want to show an example of the pattern where we can instantiate the Account class from within the require statement itself.</p>
+
+<p>First, we’ll create a new module named myModule2.js.</p>
+
+<p>myModule2.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Account</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">balance</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">balance</span><span class="o">:</span> <span class="nx">balance</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">deposit</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">addDeposit</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">deposit</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">obj</span><span class="p">.</span><span class="nx">deposit</span> <span class="o">=</span> <span class="nx">deposit</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">deposit</span> <span class="o">+</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">balance</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>On line one I declare the var Account and do the export of the function in the same line of code.  I capitalized the A in Account to signify that it represents a class, however, this isn’t necessary to making any of this work and is strictly a convention.  I then build up an object that will eventually be returned when Account is instantiated.  Now let’s create index2.js:</p>
+
+<p>index2.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">account</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./myModule2.js&#39;</span><span class="p">)(</span><span class="mi">2000</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">account</span><span class="p">.</span><span class="nx">addDeposit</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">account</span><span class="p">.</span><span class="nx">deposit</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;The current balance is: &quot;</span><span class="p">,</span> <span class="nx">account</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;With your deposit of &quot;</span> <span class="o">+</span> <span class="nx">account</span><span class="p">.</span><span class="nx">deposit</span> <span class="o">+</span> <span class="s2">&quot; your new balance is &quot;</span> <span class="o">+</span> <span class="nx">account</span><span class="p">.</span><span class="nx">addDeposit</span><span class="p">(</span><span class="nx">account</span><span class="p">.</span><span class="nx">deposit</span><span class="p">)</span> <span class="o">+</span> <span class="err">“</span><span class="p">.</span><span class="err">”</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice in line one where we’re doing our usual require, in this case by putting the arguments on the end of the statement we’re actually creating a new instance of the Account class assigning it to account while passing the argument with a value of 2000.  Let’s see how this works.</p>
+
+<p>The results this time reflect passing the initial balance in as an argument and we have access to our instance variables and method as expected.</p>
+
+<p>The last example is where we export an object directly and I’m going to use our model in activityOverlord found in <code>api/models/User.js</code>.  Notice that we’re wrapping the entire file with module.exports.</p>
+
+<p>myModule3.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * User</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @module      :: Model</span>
+</span><span class='line'><span class="cm"> * @description :: A short summary of how this model works and what it represents.</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">schema</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">attributes</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="nx">name</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">title</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">email</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">email</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">unique</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">encryptedPassword</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">online</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">defaultsTo</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">admin</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">defaultsTo</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">toJSON</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toObject</span><span class="p">();</span>
+</span><span class='line'>      <span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">password</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">confirmation</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">encryptedPassword</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">_csrf</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">obj</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">beforeValidation</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">values</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">values</span><span class="p">.</span><span class="nx">admin</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">values</span><span class="p">.</span><span class="nx">admin</span> <span class="o">===</span> <span class="s1">&#39;unchecked&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">values</span><span class="p">.</span><span class="nx">admin</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span>  <span class="k">if</span> <span class="p">(</span><span class="nx">values</span><span class="p">.</span><span class="nx">admin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;on&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">values</span><span class="p">.</span><span class="nx">admin</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>     <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">beforeCreate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">values</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// This checks to make sure the password and password confirmation match before creating record</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">values</span><span class="p">.</span><span class="nx">password</span> <span class="o">||</span> <span class="nx">values</span><span class="p">.</span><span class="nx">password</span> <span class="o">!=</span> <span class="nx">values</span><span class="p">.</span><span class="nx">confirmation</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">next</span><span class="p">({</span><span class="nx">err</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;Password doesn&#39;t match password confirmation.&quot;</span><span class="p">]});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;bcrypt&#39;</span><span class="p">).</span><span class="nx">hash</span><span class="p">(</span><span class="nx">values</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">passwordEncrypted</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">encryptedPassword</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">values</span><span class="p">.</span><span class="nx">encryptedPassword</span> <span class="o">=</span> <span class="nx">encryptedPassword</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// values.online= true;</span>
+</span><span class='line'>      <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, we’ll require this module and take a look at a couple of its attributes.</p>
+
+<p>index3.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./myModule3.js&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">schema</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let’s see it in action.  As expected we get back the attributes we requested via dot notation.</p>
+
+<p>So where can I put modules?
+Okay so    the last thing I want to cover is a more extensive look at where we can put modules and how to require them in these different locations.  As I mentioned at the beginning of the screencast there’s a distinction between node’s core modules and our own custom file modules we’ve been working with.  Core modules like <code>http</code> can be referenced by using just the module name (e.g. ‘http’).  For file modules we have a bunch of options.</p>
+
+<p>So far, we’ve been accessing our modules via relative paths.  But we could also use an absolute path like:</p>
+
+<p><code>var myModule = require(‘/home/api/foo.js’);</code></p>
+
+<p>You can also require a file module without using ‘/’,  ‘./’ or ‘../’ however, the module must be placed in a node_modules folder. The node documentation has a good example I’ve included here.</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.016.jpg"></p>
+
+<p>So node will first look in the same directory where the file that it’s calling is located, in this example <code>/home/ry/projects/node_modules</code>.  If it doesn’t find it there it will traverse up the file system path until it either finds the node_modules folder and module or gets to the root of the path without finding it in which case returning a ‘module not found’ error.</p>
+
+<h2>Folders as Modules</h2>
+
+<p>The final area I want to look at is using Folders as Modules.  This happens when you want to provide a package or library that is organized using a directory structure with one entry point to the package or library.  For example, let’s say you have a new templating library superTemp and all of its supporting modules will be installed at the root of /superTemp.</p>
+
+<p><img class="center" src="/sailscasts/images/ep25.025.jpg"></p>
+
+<p>You could require the library by using:</p>
+
+<p><code>var superTemp = require(‘./superTemp’);</code></p>
+
+<p>So what are my options for the entry point or the initial javascript file?  If I create a file index.js and put it in ‘./superTemp’, node will run that file first.  I could also use the extension index.node.  Finally, if I wanted to use a different name than index you can create a package.json file using the following syntax:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;superTemp&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;main&quot;</span> <span class="o">:</span> <span class="s2">&quot;./superTemp/myCrazyNamingConventionDealWithIt.js&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So let’s see how that works.  I’ve set-up an admittedly contrived directory structure under this example 1 folder.  So we have a module index.js that requires another module, myModule.js in the otherDir folder. Notice that the parenthesis at the end of the statement which means we’ll be instantiating the function.  myModule.js is a just a function that logs “Our app is launched!”.   Finally, we have a file launcher.js that requires the folder /super_temp.  So now I’ll go to the terminal and type node launcher and we get our log message that our app has launched.</p>
+
+<p>Now let’s go into the example two folder.  Again a contrived directory structure but here instead of an index.js file we have a package.json file.  The package.json file points to <code>myCrazyNamingConventionDealWithIt.js</code> module.  And like our other example that module points to myModule in the otherDir folder.  Let’s see what happens.  And again we get the expected results.</p>
+
+<p>Okay gang, I know that was a bunch of stuff.  I hope it was helpful and thanks for watching as always.</p>
+
+<h2>Websites referenced</h2>
+
+<ul>
+<li><a href="http://www.commonjs.org/">CommonJS</a></li>
+<li><a href="http://requirejs.org/">RequireJS</a></li>
+<li><a href="http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs">Relation between CommonJS, AMD and RequireJS? (stackoverflow)</a></li>
+<li><a href="http://nodejs.org/api/modules.html">Node Docs on Modules</a></li>
+<li><a href="http://openmymind.net/2012/2/3/Node-Require-and-Exports/">Node.js, Require and Exports</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -397,48 +904,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/">Building a Sails Application: Ep17a - Marshalling Request Parameters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-24T16:38:00-05:00" pubdate data-updated="true">Sep 24<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/09/24/building-a-sails-application-ep17a-marshalling-request-parameters/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In episode 17a you&rsquo;ll fix an issue by marshalling request parameters, that allowed a user to inject html to create an admin user.</p>
-
-<iframe width="640" height="390" src="http://www.youtube.com/embed/TgiK34eDGOU" frameborder="0" allowfullscreen></iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/3/">&larr; Older</a>
@@ -456,6 +921,10 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/">sailsCasts Answers: Ep6 - How Does the Http Request/response Protocol Work With Routes</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">sailsCasts Answers: Ep5 - Where Should I Put the Assets in My Sails Project?</a>
       </li>
     
@@ -471,10 +940,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
         <a href="/sailscasts/blog/2013/11/05/building-a-sails-application-ep26-deploying-a-sails-app-to-heroku/">Building a Sails Application Ep26 - Deploying a Sails App to Heroku.</a>
       </li>
     
-      <li class="post">
-        <a href="/sailscasts/blog/2013/10/25/building-a-sails-application-ep25-what-is-commonjs-in-relation-to-node-what-does-it-do-how-do-i-use-it/">Building a Sails Application Ep25 - What Is CommonJS in Relation to Node? What Does It Do? How Do I Use It?</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -488,7 +953,7 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - irl nathan -
+  Copyright &copy; 2014 - irl nathan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
