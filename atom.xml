@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2014-01-14T14:44:36-06:00</updated>
+  <updated>2014-01-14T14:46:10-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -20,6 +20,8 @@
     <id>http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch</id>
     <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/640cL3aFfA8" frameborder="0" allowfullscreen></iframe>
 
+
+<p>The repo for this project can be found here: <a href="https://github.com/irlnathan/sails-crud-api">https://github.com/irlnathan/sails-crud-api</a></p>
 
 <h1>Transcript</h1>
 
