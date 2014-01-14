@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2014-01-08T10:04:28-06:00</updated>
+  <updated>2014-01-14T14:44:36-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,645 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[sailsCasts Answers: Ep7: How do I create a restful json CRUD api in sails from scratch?]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/"/>
+    <updated>2014-01-14T14:40:00-06:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/640cL3aFfA8" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back to part II of our three part series.  In the last episode we learned how the http request/response protocol works with routes, controllers, actions and models to deliver a restful json CRUD api.  In this episode we&rsquo;ll take the concepts we learned and use them to build the api from scratch. In the final episode we&rsquo;ll explore how sail&rsquo;s <em>blueprints: actions and routes</em> can be used to create that same restful json CRUD api automatically for any of your controllers and models.</p>
+
+<p>Let&rsquo;s review what we&rsquo;re trying to accomplish.</p>
+
+<p>Our api will be used to access and update information that tracks our sleep patterns including how much we sleep each night and the quality of that sleep.</p>
+
+<p>So we want the api to be able to respond to requests to find, create, update or delete instances of our sleep model.  We&rsquo;ll create actions that corresond to the requests and then build up routes that match the appropriate http verbs and paths with the corresponding controller and action.</p>
+
+<ul>
+<li>So the <strong>find</strong> request will use the http verb <code>get</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and <code>find</code> action.</li>
+<li>The <strong>create</strong> request will use the  verb <code>post</code> with the path <code>/sleep</code> and bind to the <code>sleep</code> controller and the <code>create</code> action.</li>
+<li>The <strong>update</strong> request will use the verb <code>put</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and the <code>update</code> action.</li>
+<li>and finally, the <strong>delete</strong> request will use the  verb <code>delete</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and because <code>delete</code> is a key word in javascript we&rsquo;ll rename the action to <code>destroy</code>.</li>
+</ul>
+
+
+<p>The actions will then use the model methods to find, create, update or destroy the model as requested and use the parameters <code>hours_slept</code> and <code>sleep_quality</code> to pass any necessary information within the request through the action to the model.  The action will then respond with the request status as well as any model instance or instances required.</p>
+
+<p>So let&rsquo;s get started.  I&rsquo;m going to bring up a terminal window and we&rsquo;re going to create a new sails project called <code>mySleep</code> using <code>sails new mySleep --linker</code>.  and I&rsquo;ll change into the <code>mySleep</code> folder and generate a sleep controller and model using <code>sails generate sleep</code>.</p>
+
+<p>So, here&rsquo;s a roadmap of what we&rsquo;re going to build.  I&rsquo;m going to start with the create action, building the action and then building the route that will bind the find request with the sleep controller and find action. I&rsquo;m going to go through each action, create it, and then build the matching route that will bind our request to the controller and action.   So let&rsquo;s start with the create action.</p>
+
+<p>I&rsquo;ll open my sleep controller found in <code>/api/controllers/SleepController.js</code> and create my first action called <code>create</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// a CREATE action  </span>
+</span><span class='line'><span class="nx">create</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">all</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">Sleep</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">sleep</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">201</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">sleep</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The action is straightforward, we&rsquo;re going to grab the request&rsquo;s parameters in the var <code>params</code> and then pass <code>params</code>  into the <code>create</code> method of our <code>sleep</code> model.  If there&rsquo;s an error we&rsquo;ll return it and if not I&rsquo;ll send a 201 status code response with the newly created model instance formatted as json.</p>
+
+<p>So that&rsquo;s the <code>create</code> action, now I need to create a route that will bind this controller and action to our request.  So let&rsquo;s open the routes in <code>/config/routes.js</code> and I&rsquo;ll add my route after the existing home route:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">routes</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s1">&#39;/&#39;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">view</span><span class="o">:</span> <span class="s1">&#39;home/index&#39;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Custom CRUD Rest Routes</span>
+</span><span class='line'>  <span class="s1">&#39;post /sleep&#39;</span><span class="o">:</span> <span class="s1">&#39;SleepController.create&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The route consists of the verb <code>post</code> to the path <code>/sleep</code> which is bound to the <code>sleep</code> controller and the <code>create</code> action.  So let&rsquo;s make sure our create action is working.  I&rsquo;ll go into the terminal, start sails with <code>sails lift</code>.  I&rsquo;ll again be using the POSTMAN chrome extension to test our requests.  We&rsquo;ll be using the http verb <code>POST</code> to the path <code>/sleep</code> adding two parameters <code>hours_slept</code> and <code>sleep_quality</code>.  When I click send, Sails returns my newly created record as json.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2013-12-10T21:31:00.442Z&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2013-12-10T21:31:00.442Z&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So let&rsquo;s take a look at our api roadmap.  We&rsquo;ve built the create action as the first of the four actions of our api.  Next, we&rsquo;ll build the <code>find</code> action and then we&rsquo;ll build a route that will bind Sleep controller and find action to our request.  For the action let&rsquo;s go back into the <code>SleepController.js</code> file and look at the find action code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="c1">// a FIND action</span>
+</span><span class='line'><span class="nx">find</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">idShortCut</span> <span class="o">=</span> <span class="nx">isShortcut</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">idShortCut</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">Sleep</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">sleep</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">sleep</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">notFound</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">sleep</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">where</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;where&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isString</span><span class="p">(</span><span class="nx">where</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">where</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">where</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// This allows you to put something like id=2 to work.</span>
+</span><span class='line'>      <span class="c1">// if (!where) {</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//     // Build monolithic parameter object</span>
+</span><span class='line'>   <span class="c1">//    params = req.params.all();</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">//    params = _.omit(params, function (param, key) {</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">//        return key === &#39;limit&#39; || key === &#39;skip&#39; || key === &#39;sort&#39;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">//    });</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//   where = params;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//   console.log(&quot;making it here!&quot;);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// }</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">limit</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;limit&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>                  <span class="nx">skip</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;skip&#39;</span><span class="p">)</span>  <span class="o">||</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>                  <span class="nx">sort</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>                  <span class="nx">where</span><span class="o">:</span> <span class="nx">where</span> <span class="o">||</span> <span class="kc">undefined</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;This is the options&quot;</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+</span><span class='line'>              
+</span><span class='line'>      <span class="nx">Sleep</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">sleep</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">sleep</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">notFound</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">sleep</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">isShortcut</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;find&#39;</span>   <span class="o">||</span>  <span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;update&#39;</span> <span class="o">||</span>  <span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;create&#39;</span> <span class="o">||</span>  <span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;destroy&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Let&rsquo;s also take a look at the route that will bind our request to the sleep controller and <code>find</code> action in <code>/config/routes.js</code>:</p>
+
+<p><code>'get /sleep/:id?': 'SleepController.find'</code></p>
+
+<p>The route points to our <code>find</code> action but look the end of the path, what&rsquo;s up with <code>:id?</code>, and the question mark?  The question mark makes the <code>id</code> parameter optional.  That way we capture both the request <code>'get /sleep'</code> as well as <code>'get /sleep/:id'</code>.</p>
+
+<p>The find action will be our most complex action of the four in our api.  This is because we have to provide for a request finding a single instance of the model, multiple instances of the model, as well as using criteria and options to narrow and/or limit the scope of the find request.</p>
+
+<p>So within our find action, we&rsquo;ll attempt to assign a parameter called <code>id</code> to the var <code>id</code>.  The next line of code looks to see if the <code>id</code> is a shortcut.  I&rsquo;m going to skip over this part because shortcuts are part of sail&rsquo;s blueprints which we&rsquo;ll be discussing in the third episode.</p>
+
+<p>So if the <code>id</code> exists we&rsquo;re going to assume that the request is looking for a particular model instance. We&rsquo;ll pass the <code>id</code> to the <code>findOne</code> model method and if we don&rsquo;t get back an instance of <code>sleep</code> in the callback, we&rsquo;ll return or respond with a status code of <code>404</code>&mdash; <code>not found</code>.  On success, we&rsquo;ll return and respond with the model instance formatted as json.</p>
+
+<p><strong>Checking for multiple model instances.</strong> If no <code>id</code> is provided we&rsquo;ll start looking for other criteria or options that may have been passed as a parameter for finding one or more model instances.  Criteria is placed in a <code>where</code> clause which is just the key name for a criteria object.  For example, if your want to find all model instances where sleep_quality = good, your parameters would look like this: <code>?where={sleep_quality: "good"}</code>.  We&rsquo;ll also check for options that further limit the result in some way. For example, let&rsquo;s say we only want the first 5 model instances of our result.  The parameters would look like this: <code>?where={sleep_quality: "good"}&amp;limit=5</code>.</p>
+
+<p>So if <code>where</code> exists as a parameter and the value for it is a string, we&rsquo;ll just parse it as json and assign it to the var <code>where</code>.  Even if <code>where</code> doesn&rsquo;t exist we&rsquo;ll still look for the keys <code>limit</code>, <code>skip</code>, and <code>sort</code> and place them within the options object. Finally, we&rsquo;ll pass the options object to the Find model method and if we don&rsquo;t get back an instance of <code>sleep</code> in the callback, we&rsquo;ll return or respond with a status code of <code>404</code>&mdash; <code>not found</code>.  On success, we&rsquo;ll return and respond with the model instance(s) formatted as json.</p>
+
+<p>So we have the find action complete, let&rsquo;s make sure all of this works.  I&rsquo;ll head back to the terminal and restart the sails server using <code>sails lift</code> and then open a browser with the POSTMAN chrome extension. I&rsquo;ve added a few more instances of our sleep model.  Let&rsquo;s take a look by sending a <code>get</code> request to the path <code>/sleep</code>.  After sending the request the api returned five instances of the model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-09T23:36:01.552Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-09T23:36:01.552Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;great&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:08:52.398Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:08:52.399Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;poor&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:10.319Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:10.319Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;so-so&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:20.456Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:20.456Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">4</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:30.885Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:30.885Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since we didn&rsquo;t provide an <code>id</code> or any criteria or options, the api used the find model method and returned all instances of the model formatted as json.</p>
+
+<p>Next, let&rsquo;s make a <code>get</code> request to the path <code>/sleep/2</code>.  After pressing send, the api returns a single instance of the model with an <code>id</code> of 2:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;great&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:08:52.398Z&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:08:52.399Z&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s try a request with some criteria.  We&rsquo;ll look for any model instances with an <code>id</code> greater than 1:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">localhost</span><span class="o">:</span><span class="mi">1337</span><span class="o">/</span><span class="nx">sleep</span><span class="o">?</span><span class="nx">where</span><span class="o">=</span><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;&gt;&quot;</span><span class="o">:</span>  <span class="mi">1</span><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After making the request, the api returns four of the five model instances with <code>id</code>&rsquo;s greater than 1.</p>
+
+<p>Finally, I&rsquo;m going to combine the criteria with some options. I&rsquo;m going to make a <code>get</code> request to the path <code>/sleep</code> for  model instances with an <code>id</code> not equal to 4, limited to 3 model instances and in descending order.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">localhost</span><span class="o">:</span><span class="mi">1337</span><span class="o">/</span><span class="nx">sleep</span><span class="o">?</span><span class="nx">where</span><span class="o">=</span><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;!&quot;</span><span class="o">:</span>  <span class="mi">4</span><span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="o">&amp;</span><span class="nx">limit</span><span class="o">=</span><span class="mi">3</span><span class="o">&amp;</span><span class="nx">sort</span><span class="o">=</span><span class="nx">id</span> <span class="nx">desc</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After making the request, the api returns three instances of the model in descending order.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:30.885Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:30.885Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;poor&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:10.319Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:09:10.319Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;great&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:08:52.398Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-11T05:08:52.399Z&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we know that our <code>find</code> action is battle tested, let&rsquo;s go back to our api roadmap.  By building the create action and route and the find action and route we&rsquo;re half way through our api.  Next, we&rsquo;ll build the <code>update</code> action and then we&rsquo;ll build a route that will bind the Sleep controller and update action to our request.  Let&rsquo;s head back into the <code>SleepController.js</code> file and look at the update action code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// an UPDATE action</span>
+</span><span class='line'>    <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">criteria</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">criteria</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">merge</span><span class="p">({},</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">all</span><span class="p">(),</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">badRequest</span><span class="p">(</span><span class="s1">&#39;No id provided.&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">Sleep</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">criteria</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">sleep</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span><span class="nx">sleep</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">notFound</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">sleep</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The update action consists of finding the <code>id</code> of the model instance to update coupled with the criteria that will be updated.  If there&rsquo;s no <code>id</code> as a parameter we respond with a 400 status&mdash; &lsquo;No id provided&rsquo;.  Next we attempt to update the model instance using the <code>id</code> and criteria provided. If there&rsquo;s an error we&rsquo;ll return it and if not respond with the updated model instance formatted as json.</p>
+
+<p>So now that we have the update action complete, we&rsquo;ll bind that action to the request forming a new update route:</p>
+
+<p><code>'put /sleep/:id?': 'SleepController.update'</code></p>
+
+<p>The route points to our <code>update</code> action and uses the same <code>:id?</code> pattern that we used in the <code>find</code> route.</p>
+
+<p>Let&rsquo;s make sure all of this works.  I&rsquo;ll restart the sails server using <code>sails lift</code> and then open a browser with the POSTMAN chrome extension. I&rsquo;m going to first make a <code>put</code> request to the path:</p>
+
+<p><code>http://localhost:1337/sleep/3?added_attrib=12</code></p>
+
+<p>After making the request, the api returns our instance of the model that has an id of <code>3</code> with our added attrib formatted as json.</p>
+
+<p>Next, I&rsquo;ll make a <code>put</code> request to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:1337/sleep/3</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;added_3&quot;</span><span class="o">:</span> <span class="mi">42</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>…but instead of using query parameters, I&rsquo;ll pass the update via the request body.  After making the request, the api returns our instance of the model that has an id of <code>3</code> with our added_3 attribute formatted as json.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>  <span class="c1">// Custom Action Route</span>
+</span><span class='line'>  <span class="s1">&#39;get /sleep/new&#39;</span><span class="o">:</span> <span class="s1">&#39;SleepController.new&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Custom CRUD Rest Routes</span>
+</span><span class='line'>  <span class="s1">&#39;get /sleep/:id?&#39;</span><span class="o">:</span> <span class="s1">&#39;SleepController.find&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;post /sleep&#39;</span><span class="o">:</span> <span class="s1">&#39;SleepController.create&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;put /sleep/:id?&#39;</span><span class="o">:</span> <span class="s1">&#39;SleepController.update&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;delete /sleep/:id?&#39;</span><span class="o">:</span> <span class="s1">&#39;SleepController.destroy&#39;</span><span class="p">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that update action and route is complete it&rsquo;s time to build the last action of our api the <code>destroy</code> action and then bind it to our request to form the <code>delete</code> route.  Let&rsquo;s head back into the <code>SleepController.js</code> file and look at the destroy action code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// a DESTROY action</span>
+</span><span class='line'>    <span class="nx">destroy</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">badRequest</span><span class="p">(</span><span class="s1">&#39;No id provided.&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">Sleep</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">id</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">serverError</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">result</span><span class="p">)</span> <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">notFound</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nx">Sleep</span><span class="p">.</span><span class="nx">destroy</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span> <span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we&rsquo;ll attempt to assign the <code>id</code> param to a var called <code>id</code>.  If it doesn&rsquo;t exist I&rsquo;ll return a 400&mdash; &lsquo;No id provided&rsquo;. If an <code>id</code> parameter was provided in the request, I&rsquo;ll attempt to find it in the <code>sleep</code> model.  If the model doesn&rsquo;t exist I&rsquo;ll  respond with a status code of <code>404</code>&mdash; <code>not found</code>.   If the mode instance does exist, I&rsquo;ll pass the <code>id</code>  to the destroy method of the model returning either an error if any, or the deleted model instance formatted as json.</p>
+
+<p>Next I&rsquo;ll bind the destroy action with the request in its own <code>delete</code> route:</p>
+
+<p><code>'delete /sleep/:id?': 'SleepController.destroy'</code></p>
+
+<p>Let&rsquo;s check it out by restarting the sails server using <code>sails lift</code>. Once again within the POSTMAN chrome extension I&rsquo;ll make a delete request to the path:</p>
+
+<p><code>destroy</code> <code>http://localhost:1337/sleep/5</code></p>
+
+<p>After sending the request the api responds with the model instance it just deleted formatted as json.</p>
+
+<p>Congratulations, you&rsquo;ve built a restful json CRUD api.  Any client-side device that supports http requests can now hit our api&rsquo;s endpoints and request and submit information about our sleep model.</p>
+
+<p>In the next and final episode of this series I&rsquo;ll show you how sail&rsquo;s <em>blueprints: actions and routes</em> can be used to create this same restful json CRUD api we just created, automatically for any of your controllers and models.</p>
+
+<p> Okay that was a lengthy one, As always, thanks  for watching and if you get a chance, follow me on twitter @irlnathan.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sailsCasts Answers: Ep6 - How does the http request/response protocol work  with routes]]></title>
@@ -2104,18 +2743,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <content type="html"><![CDATA[<p>In episode 15 you&rsquo;ll change the layout page to greatly improve post authentication navigation.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/P0K36-c5G4A?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep14 - User authentication and restricting access through policies.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies/"/>
-    <updated>2013-09-02T12:25:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/02/building-a-sails-application-ep14-user-authentication-and-restricting-access-through-policies</id>
-    <content type="html"><![CDATA[<p>In episode 14 learn more about user authentication, creating the create and destroy actions of the session controller as well as restricting access to the application through the use of policies.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/AooPVuYGnuU?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>

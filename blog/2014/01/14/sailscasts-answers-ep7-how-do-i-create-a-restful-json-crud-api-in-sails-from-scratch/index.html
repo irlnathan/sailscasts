@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>sailsCasts</title>
+  <title>sailsCasts Answers: Ep7: How do I create a restful json CRUD api in sails from scratch? - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -75,15 +75,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a></h1>
+      <h1 class="entry-title">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</h1>
     
     
       <p class="meta">
@@ -101,15 +98,15 @@
 
 <time datetime="2014-01-14T14:40:00-06:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time>
         
-           | <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/640cL3aFfA8" frameborder="0" allowfullscreen></iframe>
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/640cL3aFfA8" frameborder="0" allowfullscreen></iframe>
 
 
 <h1>Transcript</h1>
@@ -741,205 +738,16 @@
 
 <p> Okay that was a lengthy one, As always, thanks  for watching and if you get a chance, follow me on twitter @irlnathan.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/">sailsCasts Answers: Ep6 - How Does the Http Request/response Protocol Work With Routes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">irl nathan</span></span>
 
-<time datetime="2014-01-08T09:48:00-06:00" pubdate data-updated="true">Jan 8<span>th</span>, 2014</time>
-        
-           | <a href="/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/MdMRtMEQhH4" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy and welcome back.</p>
-
-<p>This episode is the first of a three part series.  We&rsquo;ll start with how the http request/response protocol works with routes, controllers, actions and models to deliver a restful json CRUD api.  By the end of the second episode you&rsquo;ll use these concepts to build a restful json CRUD api from scratch. In the third episode we&rsquo;ll explore how sail&rsquo;s <em>blueprint: actions and routes</em> can be used to create that same restful json CRUD api automatically for any of your controllers and models.</p>
-
-<p>In lieu of being able to download this episode directly to your brain matrix-style, I&rsquo;ll instead provide a bird&rsquo;s eye view of all of the concepts we&rsquo;ll cover.  Nothing is more confusing than trying to learn something new in the abstract.  So let&rsquo;s begin with a tangible scenario for our restful json CRUD api.  Our api will be used to access and update information that tracks our sleep patterns including how much we sleep each night and the quality of that sleep.</p>
-
-<p>So, we want our client-side device to be able to make requests to a our api running on a server and for that api to respond to our client-side device&rsquo;s requests. I&rsquo;m using the term &ldquo;client-side device&rdquo; very loosely here because the device can reside on your lap, your phone, or even your refrigerator.  If it can make a request it can use our api regardless of the type of client-side device.</p>
-
-<p><strong>So, what types of requests will we be making to the api?</strong>  The request will interact with the api to either find, create, update or delete information about our sleep.  The api will in turn be listening for our request and using a router, routes, controllers, and utlimately actions to interact with our sleep information in something called a <code>model</code>.  The action will then respond to our client-side device with the status of our request and any additional information necessary to fulfill the request.</p>
-
-<p>Now let&rsquo;s break-down each concept in detail. First let&rsquo;s strip down this diagram to the basics.</p>
-
-<p><strong>So how do request and responses work?</strong> The request and response are part of the http protocol.  Don&rsquo;t let the term protocol throw you.  It&rsquo;s just a set of agreed upon rules that make it possible for different types of devices to communicate together across a network.</p>
-
-<p>So, why are we starting with the <code>http</code> protocol?  Well, you&rsquo;ve got to start somewhere and although we could have started at ohm&rsquo;s law and worked our way up levels of abstraction to <code>http</code>, this would take an awfully long time and more importantly my knowledge once we go below the level of <code>http</code> drops rapidly to pretty much zero.  As a tangent, in case you are a complete nerd like myself and would like to learn more about the very low levels of abstraction, there&rsquo;s a great MIT course <a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-002-circuits-and-electronics-spring-2007/index.htm">6.002</a> available on youtube which introduces the fundamentals of the lumped circuit abstraction.  But for our purposes anything below the <code>http</code> protocol we&rsquo;ll just say consists of <a href="http://en.wikipedia.org/wiki/Turtles_all_the_way_down">turtles all the way down</a>.</p>
-
-<p>Recall that our api will support requests to find, create, update, or delete sleep information.</p>
-
-<p><strong>But how will our api differentiate the requests?</strong>  That is, how will the api know that we want to find versus create, update versus delete a set of sleep information?</p>
-
-<p>The <code>http</code> protocol provides the means to accomplish this via the use of <code>http</code> verbs &ndash; <code>get</code>, <code>post</code>, <code>put</code>, and <code>delete</code> and each of the http verbs line up with the type of request.</p>
-
-<p>Most likely you use http verbs every day.  Each time you use your browser to open a web page, that browser is making a <code>get</code> request on your behalf.</p>
-
-<p>As a quick aside you&rsquo;ll often hear the term CRUD functions when working with a web api.  CRUD stands for create, read, update and delete each of which match up nicely to our http verbs and actions.</p>
-
-<p><strong>The verb is the first of three essential parts of our request.</strong> The other elements are the path, which relates to our controller, and we&rsquo;ll talk about in the next session and finally optional parameters which are just additional pieces of information we might want to send in our request.</p>
-
-<p>The important take away here is we can now combine http verbs and paths to convey our intent to the api.  By using <code>'post /sleep'</code> the api knows ahh, create a new instance of sleep and by passing it parameters the api knows that we want to use those parameters as part of the sleep instance. How the api interprets this is the subject of the next section.</p>
-
-<p>Before moving on though, you might be asking, how does my device generate a request.  I&rsquo;ve already said that when you request a web page in a browser you&rsquo;re making a <code>get</code> request.  Also most programming languages have a library associated with http.  In javascript, the jquery library uses $.get to make requests.</p>
-
-<p>Let&rsquo;s take a quick field trip to check out a request in action.</p>
-
-<p>I&rsquo;ll open a chrome browser which is using a chrome extension called POSTMAN.  POSTMAN allows me to make <code>http</code> requests using all of the verbs we were just talking about.  Without it, browsers are limited to <code>get</code> requests from the url window or <code>get</code> and <code>post</code> requests from an html form.  I&rsquo;m making the request to a completed version of our sails api, but don&rsquo;t worry about that for now.  I just want to show you an actual request in action.</p>
-
-<p>So I&rsquo;m going to make a request using the verb <code>get</code> to the path <code>/sleep</code>.  And when I send the request via POSTMAN I get back all 5 instances of our model.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;great&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:29:55.921Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:29:55.921Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:03.544Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:03.544Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;so-so&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:13.998Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:13.998Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">3</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;bad&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:21.294Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:21.294Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">4</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;hours_slept&quot;</span><span class="o">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;sleep_quality&quot;</span><span class="o">:</span> <span class="s2">&quot;bad&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;createdAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:25.998Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;updatedAt&quot;</span><span class="o">:</span> <span class="s2">&quot;2014-01-03T00:30:25.998Z&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">5</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So that&rsquo;s it, that&rsquo;s a request.</p>
-
-<p>Now, by making the <code>http</code> request to a server, we&rsquo;re indicating that some bit of code should be executed on the server as a result of making the request. The chunk of code that is executed is known as an action and these actions can be grouped together into a controller.</p>
-
-<p><strong>But how do we link the request to the controller and action?</strong>  Well, that&rsquo;s where routes come in.</p>
-
-<p>Routes are the instructions that tie the request to the controller and ultimately to the action.</p>
-
-<p>So from our earlier example, the route consists of the verb&mdash; <code>post</code>, the path&mdash; <code>/sleep</code> which forms the request and pairs it with the sleep controller and the create action.</p>
-
-<p>Although not part of the route per se, as we&rsquo;ve already seen parameters can also be part of the request and these parameters can pass information to the action.</p>
-
-<p>So let&rsquo;s review, we now understand how the request and response works with the http protocol, that the router uses routes to tie the requests to the controller and action.</p>
-
-<p><strong>So what does the action actually do?</strong>  The action is where the code resides to find one or more model instances, create a new model instance, update an existing model instance, or delete a model instance.</p>
-
-<p><strong>What is a model?</strong>  A model is a representation of the attributes that describe the data your api will be managing. Our sleep model consists of hours_slept, and sleep_quality and sails automatically adds an id, createdAt and updatedAt attributes.  The sleep model is an object so in addition to model attributes like hours_slept, the sleep model also has methods like find, create, update, and delete.  These are the methods that are called within our actions.  Now don&rsquo;t be confused by the fact that the actions and model methods have the same name, they share the same name because the action name relates to the ultimate model method the action will use.  As you&rsquo;ll see when building the api in the next episode, the actions combine code necessary to complete the request including calls to the model methods.</p>
-
-<p>Having this seperation between the model and the place where your data resides is important because you might want to store your model in a sql database at first but later move it to a mongo database.  Or you might be using data that doesn&rsquo;t come from a database but instead from some other api.  That&rsquo;s really the power of a framework like sails in that we can learn one way of finding, creating, updating and deleting our model, and then let sails worry about how it actually accesses and/or stores it at the level of a database or other data source.  In fact, the sails community provides us with different adapters like posgresql and mongo from which we can pick and choose where our data ultimately resides at will.</p>
-
-<p><strong>What is the model versus model instances.</strong>  Think of the model as the instructions for building something whereas an instance of that model is one of the things you&rsquo;ve built.</p>
-
-<p>So let&rsquo;s finish this episode with looking at the response. Depending upon the request, our action is responsible for finding, creating, updating or deleting instances of our model. We&rsquo;ve learned that the model methods are called by the action. The action then responds to the request with the status of the request along with any model instance or instances associated with the action.</p>
-
-<p>If you&rsquo;re new to this your head might start to spin a bit but don&rsquo;t panic in the next episode we&rsquo;ll use all of this conceptual knowledge to build our own restful json CRUD api.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">sailsCasts Answers: Ep5 - Where Should I Put the Assets in My Sails Project?</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -951,411 +759,38 @@
   
 
 
-<time datetime="2013-12-05T11:41:00-06:00" pubdate data-updated="true">Dec 5<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/8ugjV3dDmaU" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy and welcome back.</p>
-
-<p>So I&rsquo;ve seen a bunch of questions asking where should you put your assets in your sail&rsquo;s project. In this episode I&rsquo;m going to talk specficially about javascript and css assets.</p>
-
-<p>So, Sails uses <a href="http://gruntjs.com/">grunt</a> to manage assets.  And Grunt generically provides ways for you to automate repeititve tasks.  Sails uses grunt for tasks like syncing files between a project folder structure and the server&rsquo;s public folder, but as always, I&rsquo;m getting ahead of myself.</p>
-
-<p>The configuration of <code>grunt</code> is based upon a file called <code>Gruntfile.js</code> found in the root of your sails project.  There’s a lot going on in this file, however, again I’m going to concentrate on the javascript and css assets.</p>
-
-<h3>Your Project&rsquo;s Assets</h3>
-
-<p>When you first create a project, you have the option of using the <code>--linker</code> flag.  I&rsquo;m going to actually create two projects, one with the linker flag and one without.  Let&rsquo;s compare the two.  Both have an <code>/assets</code> folder.  But the project with linker, not surprisingly has a <code>/linker</code> folder and that&rsquo;s within the <code>/assets</code> folder.  In the linker example, an additional <code>/templates</code> folder is also created.</p>
-
-<p><strong>USING</strong> the <code>--linker</code> flag</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>/assets
-</span><span class='line'>  /images
-</span><span class='line'>  /linker
-</span><span class='line'>    /js
-</span><span class='line'>    /styles
-</span><span class='line'>    /templates
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>NOT USING</strong> the <code>--linker</code> flag</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>/assets
-</span><span class='line'>  /images
-</span><span class='line'>  /js
-</span><span class='line'>  /styles
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>The Server&rsquo;s Public Folder</h3>
-
-<p>Okay, great we have a <code>/linker</code> folder, but so what?  Well, let&rsquo;s add some javascript and css to both projects and see what happens. I&rsquo;ve replaced the <code>index.ejs</code> file in the `/views/home&#8217; folder of both projects with some very basic mark-up.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>Custom View<span class="nt">&lt;/h1&gt;</span>
-</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;custom&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, I added jquery to the <code>/js</code> folder of both projects.  I also added my own javascript file &mdash; <code>custom.js</code> to the <code>/js/</code> folder.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.custom&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;&lt;h1&gt;Yes Irl, javascript is here and if I&#39;m red css is working as well.&lt;/h1&gt;&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.custom&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;working&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Finally I added custom.css in the <code>/styles</code> folder:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.working</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If the javascript and css are being linked properly, this is what our page should look like.</p>
-
-<p>The custom.js file appends some html to the div in the <code>index.js</code> file. Then it will add a new class <code>working</code> to the div which will trigger the css located in the <code>custom.css</code> file.</p>
-
-<p>Let&rsquo;s take a look at the project where we used the <code>--linker</code> flag first.  I&rsquo;ll start sails using <code>sails lift</code>.  The first thing you&rsquo;ll notice is that a hidden <code>.tmp</code> folder is created. This is the server&rsquo;s public folder.  Opening up this folder reveals files that have been sync&rsquo;d with the <code>/assets</code> folder.  So we can see that jquery.js, custom.js, and custom.css files have all been copied into the public folder.  Next, I&rsquo;ll open up a browser and enter <code>localhost:1337</code>.  Our heading showed up, but something&rsquo;s up with my javascript because the appended html isn&rsquo;t showing up.  Let&rsquo;s take a look at the console.  Okay, there&rsquo;s our problem.  Jquery isn&rsquo;t being loaded.  Let&rsquo;s take a look at the page&rsquo;s source.  Jquery is there, however, it&rsquo;s being loaded in the wrong order.  You might be asking yourself, how, did those links make it into page in the first place.  That&rsquo;s where some addition Grunt magic happens.  Let&rsquo;s take a look at our layout.ejs file.</p>
-
-<p>Here is where the javascript links have been placed.  Notice the two tags SCRIPTS and SCRIPTS END.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--SCRIPTS--&gt;</span>
-</span><span class='line'><span class="c">&lt;!--SCRIPTS END--&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is where Grunt will place links to any javascript files placed in the <code>/assets/linker/js</code> folder.  Grunt will also do this for our css between thse two tags, the STYLES and STYLES END:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--STYLES--&gt;</span>
-</span><span class='line'><span class="c">&lt;!--STYLES END--&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you may have noticed these <code>socket.io.js</code>, <code>sails.io.js</code>, and <code>app.js</code> files that are being injected into <code>layout.ejs</code>. Not surprisingly these files have to do with socket.io and sails, however, for the purposes of this screencast we can ignore those files.</p>
-
-<p>But we still have this ordering problem with jquery.  To fix this we can go back into the <code>Grunfile.js</code> and towards the top of this file is where Grunt is cofigured to inject css and javascript into <code>layout.ejs</code>.  I&rsquo;m going to put a path to jquery below some other javascript files but before this default &ldquo;catch-all&rdquo; link and I say catch-all link because as you can see with these astericks, grunt is going to look at the linker folder and any folder underneath the linker folder it&rsquo;s going to look for any files with the .js ending. It&rsquo;s going to take those files and place them in between these two tags.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">jsFilesToInject</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Below, as a demonstration, you&#39;ll see the built-in dependencies </span>
-</span><span class='line'>    <span class="c1">// linked in the proper order order</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Bring in the socket.io client</span>
-</span><span class='line'>    <span class="s1">&#39;linker/js/socket.io.js&#39;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// then beef it up with some convenience logic for talking to Sails.js</span>
-</span><span class='line'>    <span class="s1">&#39;linker/js/sails.io.js&#39;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// A simpler boilerplate library for getting you up and running w/ an</span>
-</span><span class='line'>    <span class="c1">// automatic listener for incoming messages from Socket.io.</span>
-</span><span class='line'>    <span class="s1">&#39;linker/js/app.js&#39;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// *-&gt;    put other dependencies here   &lt;-*</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="s1">&#39;linker/js/jquery.js&#39;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// All of the rest of your app scripts imported here</span>
-</span><span class='line'>    <span class="s1">&#39;linker/**/*.js&#39;</span>
-</span><span class='line'>  <span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So now jquery will be loaded before any other javascript files located in the <code>assets/linker/js</code> folder.  Let&rsquo;s restart the sails server and go back to the browser and reload the page.  Great now links to both our javascript and css files are being injected correctly.  And just to make sure let&rsquo;s go back to the source.  And yes, we can see here that jquery is now being loaded before custom.js.</p>
-
-<p>So to sum it up, having the linker folder provides for the automatic injection of links to any javascript or css files that are placed in the &lsquo;assets/linker/js&rsquo; or &lsquo;assets/linker/styles&rsquo; folders.  Grunt based upon Gruntfile.js injects the links in <code>layout.ejs</code>.</p>
-
-<p>Now let&rsquo;s look at the project that doesn&rsquo;t have a linker folder.  When I start the sails server for this project using <code>sails lift</code>, the hidden <code>.tmp</code> folder is also created.  The javascript and css files are copied into the public folder this time without the <code>/linker</code> folder. I&rsquo;ll open up a browser and again go to <code>localhost:1337</code>.</p>
-
-<p>This time, however, we don&rsquo;t have the appended text from the <code>custom.js</code> file nor the red color to the text from the <code>custom.css</code> file.  Why is that?  If we look at the <code>layout.ejs</code> file, you&rsquo;ll notice that the STYLE and SCRIPT tags are missing.  These are automatically inserted when using the linker flag.  Therefore, grunt doesn&rsquo;t have these tags to tell it where to put the javascript and css file paths.</p>
-
-<p>We can &ldquo;upgrade&rdquo; this project simply by adding the tags in <code>layout.ejs</code>.  We also need to remove the paths that were initially added to layout.ejs when the project was created.  Now let&rsquo;s go into Gruntfile.js and insert the path to jquery like we did in the linker example.  Finally we&rsquo;ll need to move the css and javascript assets we currently have under a <code>/linker</code> folder.  Now when I start sails and open a browser, the appended html is displayed in red, just as we expected.  Looking at the page source, the css and javascript were injected properly and in the correct order into the page.</p>
-
-<p>I hope you found this helpful and thanks as always for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2014-01-14T14:40:00-06:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time>
       
-  <header>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs&#8230;really?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
+      <div class="sharing">
   
-
-
-<time datetime="2013-11-20T15:08:00-06:00" pubdate data-updated="true">Nov 20<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/TBj8RGS88jE" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy and welcome to another thought provoking, informative sailscasts answers.  Okay, maybe that&rsquo;s a bit of a stretch but welcome all the same.  I&rsquo;ve been asked a number of times how to implement a more attractive url system in sails&hellip;commonly using slugs.</p>
-
-<p>Let&rsquo;s take a look at an example. In activityOverlord when you&rsquo;re on the user profile page, the url is something like this <code>http://localhost:1337/user/show/5220fa7b8764043122000001</code>.  The ending part here is a mongoid.  And that id is not very human friendly.  What would be better is to have something like the person&rsquo;s username.  I&rsquo;ll be doing a separate episode incorporating attrative urls into activityOverlord, however, in this screencast I&rsquo;m going to show you how to do it generically for any project.</p>
-
-<p>So I&rsquo;ll create a new project called slugsville by entering <code>sails new slugsville --linker</code> with the linker flag.  Next I&rsquo;ll change into the slugsville folder and generate a user controller and model using <code>sails generate user</code>.  So, let&rsquo;s take a look at the user model.  I&rsquo;m going to paste in attributes for name, company, email, and phone as well as an attribute called slug.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">attributes</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">name</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
-</span><span class='line'>      <span class="p">},</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">slug</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">},</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">email</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">email</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">unique</span><span class="o">:</span> <span class="kc">true</span>
-</span><span class='line'>      <span class="p">},</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">company</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
-</span><span class='line'>      <span class="p">},</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">phone</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let&rsquo;s switch to the user controller. I have a fairly generic create action that creates a user with params I&rsquo;ll send through the  <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">Postman</a> chrome extension and then we&rsquo;ll return a json object.  When the user is created, however, we need to put some logic in that will process the username removing any spaces and lower casing the string before saving the value into the slug model attribute.  We&rsquo;ll do this by adding a <code>beforeCreate()</code> method to our <code>User</code> model.</p>
-
-<p>So going back to the <code>User</code> model, I&rsquo;ll add the <code>beforeCreate()</code> method first chekcing whether <code>name</code> exists and then assigning the <code>slug</code> attribute the value of name with no spaces and all lowercase.  Finally we&rsquo;ll use the next() method to continue.  Let&rsquo;s see if that worked.</p>
-
-<p>I&rsquo;ll go into the terminal and start the sails server using <code>sails lift</code>.  Next, we&rsquo;ll go into the browser and using the postman chrome extension, I&rsquo;ll create a new user with the following attributes.  And great both the user and more importantly the slug were created.</p>
-
-<p>So now let&rsquo;s use this slug as a route parameter.  I&rsquo;ll head over into the `/config/routes.js file located in the config folder where we&rsquo;ll create two routes.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">routes</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="s1">&#39;get /:slug&#39;</span><span class="o">:</span> <span class="s1">&#39;UserController.profile&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s1">&#39;get /user/:slug&#39;</span><span class="o">:</span> <span class="s1">&#39;UserController.profile&#39;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// By default, your root route (aka home page) points to a view</span>
-</span><span class='line'>  <span class="c1">// located at `views/home/index.ejs`</span>
-</span><span class='line'>  <span class="c1">// </span>
-</span><span class='line'>  <span class="c1">// (This would also work if you had a file at: `/views/home.ejs`)</span>
-</span><span class='line'>  <span class="s1">&#39;/&#39;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">view</span><span class="o">:</span> <span class="s1">&#39;home/index&#39;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Both <code>/:slug</code> and <code>/user/:slug</code> will bind themselves to the profile action of the User controller.  In the User controller, I&rsquo;ll create an action called profile. Next I&rsquo;ll grab the slug param and assign it to the var slug.  I want to let anything we catch with the slug param that has a dot in it like <code>image.png</code> to pass through without hitting our find method.  That way we reduce the overhead of searching for a user for params we know are not a name.  So if the param has a dot in it, we&rsquo;ll return next() which will continue to the next piece of middleware (if any).</p>
-
-<p>Next, we&rsquo;ll try to find a user by the slug attribute passing in the slug variable we obtained form the param.  If we don&rsquo;t find a user, we&rsquo;ll again return <code>next()</code>.  If we do have a user I&rsquo;m going to pass the entire user object to the view, in this case <code>profile.ejs</code>.</p>
-
-<p><code>profile.ejs</code> is a simple view template that displays the user name, company, email, and phone.  Finally, I&rsquo;m going to go back to the User controller and add a foo action to make sure that my action blueprint routes still work.  If your not familiar with blueprint routes, I&rsquo;m currently working on episode explaining blueprint routes, the first of which is devoted to action routes.  Here I&rsquo;m just adding the action foo that will return a 200 response.</p>
-
-<p>Okay, let&rsquo;s see if all of this worked?  First, I&rsquo;m going to create a few other users within postman.  Here&rsquo;s a list of our users.  I can still access them via the id using <code>/user/1</code>.  But now I can access them by their username either at <code>/username</code> or <code>/user/username</code>.  I can also access my foo action.</p>
-
-<p>I think that&rsquo;s a much better approach.  I&rsquo;ve left a link to this project&rsquo;s repo here if your interested and I hope that it was helpful and as always thanks for watching.</p>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a></h1>
-    
-    
-      <p class="meta">
-        
+        <a class="basic-alignment left" href="/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/" title="Previous Post: sailsCasts Answers: Ep6 - How does the http request/response protocol work  with routes">&laquo; sailsCasts Answers: Ep6 - How does the http request/response protocol work  with routes</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-19T15:02:00-06:00" pubdate data-updated="true">Nov 19<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/KYaAf9itjjo" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy, I was recently asked whether there was a way to create dummy or fake data for testing  in a sails project.  One way to accomplish this is using <code>/config/bootstrap.js</code>.  Although I can automate the creation of the users, I’ll still need some fake users for sails to create.  Instead of manually typing in each user’s attributes, I found this really handy online tool called <a href="http://www.generatedata.com/">generatedate</a>.  You have a bunch of options of how you want your data generated.  In this example I&rsquo;ll select name, company, and email selecting the simple json format.  I’ll copy all of these users and head over to the <code>bootstrap.js</code> file.</p>
-
-<p>I&rsquo;ll copy our new users into an array called dummyUsers.  Next I&rsquo;ll use the <code>count()</code> method on our <code>user</code> model.  If there are any records in the User model than I&rsquo;ll call the callback and nothing will be altered in the database.  However, if there is no data in the model, I&rsquo;ll use the <code>create()</code> method on the User model, passing in the array <code>dummyUsers</code> and then calling the callback.  Note that the <code>boostrap.js</code> is run once each time sails is started via <code>sails lift</code>.</p>
-
-<p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
-
-<p>I’ve posted a link to the <a href="https://github.com/irlnathan/sails-bootstrap-example">github repo</a> of this project and I hope this was helpful.  Thanks as always for watching.</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
+  </section>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/sailscasts/blog/page/2/">&larr; Older</a>
-    
-    <a href="/sailscasts/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -1375,11 +810,11 @@
       </li>
     
       <li class="post">
-        <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs&#8230;really?</a>
+        <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs...really?</a>
       </li>
     
       <li class="post">
-        <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a>
+        <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample 'Dummy' Users for My Sails Project?</a>
       </li>
     
   </ul>
@@ -1391,6 +826,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
@@ -1406,7 +842,10 @@
       var disqus_shortname = 'sailscasts';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
