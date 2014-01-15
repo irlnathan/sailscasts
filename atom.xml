@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2014-01-14T14:46:10-06:00</updated>
+  <updated>2014-01-14T18:34:27-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -18,7 +18,7 @@
     <link href="http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/"/>
     <updated>2014-01-14T14:40:00-06:00</updated>
     <id>http://irlnathan.github.io/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch</id>
-    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/640cL3aFfA8" frameborder="0" allowfullscreen></iframe>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/Hr8axUV6NpM" frameborder="0" allowfullscreen></iframe>
 
 
 <p>The repo for this project can be found here: <a href="https://github.com/irlnathan/sails-crud-api">https://github.com/irlnathan/sails-crud-api</a></p>
@@ -37,7 +37,7 @@
 <li>So the <strong>find</strong> request will use the http verb <code>get</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and <code>find</code> action.</li>
 <li>The <strong>create</strong> request will use the  verb <code>post</code> with the path <code>/sleep</code> and bind to the <code>sleep</code> controller and the <code>create</code> action.</li>
 <li>The <strong>update</strong> request will use the verb <code>put</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and the <code>update</code> action.</li>
-<li>and finally, the <strong>delete</strong> request will use the  verb <code>delete</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and because <code>delete</code> is a key word in javascript we&rsquo;ll rename the action to <code>destroy</code>.</li>
+<li>and finally, the <strong>delete</strong> request will use the  verb <code>delete</code> with the path <code>/sleep/:id?</code> and bind to the <code>sleep</code> controller and <code>destroy</code> action.</li>
 </ul>
 
 
