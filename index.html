@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="The repo for this project can be found here: https://github.com/irlnathan/sails-crud-api Transcript Howdy and welcome back to part II of our three &hellip;">
+  <meta name="description" content="The repo for this episode can be found here: https://github.com/irlnathan/sails-crud-api-sailsAnswers8 Transcript Howdy and welcome back. You&rsquo; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,158 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-17T17:43:00-06:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
+        
+           | <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/EnKRrdTi_gk" frameborder="0" allowfullscreen></iframe>
+
+
+<p>The repo for this episode can be found here: <a href="https://github.com/irlnathan/sails-crud-api-sailsAnswers8">https://github.com/irlnathan/sails-crud-api-sailsAnswers8</a></p>
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.  You&rsquo;re watching the third and final installment of our three part series.  In part one we learned how the http request/response protocol works with routes, controllers, actions and models to deliver a restful json CRUD api.  In part two we took those concepts and built the api from scratch.</p>
+
+<p>In this episode we&rsquo;ll explore Sails <strong>blueprint: actions and routes</strong>, a powerful combination of functionality that are often used but not always fully understood.  The goal of this episode is to show you what the blueprints are all about and how to use them to make your programming life a bit easier. So where are we going to start?</p>
+
+<p>First a small warning here. This episode relies heavily on the previous two screencasts, so if you start to experience dizziness, tightness in the chest, or depression, I highly recommend you review those screencasts.</p>
+
+<p>Let&rsquo;s take a look at the roadmap of what we&rsquo;ll be covering in this episode.</p>
+
+<p>There are four pre-built <em>blueprint: actions</em> (e.g. <code>find</code>, <code>create</code>, <code>update</code> and <code>destroy</code>).  As we&rsquo;ll see in a minute, these four actions  map directly to the CRUD api we buit in the last episode.  There are also three blueprint: route types, blueprint: actions routes, blueprint: rest routes, and blueprint: shortcuts routes.</p>
+
+<p>I want to make one thing very clear from the beginning.  Blueprint: actions and blueprint: routes are virtualized in the sense that they are not explicitedly defined in controller files like SleepController.js or the routes.js file.  Instead, they&rsquo;re  built-up when sails starts using <code>sails lift</code>.  But as usual I&rsquo;m getting ahead of myself.</p>
+
+<p>Let&rsquo;s start with seeing what happens when we combine  blueprint: actions and blueprint: rest routes.</p>
+
+<p>So in the last episode I went over in excrutiating detail, how to make a restful json CRUD api.  The goal of api was to track our sleep patterns, specifically how much we sleep each night and the quality of that sleep.  The best way to show you how blueprints help you automate the creation of an api is to repeat the process of building the restful json CRUD api, however, add the power of blueprints.</p>
+
+<p>Let&rsquo;s jump in here and create a new mySleep project.  I&rsquo;m in the terminal and will create the project using <code>sails new mySleep --linker</code> with the linker flag.  Next, I&rsquo;ll change into the mySleep folder and create a <code>sleep</code> model and controller using <code>sails generate sleep</code>.  Finally, I&rsquo;ll start the project using <code>sails lift</code>.  Okay, we&rsquo;re done, the api is complete.</p>
+
+<p>But you DON&rsquo;T believe me? After all we&rsquo;ve been through.  Well I guess I&rsquo;ll have to prove it to you.</p>
+
+<p>Seriously though, everything we did in the last episode was just built with those three commands.</p>
+
+<p>I&rsquo;ll open a browser and once again using the POSTMAN chrome extension I&rsquo;ll make similar requests that we made in the last episode that relate to a CRUD api…</p>
+
+<p><strong>Let&rsquo;s start with the Create portion of CRUD.</strong> I&rsquo;ll add an instance to the sleep model using the http verb <code>POST</code> to the path <code>/sleep</code> adding two parameters <code>hours_slept</code> and <code>sleep_quality</code>.  After sending the request the api returns our newly created record as json.  In fact, I&rsquo;ll make four more model instances inserting different values for <code>hours_slept</code> and <code>sleep_quality</code>.</p>
+
+<p><strong>Next we&rsquo;ll try the Read portion of CRUD.</strong> Let&rsquo;s get all of the model instances by making a <code>GET</code> request to the path <code>/sleep</code>. After sending the request the api returned all five instances of the model:</p>
+
+<p>Next, let&rsquo;s make a <code>GET</code> request to the path <code>/sleep/2</code>.  The api returns a single instance of the model with an <code>id</code> of 2:</p>
+
+<p>Now let&rsquo;s try a request with some criteria.  We&rsquo;ll look for any model instances with an <code>id</code> not equal to 4, limited to 3 model instances and in descending order.</p>
+
+<p>After making the request, the api returns three instances of the model in descending order.</p>
+
+<p>Things are looking up for my assertion that our api was indeed complete.</p>
+
+<p><strong>Next up, we&rsquo;ll try the Update portion of CRUD api.</strong> I&rsquo;m going to make a <code>put</code> request to the path:</p>
+
+<p><code>http://localhost:1337/sleep/3?added_attrib=12</code></p>
+
+<p>After making the request, the api returns our instance of the model that has an id of <code>3</code> with our added attrib formatted as json.</p>
+
+<p><strong>Finally, we&rsquo;ll try the Delete portion of our CRUD api.</strong> Once again within the POSTMAN chrome extension I&rsquo;ll make a delete request to the path:</p>
+
+<p><code>destroy</code> <code>http://localhost:1337/sleep/5</code></p>
+
+<p>After sending the request the api responds with the model instance it just deleted formatted as json.</p>
+
+<p>Let&rsquo;s take a quick check of the controller we created in <code>controllers/SleepController.js</code>. Yep, nothing in it.  Next let&rsquo;s look at the <code>config/routes.js</code> file.  Pretty much the same, nothing in there except the <code>home</code> route.</p>
+
+<p>So at this point your probably wondering how in the heck are we able to use the same restful api end points that we used in the last episode BUT without any explicit actions are routes?</p>
+
+<p>Is it mind control?</p>
+
+<p>The really short answer is that we&rsquo;re using blueprint: actions and blueprint: rest routes to automate the process of building the api. The next question is, how do they work?</p>
+
+<p>When sails initially starts using sails lift, sails looks to see if you have any controller&rsquo;s defined.  In our example, we have one controller, the Sleep controller.  Sails then provides access to blueprint: actions for this sleep controller as if we built them in the controller ourselves.  Sails also automatically creates blueprint: rest routes that are identical to the routes we explicitedly created in the last episode.  When combined together, the blueprint: actions  and blueprint: rest routes, give us the exact functionality we had in our manually created json restful CRUD api without having to create anything other than a project,  an empty controller, and an empty model.</p>
+
+<p>So where are the blueprint: actions actually defined? Okay, nerd alert here, and when I say nerd alert, I&rsquo;m starting with myself, you can see what the actions look like by taking a look at the sails source <a href="https://github.com/balderdashy/sails/tree/master/lib/hooks/controllers">here</a> on github.   Looking at these actions they look very similar to the ones we created in the last episode.  The difference is that sails handles all of this in the background, creating the necessary blueprint: rest routes that connect the actions to our controllers automatically.  Again, this is all happening in memory without you having to explicitedly create anything.</p>
+
+<p>Also, remember, that the mySleep project we&rsquo;ve been working through uses a single controller.  The blueprint: actions and blueprint: rest routes are not limited to a single controller so for a more complex project, with multiple controllers, sails blueprints: rest routes are built automatically for all of the controllers.</p>
+
+<p>You can of course override any of the actions by explicitedly creating one of the actions in your controller.  For example, I&rsquo;ll go back to the SleepController, and create a find action that simply responds with &ldquo;I&rsquo;m your new explicit find action&rdquo; upon request.  Let&rsquo;s restart the server and go back into the browser.  I can still use the <code>create</code>, <code>update</code>, and <code>delete</code> actions, however, now when I make a <code>get</code> request to the path /sleep, I now receive our message .</p>
+
+<p>So with sails you get the blueprint: actions and the blueprint: rest routes but wait there&rsquo;s more!  Sorry, couldn&rsquo;t resist that.  In addition, sails also provides blueprint: action routes, not to be confused with blueprint: actions.</p>
+
+<p>blueprint: action routes speed up backend development and shorten the development workflow by eliminating the need to manually bind custom controller actions to requests through routes.</p>
+
+<p>So when sails starts via sails lift, sails analyzes your controllers and if it finds an explicit action in a controller, it will bind <code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> routes to the explicit action.  For example, in our sleep project, I&rsquo;ve added the action <code>query</code> to the sleep controller.  So when sails starts, using <code>sails lift</code>, sails will automatically build the following blueprint: actions routes:</p>
+
+<ul>
+<li><code>'get /sleep/query/:id?: UserController.query'</code></li>
+<li><code>'post /sleep/query/:id?: UserController.query</code></li>
+<li><code>'put /sleep/query/:id?: UserController.query</code></li>
+<li><code>'delete /sleep/query:id?: UserController.query'</code></li>
+</ul>
+
+
+<p>Let&rsquo;s see it in action.  I&rsquo;ll open a browser and make a  <code>get</code> request to the path <code>/sleep/query</code>.  The <code>query</code> action responds with a view that can be found in views/sleep/query.ejs.</p>
+
+<p>The important take-away here is that when I created a new action, in this case, the <code>query</code> action, I didn&rsquo;t have to create a route to bind a request to that action.  By using blueprint: actions routes sails did this for me automatically.</p>
+
+<p>So let&rsquo;s go back to our blueprint: roadmap.  So far we&rsquo;ve covered blueprint: CRUD actions as well as blueprint: rest routes and blueprint: actions routes.  The final blueprint: route type is blueprint: shortcuts.</p>
+
+<p>blueprint: shortcuts build routes that allow you to use the blueprint: actions from a browser.  I use blueprint: shortcuts during development as a handy way to manipulate my underlying model.</p>
+
+<p>The best way to see how this works is through an example.</p>
+
+<p>I can grab a list of all my model instances using the url <code>/sleep</code>.  I can create a new model instance using the url &lsquo;/sleep/create&rsquo; and adding the parameters sleep_quality and hours_slept.  I can also update that same instance using the url <code>/sleep/update</code> with the <code>id</code> of <code>8</code> and changing hours_slept from <code>10</code> to <code>9</code>.  Finally, I&rsquo;ll delete the model instance by using the url <code>/sleep/destroy/6</code>.</p>
+
+<p>One bit of caution.  blueprint: shortcuts were not designed to be used in production.  So how do we disable parts of the blueprints?</p>
+
+<p> The <code>blueprint: routes</code> and <code>blueprint: actions</code> are completely configurable.  That is, they can be disabled simply by setting the values of actions, rest, and/or shortcuts to <code>false</code> in the <code>\config\controllers.js</code> file.  You can have even finer granularity by setting the same values in  the <code>_config</code> object within each controller which will override what is in <code>\config\controllers.js</code> file.</p>
+
+<p>Okay, we have a bunch of routes here, but how do they all fit together.  So all of these different routes have an order of precedence or rank.  When a request comes in sails first checks the explicit routes in routes.js.  Next it will look to see if there&rsquo;s a match in the blueprint: actions routes, followed by the blueprint: rest routes and finally, sails will see if there&rsquo;s a match in the blueprint: shortcuts routes.</p>
+
+<p>So if there&rsquo;s a <code>get</code> request to the root route, sails will route it via <code>routes.js</code> to render <code>views/home/index.ejs</code>.</p>
+
+<p>If there&rsquo;s a <code>get</code> request to <code>/sleep/query</code>, sails, finding no match in <code>routes.js</code>, will look to the blueprint: action routes and finding a match will route the request to the explicit <code>query</code> action of the Sleep Controller.</p>
+
+<p>If there&rsquo;s a <code>delete</code> request to <code>/sleep/5</code>, sails, finding no match in <code>routes.js</code> or blueprint: action routes, will look to the blueprint: rest routes and finding a match will route the request to the blueprint: destroy action, returning a json object if successful.</p>
+
+<p>Finally, if there&rsquo;s a reqest to <code>get</code> <code>/sleep/update/2</code> with some params, sails, finding no match in <code>routes.js</code>, blueprint: action nor rest routes, will look to the blueprint: shortcut routes and finding a match will route the request to the blueprint: CRUD update action, passing any params to the model&rsquo;s <code>update</code> method returning a json object if successful.</p>
+
+<p>In this series we&rsquo;ve learned the concepts of how to use the http request/response protocol with routes, controllers, actions and models to deliver a restful json CRUD api.  Using those concepts we&rsquo;ve built the api from scratch.  Hopefully, after this episode it becomes apparent that blueprint: actions and routes are really about automation.   That is, eliminating the necessity of writing, at least initially, repetitive actions and routes during development.</p>
+
+<p>We&rsquo;ve covered a lot of material and I hope you&rsquo;ve found it helpful.  As always thanks for watching and if you get a chance follow me on twitter at irlnathan.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1300,56 +1452,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-19T15:02:00-06:00" pubdate data-updated="true">Nov 19<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/KYaAf9itjjo" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy, I was recently asked whether there was a way to create dummy or fake data for testing  in a sails project.  One way to accomplish this is using <code>/config/bootstrap.js</code>.  Although I can automate the creation of the users, I’ll still need some fake users for sails to create.  Instead of manually typing in each user’s attributes, I found this really handy online tool called <a href="http://www.generatedata.com/">generatedate</a>.  You have a bunch of options of how you want your data generated.  In this example I&rsquo;ll select name, company, and email selecting the simple json format.  I’ll copy all of these users and head over to the <code>bootstrap.js</code> file.</p>
-
-<p>I&rsquo;ll copy our new users into an array called dummyUsers.  Next I&rsquo;ll use the <code>count()</code> method on our <code>user</code> model.  If there are any records in the User model than I&rsquo;ll call the callback and nothing will be altered in the database.  However, if there is no data in the model, I&rsquo;ll use the <code>create()</code> method on the User model, passing in the array <code>dummyUsers</code> and then calling the callback.  Note that the <code>boostrap.js</code> is run once each time sails is started via <code>sails lift</code>.</p>
-
-<p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
-
-<p>I’ve posted a link to the <a href="https://github.com/irlnathan/sails-bootstrap-example">github repo</a> of this project and I hope this was helpful.  Thanks as always for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/2/">&larr; Older</a>
@@ -1365,6 +1467,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a>
       </li>
     
@@ -1378,10 +1484,6 @@
     
       <li class="post">
         <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs&#8230;really?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a>
       </li>
     
   </ul>

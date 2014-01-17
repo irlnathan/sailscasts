@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Transcript Howdy and welcome back. Like most of episodes this one is going to move quickly. I do this so they don’t go on forever, however, I highly &hellip;">
+  <meta name="description" content="Transcript Howdy, I was recently asked whether there was a way to create dummy or fake data for testing in a sails project. One way to accomplish &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-19T15:02:00-06:00" pubdate data-updated="true">Nov 19<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/KYaAf9itjjo" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy, I was recently asked whether there was a way to create dummy or fake data for testing  in a sails project.  One way to accomplish this is using <code>/config/bootstrap.js</code>.  Although I can automate the creation of the users, I’ll still need some fake users for sails to create.  Instead of manually typing in each user’s attributes, I found this really handy online tool called <a href="http://www.generatedata.com/">generatedate</a>.  You have a bunch of options of how you want your data generated.  In this example I&rsquo;ll select name, company, and email selecting the simple json format.  I’ll copy all of these users and head over to the <code>bootstrap.js</code> file.</p>
+
+<p>I&rsquo;ll copy our new users into an array called dummyUsers.  Next I&rsquo;ll use the <code>count()</code> method on our <code>user</code> model.  If there are any records in the User model than I&rsquo;ll call the callback and nothing will be altered in the database.  However, if there is no data in the model, I&rsquo;ll use the <code>create()</code> method on the User model, passing in the array <code>dummyUsers</code> and then calling the callback.  Note that the <code>boostrap.js</code> is run once each time sails is started via <code>sails lift</code>.</p>
+
+<p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
+
+<p>I’ve posted a link to the <a href="https://github.com/irlnathan/sails-bootstrap-example">github repo</a> of this project and I hope this was helpful.  Thanks as always for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1558,82 +1608,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Building a Sails Application: Ep22 - Manipulating the DOM Based Upon Changes via Real Time Model Events.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-10T17:30:00-05:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/oVrJ9NKjt0s" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy and welcome to the second part of these screencasts dealing with real-time events. In this episode we’ll implement much of the client side portion of our code.  As I said at the end of the last episode, you can implement your front-end, however, you’d like.  I’m just learning the front-end so I wanted to start with server-side views and then refactor what I’ve done to include a framework like backbone to transition into a single page application.  That, however, is for another day and here we’ll manipulate the DOM within our server-side views.</p>
-
-<p>So let’s go back to the app.js file located in the <code>assets/linker/js</code> directory and our event listener for the event message.  As you may recall, within this file we’ve established a connection with the socket server, subscribed to our User model’s “class” room and “instance” room via <code>socket.get()</code>.  And we’re now awaiting message via <code>socket.on('message', function(){})</code>.</p>
-
-<p>Now in addition to logging this message I want to make changes to the DOM depending upon the contents of the message.  To make the code cleaner, I’m going to define the callback function outside the event listener.</p>
-
-<p>Once again I’m not the most imaginative person when it comes to function names and as proof of this I’m going to name the callback <code>cometMessageReceivedFromServer</code>.  This will be the method that will route our messages depending upon the model that is being updated. And we’ll define it down here at the bottom of the app.js file.  I’m still going to log the message for debug purposes but now I’m going to check if the message is coming from the user model and if it is I’m going to call a new custom method called updateUserInDom and pass it the userId and the message.</p>
-
-<p><code>updateUserInDom</code> is going to determine which page will ultimately receive the changesand route it to the appropriate method for that page.  So in this case, the receiving page is <code>/user</code> or the User Administration Page and since the action or verb is update, we’re going to route the message to the <code>updateUser</code> method of an object called IndexPage. Remember these are all custom methods that I’m creating and have nothing to do with sails.</p>
-
-<p>The <code>updateUser</code> method is where we’ll update the DOM to display the <code>icon-online.png or icon-offline.png</code> depending upon the value of loggedIn.  If you take a look at the index.ejs file under the <code>views/user</code> directory, I’m populating each row of DOM with two custom data attributes, data-id and data-model.  These are then used as jquery criteria for identifying DOM elements.  So we’ll find the row of the user id that we want to change and then replace the image src with the correct icon.  Let’s see if it works</p>
-
-<p>As you can see, the login status icon changes immediately when another user logs in or out.</p>
-
-<p>What about when a new user is created?  We want to update the User Administration Page with the new user or deleted user and their login status.</p>
-
-<p>To do this we’ll use the <code>publishCreate and publishDestroy</code> methods.  So we head over to the create action of the user controller and insert the <code>publishCreate</code> method passing the created user as an argument. Then we’ll look at the destroy action and insert our <code>publishDestroy</code> method passing the id of the user that was destroyed.  That’s it for the server-side.  Back to the client and our app.js file.  We’ll start at our old friend <code>cometMessageReceivedFromServer</code> method.  From there we’ll proceed to the <code>updateUserInDom</code> method where the receiving page will again be <code>/user</code> or the User Administration page. But here we’ll two cases to our switch statement. One for the create action and one for the destroy action.  For the create action we’ll use the <code>addUser</code> method.  To clean things up and to show some functionality I’m going to use a template using the underscore library.  So let’s take a look at the template, which I’ve stored in the <code>linker/assets/templates</code> directory.</p>
-
-<p>This template represents one row of the User Administration Page. Before using this template there were a few things I needed to set-up. The first was to add the underscore library to <code>linker/assets/js</code> directory.  Next, I made a slight change to the Gruntfile, changing the default template files to inject, from html to ejs.  Finally, because we are using a hidden form for the delete button action, we need to have access to the csrf token.  Since the template is added after the index.ejs page has been rendered on the server, we needed a way to get at the token.</p>
-
-<p>There are several different ways this can be done (including make an ajax call to the server via a <code>/csrfToken</code> route). However,  I decided to make a change to the layout.ejs file appending the csrf token to my own namespaced attribute on the global window object.   That way when the layout.ejs file is rendered, my object will be appended to the page.</p>
-
-<p> So back in the app.js file I’ve built up an object called obj with the user plus the csrf token we obtained from the layout.ejs file.</p>
-
-<p>Here, I’m using jquery to grab the last tr on the page and apply the template after that last tr tag, passing in the necessary data for the template in our obj object.</p>
-
-<p>But what about when a user is deleted?  That’s a lot easier. We’ll add the <code>destroyUser</code> method and use jquery to find the appropriate user and remove that row from the DOM.</p>
-
-<p>Woah&hellip;let’s see if all that stuff worked.  I’ll restart the server and log myself in the first browser and create a user in the second browser and great&hellip;the user was added to the DOM with the correct login status.  Now I’ll log out and login as another user, and this time delete the user we just created&hellip;and both sides updated like we wanted.</p>
-
-<p>There’s one more thing to add.  Each time the server comes up we want to make sure that the online attribute of each user is set to false.  For that we can the sails bootstrap config file.  Because I used an empty object as the first argument, all the users will be updated. The second argument is the attribute I want to update, in this case online is set to false.  Finally I’ll trigger the callback back to the middleware stack. Now every time you start  the server, users online attribute will be reset to false.</p>
-
-<p>That was a long one.  For those of you who made it through, I hope it was informative and as always thanks for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/3/">&larr; Older</a>
@@ -1651,6 +1625,10 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a>
       </li>
     
@@ -1664,10 +1642,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     
       <li class="post">
         <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs&#8230;really?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a>
       </li>
     
   </ul>
