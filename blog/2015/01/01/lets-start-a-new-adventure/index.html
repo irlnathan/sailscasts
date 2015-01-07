@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Sails Application: Ep3[Updated] - Creating a user model and controller - sailsCasts</title>
+  <title>Let's start a new adventure - sailsCasts</title>
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 3[Updated] you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints. ">
+  <meta name="description" content="Follow me on twitter here. Subscribe to the sailscasts mailing list here. Transcript Howdy all&hellip;Happy New Year, and welcome. Well for those of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller">
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure">
   <link href="/sailscasts/favicon.png" rel="icon">
   <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
@@ -80,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Building a Sails Application: Ep3[Updated] - Creating a User Model and Controller</h1>
+      <h1 class="entry-title">Let's Start a New Adventure</h1>
     
     
       <p class="meta">
@@ -96,7 +96,7 @@
   
 
 
-<time datetime="2013-08-25T17:46:00-05:00" pubdate data-updated="true">Aug 25<span>th</span>, 2013</time>
+<time datetime="2015-01-01T12:24:00-06:00" pubdate data-updated="true">Jan 1<span>st</span>, 2015</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
@@ -106,10 +106,24 @@
   </header>
 
 
-<div class="entry-content"><p>In episode 3[Updated] you&rsquo;ll build a user model and controller, set-up the signup page, and get a &lsquo;first-look&rsquo; at sails blueprints.</p>
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/EHIybLmoxfE" frameborder="0" allowfullscreen></iframe>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/qUAzpyThAB0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy all&hellip;Happy New Year, and welcome.</p>
+
+<p>Well for those of you who have listened to the previous activityOverlord screencasts the good news is I am armed with Keynote v6.5, which is filled with even more cheesey animations for me to abuse, the bad news is I&rsquo;m even older than I was in the last series of screencasts. Seriously though I think I can overcome that and take you on another programming journey, this time updating Activity Overlord to v2.0.  Now what&rsquo;s in v2.0? The major updates include using a bunch of new features in v0.11 of Sails as well as updating the front-end UI to use AngularJS.</p>
+
+<p>The current plan is to get the the original activityOverlord videos up to date ASAP.  Time permitting I&rsquo;ll continue making screencasts that take deeper dives into various concepts addressed in building the app.  The videos will be hosted on youtube under the ponzicoder channel with transcripts available at the following <a href="http://irlnathan.github.io/sailscasts/">gihub page</a>.  The source code is hosted in a repo on github <a href="github.com/irlnathan/activityoverlord20">here</a>. If you like what you see and want to make an old guy happy, please follow me on twitter <a href="https://twitter.com/irlnathan">here</a> and as important subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<p>If you find bugs feel free to send a pull request to this github repo &mdash; <a href="http://github.com/irlnathan/activityoverlord20.">http://github.com/irlnathan/activityoverlord20.</a>  If what I just said makes absolutely no sense, I&rsquo;ll be covering git and github in future screencasts.  If you have questions, there are a variety of forums to ask them.  The Sails irc channel, Stackoverflow using the tag sailsjs, and the Sails google group are all active.</p>
+
+<p>Needless to say I&rsquo;m really excited about this new series&hellip;and as always thanks for watching.</p>
 </div>
 
 
@@ -132,7 +146,7 @@
   
 
 
-<time datetime="2013-08-25T17:46:00-05:00" pubdate data-updated="true">Aug 25<span>th</span>, 2013</time>
+<time datetime="2015-01-01T12:24:00-06:00" pubdate data-updated="true">Jan 1<span>st</span>, 2015</time>
       
 
 
@@ -140,7 +154,7 @@
     
       <div class="sharing">
   
-  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/" >Tweet</a>
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/" >Tweet</a>
   
   
   
@@ -149,10 +163,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sailscasts/blog/2013/08/23/building-a-sails-application-ep3-creating-a-user-model-and-controller/" title="Previous Post: Building a Sails Application: Ep3 - Creating a user model and controller">&laquo; Building a Sails Application: Ep3 - Creating a user model and controller</a>
+        <a class="basic-alignment left" href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/" title="Previous Post: sailsCasts Answers: Ep8 - How do blueprint: actions and blueprint: routes work in sails?">&laquo; sailsCasts Answers: Ep8 - How do blueprint: actions and blueprint: routes work in sails?</a>
       
-      
-        <a class="basic-alignment right" href="/sailscasts/blog/2013/08/26/building-a-sails-application-ep4-creating-a-user-account/" title="Next Post: Building a Sails Application: Ep4 - Creating a user account">Building a Sails Application: Ep4 - Creating a user account &raquo;</a>
       
     </p>
   </footer>
@@ -218,8 +230,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/';
-        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2013/08/25/building-a-sails-application-ep3-update-creating-a-user-model-and-controller/';
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/';
         var disqus_script = 'embed.js';
       
     (function () {

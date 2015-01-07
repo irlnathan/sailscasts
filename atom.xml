@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2014-01-17T17:45:10-06:00</updated>
+  <updated>2015-01-07T12:31:54-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Let's start a new adventure]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/"/>
+    <updated>2015-01-01T12:24:00-06:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/EHIybLmoxfE" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy all&hellip;Happy New Year, and welcome.</p>
+
+<p>Well for those of you who have listened to the previous activityOverlord screencasts the good news is I am armed with Keynote v6.5, which is filled with even more cheesey animations for me to abuse, the bad news is I&rsquo;m even older than I was in the last series of screencasts. Seriously though I think I can overcome that and take you on another programming journey, this time updating Activity Overlord to v2.0.  Now what&rsquo;s in v2.0? The major updates include using a bunch of new features in v0.11 of Sails as well as updating the front-end UI to use AngularJS.</p>
+
+<p>The current plan is to get the the original activityOverlord videos up to date ASAP.  Time permitting I&rsquo;ll continue making screencasts that take deeper dives into various concepts addressed in building the app.  The videos will be hosted on youtube under the ponzicoder channel with transcripts available at the following <a href="http://irlnathan.github.io/sailscasts/">gihub page</a>.  The source code is hosted in a repo on github <a href="github.com/irlnathan/activityoverlord20">here</a>. If you like what you see and want to make an old guy happy, please follow me on twitter <a href="https://twitter.com/irlnathan">here</a> and as important subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<p>If you find bugs feel free to send a pull request to this github repo &mdash; <a href="http://github.com/irlnathan/activityoverlord20.">http://github.com/irlnathan/activityoverlord20.</a>  If what I just said makes absolutely no sense, I&rsquo;ll be covering git and github in future screencasts.  If you have questions, there are a variety of forums to ask them.  The Sails irc channel, Stackoverflow using the tag sailsjs, and the Sails google group are all active.</p>
+
+<p>Needless to say I&rsquo;m really excited about this new series&hellip;and as always thanks for watching.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sailsCasts Answers: Ep8 - How do blueprint: actions and blueprint: routes work in sails?]]></title>
@@ -2843,18 +2869,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <content type="html"><![CDATA[<p>In episode 17 you&rsquo;ll add a distinction between a regular user and an admin user through the use of additional policies.</p>
 
 <iframe width="640" height="360" src="http://www.youtube.com/embed/DI85AWW_TEk?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep16 - Fixing and issue with policies from episode 14.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14/"/>
-    <updated>2013-09-04T12:21:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/04/building-a-sails-application-ep16-fixing-and-issue-with-policies-from-episode-14</id>
-    <content type="html"><![CDATA[<p>In episode 16 you&rsquo;ll make a change to the policies and sign a user in when an account is created.  This will fix some stuff I forgot to do back in episode 14.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/-wF07sqGmW0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
