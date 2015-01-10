@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2015-01-07T12:31:54-06:00</updated>
+  <updated>2015-01-09T18:32:15-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Setting up the development environment and creating your first project]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/"/>
+    <updated>2015-01-09T18:21:00-06:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/mGrKLi54Xsg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.</p>
+
+<p>As in the previous series, I&rsquo;m going to assume you already have Node installed.  If you don&rsquo;t there&rsquo;s a bunch of helpful documentation on <a href="http://nodejs.org">nodejs.org</a> and installers for both Mac OS X and Microsoft Windows can be found <a href="http://nodejs.org/download/">here</a> as well as binaries for Linux and SunOS.</p>
+
+<p>As for as my development enviornment, I&rsquo;m using OS X v10.10.1 also known as Yosemite.  For my text editor I&rsquo;m using Sublime Text 2 which can be found <a href="http://www.sublimetext.com/2">here</a>.  There&rsquo;s also an update to the editor, version 3, which I&rsquo;m not currently using but can be found <a href="http://www.sublimetext.com/3">here</a>.  Another tool we&rsquo;ll be using is the quite awesome chrome extension, known as &ndash; POSTMAN which can be found <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">here</a>.</p>
+
+<p>And last but certainly not least I&rsquo;ll be using Sails v0.11.0.  Now, you may see me running some release candidates of Sails initially, however, because the release of Sails v0.11.0 is eminent, I&rsquo;m not going to bother with how to install a release candidate and these initial screencasts are really not effected by the currently published version of v0.10.5.  Okay let&rsquo;s get Sails up and running by heading over to the terminal window.</p>
+
+<p>From the last series, I received comments from a bunch of folks who had a real aversion to the terminal window.  For those of you who are new to back-end programming, jumping into the terminal window might seem intimidating.  Let me start by saying if I can understand it, believe me you can understand it.  By the end of this series you&rsquo;ll wonder how you got through your day without multiple visits to the terminal.   For those of you on OS X you&rsquo;ll find the terminal application is somewhat hidden in <code>/Applications/Utilities/Terminal.app</code>.  One other potential point of confusion about the terminal is how it&rsquo;s referred to.  For example you&rsquo;ll hear terminal window, prompt, command-line, shell, etc.  For what it&rsquo;s worth here is my attempt at terminology superimposed on this thing I&rsquo;ll be calling the terminal.</p>
+
+<p>With that said, let&rsquo;s jump in.</p>
+
+<p>To install sails, you simply type <code>npm install sails -g</code>, where the -g stands for global.  Note, that because of the way ownership rights are set up on my machine, I have to use <code>sudo</code> or super duper user, actually according to wikipedia it means <code>substitute user do</code>&hellip;.something like that.  Regardless, it allows you to temporarily issue a command as a super or root user.  After that Sails will start installing, so see ya in second.</p>
+
+<p>So, in the last series of building activity overlord some people were confused about the distinction between installing sails globally and where Sails is installed when creating a new project.  By installing Sails globally, we can have access to command-line tools from anywhere on the command-line.</p>
+
+<p>For example, let&rsquo;s create the initial Sails project for activityOverlord v2.0.  From the terminal I&rsquo;ll type <code>sails new activityoverlord20</code>.</p>
+
+<p>So what just happened?  Sails used the globally installed version of itself to generate all of the necessary initial structure for our application.  This includes installing a copy of Sails itself inside the root of our application.  That way, sails applications are completely self contained&hellip;there&rsquo;s no &ldquo;other software&rdquo; outside of our project that we&rsquo;re dependent upon.</p>
+
+<p>Throughout these screencasts there will be times that I want to address specific changes that effect the previous activityoverlord screencasts with v0.11.0 of Sails.  So if you don&rsquo;t have previous experience or interest with older versions of Sails, now is the time to pick up that musical instrument or check some texts for the next few seconds.  When I created the new Sails project you may have noticed that I didn&rsquo;t use the <code>--linker</code> prarameter.  That&rsquo;s because there&rsquo;s no longer a requirement to use it.  By default, that functionality is built into every Sails project.</p>
+
+<p>Now, let&rsquo;s go back to the terminal and move into the new project by typing <code>cd acitivtyoverlord20</code>.  Without changing any of the initial files or folders of the app I can start our newly created web server by typing <code>sails lift</code> and Sails confirms that it is indeed up and running.  Next, I&rsquo;ll open a browser at localhost:1337.  The browser is accessing the default home page Sails generated when we initially built the project.</p>
+
+<p>It&rsquo;s important to take a moment here and realize what we&rsquo;ve just accomplished.  In just a few commands we&rsquo;ve built the initial infrastructure of a web application which includes the creation of its own web server.  We then have a browser, known as the client that is making a request for a previously generated home page through the Sails web server.  The Sails server then response with the home page to be rendered in the browser.</p>
+
+<p>Some of you may be confused by the address <code>localhost:1337</code>.  Typically, when you browse the web you&rsquo;ll enter a domain name like <code>google.com</code>&hellip;and that name actually resolves to an some ip address which maps to some computer out on the internt.  Alright, <code>localhost</code> is default name for what is technically termed a <code>loopback address</code>.  My machine&rsquo;s <code>localhost</code> points to the address <code>127.0.0.1</code>.  What the <code>loopback address</code> allows allows us to do is bypass the outside network and address a specific web service on our local machine.  In our case that web service is the Sails server.  So when the Sails starts or lifts, by default, it&rsquo;s given a port number of <code>1337</code>.  As we&rsquo;ll see in a second we can change the <code>port number</code> if we want.  <code>Port numbers</code> are the way in which we can differentiate one web service from another.  For example, I currently have our activityoverlord20 project running on port <code>1337</code>.  I created another Sails project called <code>foo</code> that I&rsquo;m going to lift on port <code>1338</code>.  When I go into the browser and open the address <code>localhost:1338</code> the homepage that I altered comes up for the foo project.  So the combination of localhost and the port number allows us to run both the server and client on the same machine while we&rsquo;re building the project.  To get completely geeky, and show you that localhost is really an arbitrary, there&rsquo;s a file found on my mac at <code>~/etc/host</code> that specifies what &ldquo;points&rdquo; to <code>127.0.0.1</code>.   As you can see, in addition to localhost I have the name <code>yaya</code> also pointing to 127.0.0.1 and yes we can go into the browser and type yaya:1337 and our homepage comes up.</p>
+
+<p>Okay, I think I&rsquo;ve beat that one to a pulp&hellip;but sometimes you know I just get carried away.  In the next episode we&rsquo;ll start building up the client ui of activityOverlord v2.0.  So, see ya&rsquo;ll in a bit.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Let's start a new adventure]]></title>
@@ -2857,18 +2903,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     <content type="html"><![CDATA[<p>In episode 18 we&rsquo;re taking a relatively deep dive into web sockets and how socket.io fits into the mix.  You&rsquo;ll build a simple chat app that incorporates the concept of rooms.</p>
 
 <iframe width="640" height="390" src="http://www.youtube.com/embed/dkf3XKrsqAM" frameborder="0" allowfullscreen></iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building a Sails Application: Ep17 - Creating a distinction between admin and regular users]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/05/building-a-sails-application-ep17-creating-a-distinction-between-admin-and-regular-users/"/>
-    <updated>2013-09-05T14:22:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/05/building-a-sails-application-ep17-creating-a-distinction-between-admin-and-regular-users</id>
-    <content type="html"><![CDATA[<p>In episode 17 you&rsquo;ll add a distinction between a regular user and an admin user through the use of additional policies.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/DI85AWW_TEk?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>

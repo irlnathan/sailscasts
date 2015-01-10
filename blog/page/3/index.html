@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Transcript In this screencast, we’ll add a flash message that will let all users know when someone logs-in, logs-out, is added or deleted. So here, &hellip;">
+  <meta name="description" content="Transcript Howdy and welcome back. I want to clean-up a use case that will unfortunately crash the server. The situation occurs if a user creates an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,63 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/">Building a Sails Application: Ep24 - Correcting a publishUpdate Event and Adding a Policy to the User Controller&#8217;s Subscribe Action</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T10:15:00-05:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/21/building-a-sails-application-ep24-correcting-a-publishupdate-event-and-adding-a-policy-to-the-user-controllers-subscribe-action/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/iF3y0AqDpLU" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.</p>
+
+<p>I want to clean-up a use case that will unfortunately crash the server.  The situation occurs if a user creates an account and then while they are logged-in a different user with admin privileges deletes them from the database.  When the deleted user attempts to sign out the following server error occurs:
+TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
+
+<p>This is because publishUpdate tries to send the user.name attribute and the user instance no longer exists.  This is an easy fix, let’s head over to the session controller.  We can wrap the userUpdate(), userPublish(), req.session.destroy(), and res.redirect() methods in an if statement that checks whether a user exists.  If the user doesn’t exist then we’ll just redirect to session/new via res.redirect(&lsquo;/session/new&rsquo;);</p>
+
+<p>If the user does exist we’ll let just pass through to our existing logic. So now when we try to do the same use case, the browser is redirected to session/new.</p>
+
+<p>One other change I want to make is to prevent the socket from subscribing to the user model events unless the user is authenticated.  To do this, we’ll modify the authenticated policy so that it looks for req.session.User, if it exists, the user is authenticated, and if not, we send a 403.  We’ll then use that policy in policies.js within the config folder for the subscription action of the user controller.  By doing this, the socket cannot subscribe to /user/subscribe unless the user is authenticated.  Let’s check it out.</p>
+
+<p>So now, when the user logs in, the non-authenticated socket does not respond to the event because they are not yet authenticated and therefore not subscribed.  Once the other user logs in, however, they receive the original user’s logout event.</p>
+
+<p>Thanks for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -382,52 +439,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails/">sailsCasts Answers: Ep2 - How Do I Create a Global Helper Function in Sails?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-17T10:14:00-05:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/09/17/sailscasts-answers-ep2-how-do-i-create-a-global-helper-function-in-sails/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here&rsquo;s the question: Hi I want to ask, if you could tell me where to put my helper functions, that I want to use in different Controllers. Should I create a custom config file for this purpose?</p>
-
-<p>Here&rsquo;s the Answer:</p>
-
-<iframe width="640" height="390" src="http://www.youtube.com/embed/877gSvq05fM" frameborder="0" allowfullscreen></iframe>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/4/">&larr; Older</a>
@@ -445,6 +456,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/">Setting Up the Development Environment and Creating Your First Project</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let&#8217;s Start a New Adventure</a>
       </li>
     
@@ -458,10 +473,6 @@
     
       <li class="post">
         <a href="/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/">sailsCasts Answers: Ep6 - How Does the Http Request/response Protocol Work With Routes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2013/12/05/sailscasts-answers-ep5-where-should-i-put-the-assets-in-my-sails-project/">sailsCasts Answers: Ep5 - Where Should I Put the Assets in My Sails Project?</a>
       </li>
     
   </ul>

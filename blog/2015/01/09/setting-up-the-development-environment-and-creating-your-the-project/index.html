@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Setting up the development environment and creating your first project - sailsCasts</title>
+  <meta name="author" content="irl nathan">
+
+  
+  <meta name="description" content="Follow me on twitter here. Subscribe to the sailscasts mailing list here. Transcript Howdy and welcome back. As in the previous series, I&rsquo;m &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project">
+  <link href="/sailscasts/favicon.png" rel="icon">
+  <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
+  <script src="/sailscasts/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/sailscasts/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43421644-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sailscasts/">sailsCasts</a></h1>
+  
+    <h2>Learning about sails.js one screencast at a time.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sailscasts/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:irlnathan.github.io/sailscasts" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sailscasts/">Blog</a></li>
+  <li><a href="/sailscasts/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Setting Up the Development Environment and Creating Your First Project</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-09T18:21:00-06:00" pubdate data-updated="true">Jan 9<span>th</span>, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/mGrKLi54Xsg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.</p>
+
+<p>As in the previous series, I&rsquo;m going to assume you already have Node installed.  If you don&rsquo;t there&rsquo;s a bunch of helpful documentation on <a href="http://nodejs.org">nodejs.org</a> and installers for both Mac OS X and Microsoft Windows can be found <a href="http://nodejs.org/download/">here</a> as well as binaries for Linux and SunOS.</p>
+
+<p>As for as my development enviornment, I&rsquo;m using OS X v10.10.1 also known as Yosemite.  For my text editor I&rsquo;m using Sublime Text 2 which can be found <a href="http://www.sublimetext.com/2">here</a>.  There&rsquo;s also an update to the editor, version 3, which I&rsquo;m not currently using but can be found <a href="http://www.sublimetext.com/3">here</a>.  Another tool we&rsquo;ll be using is the quite awesome chrome extension, known as &ndash; POSTMAN which can be found <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">here</a>.</p>
+
+<p>And last but certainly not least I&rsquo;ll be using Sails v0.11.0.  Now, you may see me running some release candidates of Sails initially, however, because the release of Sails v0.11.0 is eminent, I&rsquo;m not going to bother with how to install a release candidate and these initial screencasts are really not effected by the currently published version of v0.10.5.  Okay let&rsquo;s get Sails up and running by heading over to the terminal window.</p>
+
+<p>From the last series, I received comments from a bunch of folks who had a real aversion to the terminal window.  For those of you who are new to back-end programming, jumping into the terminal window might seem intimidating.  Let me start by saying if I can understand it, believe me you can understand it.  By the end of this series you&rsquo;ll wonder how you got through your day without multiple visits to the terminal.   For those of you on OS X you&rsquo;ll find the terminal application is somewhat hidden in <code>/Applications/Utilities/Terminal.app</code>.  One other potential point of confusion about the terminal is how it&rsquo;s referred to.  For example you&rsquo;ll hear terminal window, prompt, command-line, shell, etc.  For what it&rsquo;s worth here is my attempt at terminology superimposed on this thing I&rsquo;ll be calling the terminal.</p>
+
+<p>With that said, let&rsquo;s jump in.</p>
+
+<p>To install sails, you simply type <code>npm install sails -g</code>, where the -g stands for global.  Note, that because of the way ownership rights are set up on my machine, I have to use <code>sudo</code> or super duper user, actually according to wikipedia it means <code>substitute user do</code>&hellip;.something like that.  Regardless, it allows you to temporarily issue a command as a super or root user.  After that Sails will start installing, so see ya in second.</p>
+
+<p>So, in the last series of building activity overlord some people were confused about the distinction between installing sails globally and where Sails is installed when creating a new project.  By installing Sails globally, we can have access to command-line tools from anywhere on the command-line.</p>
+
+<p>For example, let&rsquo;s create the initial Sails project for activityOverlord v2.0.  From the terminal I&rsquo;ll type <code>sails new activityoverlord20</code>.</p>
+
+<p>So what just happened?  Sails used the globally installed version of itself to generate all of the necessary initial structure for our application.  This includes installing a copy of Sails itself inside the root of our application.  That way, sails applications are completely self contained&hellip;there&rsquo;s no &ldquo;other software&rdquo; outside of our project that we&rsquo;re dependent upon.</p>
+
+<p>Throughout these screencasts there will be times that I want to address specific changes that effect the previous activityoverlord screencasts with v0.11.0 of Sails.  So if you don&rsquo;t have previous experience or interest with older versions of Sails, now is the time to pick up that musical instrument or check some texts for the next few seconds.  When I created the new Sails project you may have noticed that I didn&rsquo;t use the <code>--linker</code> prarameter.  That&rsquo;s because there&rsquo;s no longer a requirement to use it.  By default, that functionality is built into every Sails project.</p>
+
+<p>Now, let&rsquo;s go back to the terminal and move into the new project by typing <code>cd acitivtyoverlord20</code>.  Without changing any of the initial files or folders of the app I can start our newly created web server by typing <code>sails lift</code> and Sails confirms that it is indeed up and running.  Next, I&rsquo;ll open a browser at localhost:1337.  The browser is accessing the default home page Sails generated when we initially built the project.</p>
+
+<p>It&rsquo;s important to take a moment here and realize what we&rsquo;ve just accomplished.  In just a few commands we&rsquo;ve built the initial infrastructure of a web application which includes the creation of its own web server.  We then have a browser, known as the client that is making a request for a previously generated home page through the Sails web server.  The Sails server then response with the home page to be rendered in the browser.</p>
+
+<p>Some of you may be confused by the address <code>localhost:1337</code>.  Typically, when you browse the web you&rsquo;ll enter a domain name like <code>google.com</code>&hellip;and that name actually resolves to an some ip address which maps to some computer out on the internt.  Alright, <code>localhost</code> is default name for what is technically termed a <code>loopback address</code>.  My machine&rsquo;s <code>localhost</code> points to the address <code>127.0.0.1</code>.  What the <code>loopback address</code> allows allows us to do is bypass the outside network and address a specific web service on our local machine.  In our case that web service is the Sails server.  So when the Sails starts or lifts, by default, it&rsquo;s given a port number of <code>1337</code>.  As we&rsquo;ll see in a second we can change the <code>port number</code> if we want.  <code>Port numbers</code> are the way in which we can differentiate one web service from another.  For example, I currently have our activityoverlord20 project running on port <code>1337</code>.  I created another Sails project called <code>foo</code> that I&rsquo;m going to lift on port <code>1338</code>.  When I go into the browser and open the address <code>localhost:1338</code> the homepage that I altered comes up for the foo project.  So the combination of localhost and the port number allows us to run both the server and client on the same machine while we&rsquo;re building the project.  To get completely geeky, and show you that localhost is really an arbitrary, there&rsquo;s a file found on my mac at <code>~/etc/host</code> that specifies what &ldquo;points&rdquo; to <code>127.0.0.1</code>.   As you can see, in addition to localhost I have the name <code>yaya</code> also pointing to 127.0.0.1 and yes we can go into the browser and type yaya:1337 and our homepage comes up.</p>
+
+<p>Okay, I think I&rsquo;ve beat that one to a pulp&hellip;but sometimes you know I just get carried away.  In the next episode we&rsquo;ll start building up the client ui of activityOverlord v2.0.  So, see ya&rsquo;ll in a bit.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">irl nathan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-09T18:21:00-06:00" pubdate data-updated="true">Jan 9<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/" title="Previous Post: Let's start a new adventure">&laquo; Let's start a new adventure</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/">Setting Up the Development Environment and Creating Your First Project</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let's Start a New Adventure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2014/01/08/sailscasts-answers-ep6-how-does-the-http-request-slash-response-protocol-work-with-routes/">sailsCasts Answers: Ep6 - How Does the Http Request/response Protocol Work With Routes</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - irl nathan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sailscasts';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
