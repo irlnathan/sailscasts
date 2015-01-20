@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in our SignUp Page. - sailsCasts</title>
+  <meta name="author" content="irl nathan">
+
+  
+  <meta name="description" content="Follow me on twitter here. Subscribe to the sailscasts mailing list here. The repo for this episode can be found here. Transcript In &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page">
+  <link href="/sailscasts/favicon.png" rel="icon">
+  <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
+  <script src="/sailscasts/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/sailscasts/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43421644-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sailscasts/">sailsCasts</a></h1>
+  
+    <h2>Learning about sails.js one screencast at a time.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sailscasts/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:irlnathan.github.io/sailscasts" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sailscasts/">Blog</a></li>
+  <li><a href="/sailscasts/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in Our SignUp Page.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-20T16:12:00-06:00" pubdate data-updated="true">Jan 20<span>th</span>, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe width="640" height="390" src="/sailscasts//www.youtube.com/embed/4keciyLVPiM" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<p>The repo for this episode can be found <a href="https://github.com/irlnathan/activityoverlord20">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>In activityOverlord v1.0 the user interface or <code>Views</code> of the app were built primarily on the server before being sent to the client and rendered by the client&rsquo;s browser.  This approach is the <code>V</code> of the <strong>MVC architecture</strong> and also known as <strong>Server Rendering</strong> even though the web page is actually being rendered on the client&rsquo;s browser.</p>
+
+<p>This so called <em>Server Rendering</em> is the server preprocessing one or more templates of markup, usually some combination of HTML, CSS, and Javascript and combining them with data via a <strong>Template Engine</strong>.  All <em>template engines</em> use some form of tags that surround variables that when processed yield a result.  Sails uses the EJS template engine by default.  For example, this template contains some standard HTML mark-up along with <code>EJS</code> tags.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>  &lt;head&gt;
+</span><span class='line'>    &lt;title&gt;&lt;%- title %&gt;&lt;/title&gt;
+</span><span class='line'>  &lt;/head&gt;
+</span><span class='line'>  ...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Between the tags is a variable <code>title</code>.  When the Sails server processes this template it will attempt to replace the <code>title</code> variable with a value, hopefully the page title.  This is also called <strong>String Interpolation</strong>, but I only mention that because I&rsquo;m a geek.</p>
+
+<h3>Server Rendered Views</h3>
+
+<p>So let&rsquo;s review this approach. When a client browser makes a <code>request</code> to the server, the <code>router</code> parses the <code>request</code> and determines where to send it.  Now, the resulting <code>route</code> typically points to a <code>controller/action</code> that might execute some logic. For example, that logic might include accessing a mongo database that retrieves a stored twitter id and access token.  The id and token are then used to request additional details of the user from the Twitter API, all before the server pre-processes a template which contains tags with variables that are replaced by the Twitter details into a <code>View</code>.  The <code>View</code> is then sent back to the client and ultimately rendered by the browser.</p>
+
+<p>Now, this traditional approach to web applications has at least two weaknesses.  First, its reliance on the server for page creation means the responsiveness of the app is impeded by the constant round trips necessary to update changes to the <code>View</code> from the server.  Second, is that the API being tightly coupled to the <code>View</code> makes it less flexible for other potential consumers to use.</p>
+
+<p>A more modern approach to web applications solves both weaknesses by pushing the responsibility for changing the UI to the client as well as decoupling the API to act as an independent provider of endpoints.  These endpoints can then be accessed by the browser UI, a native app UI, a mobile UI, or even a smart refrigerator UI.</p>
+
+<p>Now this doesn&rsquo;t mean that we&rsquo;ll be abandoning Server Rendered Views entirely.  Instead activityOverlordv2.0 will take a hybrid approach using a blend of Server Rendered Views combined with Front-end Framework Components to deliver a UI that makes authentication and SEO manageable.  But as usual I&rsquo;m getting ahead of myself.</p>
+
+<p>So let&rsquo;s go back to the project and see what Server Rendered Views look like in action.  By default, Sails generated  three files &mdash; <code>homepage.ejs</code>, <code>layout.ejs</code>, and a route to the homepage contained in <code>/config/route.js</code>.  So when I make a request in the browser to localhost:1337, the Sails router looks at the request and matches it with the <code>route</code> in the routes file (e.g. <code>route.js</code>).  This triggers the <em>View Engine</em> to pre-process <code>layout.ejs</code> with <code>homepage.ejs</code> to produce the View that&rsquo;s being rendered by my browser.  The <code>Layout.ejs</code> file is actually a wrapper around <code>homepage.ejs</code>.  And what I mean by that is if we look at both files you can see that <code>layout.ejs</code> contains typical mark-up that we want for every page, things like DOCTYPE, html, and head tags.  So we have EJS tags here with a <code>body</code> variable which when processed by the Sails View Engine is replaced with the contents of <code>homepage.ejs</code> .  The result is our View.</p>
+
+<p>Despite it&rsquo;s power, and to make this example crystal clear, I&rsquo;m going to disable the layout functionality in Views at least for the time being.  To do this I&rsquo;ll go into into /config/views.js and change the <code>layout</code> parameter from <code>layout</code> to false.</p>
+
+<p>The first part of activityOverlord v2.0 consists of the <strong>Signup Page</strong> and when completed will look something like this.  Let&rsquo;s get started.  I&rsquo;ll first create a new file named <code>startup.ejs</code> and I&rsquo;ll put a simple header in it <code>&lt;h1&gt; Signup Page&lt;/h1&gt;</code>.  Next, I&rsquo;ll remove the existing <code>route</code> to the <code>homepage</code> and replace it with a <code>route</code> to the new <code>The Signup Page</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s1">&#39;GET /signup&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">view</span><span class="o">:</span> <span class="s1">&#39;signup&#39;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s take a look.  I&rsquo;ll start Sails using <code>sails lift</code> and then navigate my browser to <code>localhost:1337/signup</code>.  Okay good, here&rsquo;s our signup page.</p>
+
+<p>Let&rsquo;s go back to the <code>Signup Page</code> and I&rsquo;ll start by copying in some boilerplate <code>html</code>.  Next, I&rsquo;ll add our first <strong>Angular</strong> <code>directives</code> into the body tag &mdash; <code>ng-app</code>, <code>ng-controller</code>, and <code>ng-cloak</code>. Let&rsquo;s refresh the browser and see what happens.  Well nothing happens, because we haven&rsquo;t yet added Angular yet.  We could manually add the script tags that reference  Angular, however, Sails can do this automatically for us using it&rsquo;s own tagging system (e.g. <code>&lt;!--SCRIPTS--&gt;</code> <em>tag</em>).  You know what, it&rsquo;s easier just to show you.  So I&rsquo;ll add the <em>tags</em> to <code>signup.ejs</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;!</span><span class="nx">DOCTYPE</span> <span class="nx">html</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Sign</span> <span class="nx">Up</span> <span class="k">for</span> <span class="nx">Activity</span> <span class="nx">Overlord</span> <span class="p">(</span><span class="nx">angular</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/title&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&lt;!--</span> <span class="nx">Viewport</span> <span class="nx">mobile</span> <span class="nx">tag</span> <span class="k">for</span> <span class="nx">sensible</span> <span class="nx">mobile</span> <span class="nx">support</span> <span class="o">--&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;viewport&quot;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">body</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">app</span><span class="o">=</span><span class="s2">&quot;SignupModule&quot;</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">controller</span><span class="o">=</span><span class="s2">&quot;SignupController&quot;</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">cloak</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">The</span> <span class="nx">Signup</span> <span class="nx">Page</span>
+</span><span class='line'>    <span class="c">&lt;!--</span><span class="nx">SCRIPTS</span><span class="o">--&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!--</span><span class="nx">SCRIPTS</span> <span class="nx">END</span><span class="o">--&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/body&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ll restart the Sails server using <code>Sails lift</code> and then go back into the browser but also open up the browser console&hellip;okay let&rsquo;s refresh the page and see what happens.  Okay, that new, we get this console message that we&rsquo;re &ldquo;connected to Sails&rdquo;, but where did that come from?  If we look at the page source we&rsquo;ll get a clue.  Towards the bottom of the page a link to a file named<code>sails.io.js</code> has been added to our signup page (e.g. <code>signup.ejs</code>).  But where did that link come from?   Let&rsquo;s go into our project in Sublime and navigate to <code>assets/js</code>.  In the dependencies foler there&rsquo;s our sails.io.js file.  First, this file deals with <code>web sockets</code> and <code>socket.io</code>, which we&rsquo;ll be covering in later episodes.  The big question now is, how did a link to that file get inserted into <code>signup.ejs</code>?  The short answer is that <strong>Grunt</strong> did it for us.  Okay, so what&rsquo;s <code>Grunt</code>?</p>
+
+<p><code>Grunt</code> calls itself a <em>JavaScript Task Runner</em> but really <code>Grunt</code> is all about automation.  It allows you to create repetive tasks that can be executed automatically.  For example, there&rsquo;s a Grunt task that&rsquo;s looking for changes in the Sails assets folder.  Sails creates a .tmp folder in the root of our project.  As we can see here any files in the assets folder are copied into .tmp/public which acts like a static file folder you&rsquo;d find on any web server.  But what about the link to sails.io.js?  This is yet another Grunt Task that will place a link to any javascript file found in assets/js that has the corresponding Script tags we just placed in signup.ejs (e.g. <code>&lt;!--SCRIPTS--&gt;&lt;!--SCRIPTS END--&gt;</code>).</p>
+
+<p>Of course all of these tasks are happening automatically without us having to be aware of them.  However, for those of you who want a little more detail behind the magic,  I created a doc that goes into much more specifics of the Grunt/Sails integration than I do in this screencast.  The documentation can be found <a href="https://github.com/irlnathan/s-grunt-docs/blob/master/overview.md">here</a>.</p>
+
+<p>So let&rsquo;s go ahead and place the main Angular file in the <code>assets/js/dependencies</code> folder and I&rsquo;ll refresh the browser.  Looking at the page source we can see that a link to angular has been automatically placed in our signup page.  But when I refreshed the browser, Angular is mad at us because we have some directives in the signup page without any associated javascript files.  But not to worry, we can easily fix that.  Let&rsquo;s navigate back to the <code>assets/js</code> folder in Sublime and we&rsquo;ll create a folder called <code>public</code>.  We&rsquo;ll put all of our Angular files that have to do with those parts of the application that don&rsquo;t require authentication.  Within <code>public</code> we&rsquo;ll create a folder called <code>signup</code>.  And within <code>signup</code> we&rsquo;ll create two files SignupModule.js<code>and</code>SignupController.js<code>.  Okay, first let's take a look at</code>SignupModule.js` and  I&rsquo;ll add the bare bones Angular code to define our new module.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;SignupModule&#39;</span><span class="p">,</span> <span class="p">[]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I&rsquo;ll open <code>SignupController.js</code> and add the bare bones Angular code to define our new controller.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;SignupModule&#39;</span><span class="p">).</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;SignupController&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s go back to the browser and refresh the page.  As you can see, we still have an Angular issue.  If we look at the page source, we can see what the issue is, <code>SignupController</code> is getting loaded before <code>SignupModule</code>.  This is easy to fix and touches on another aspect of <strong>Grunt</strong>.  Most of the configuration for Grunt can be found within the <code>activityOverlord20/tasks</code> folder.  For this issue we&rsquo;re going to look in the root of the <code>tasks</code> folder for a file named <code>pipeline.js</code>.  This file contains the configuration for how the SCRIPTS tags are used (e.g. <code>&lt;!--SCRIPTS--&gt;</code>)  as well as some other tags we&rsquo;ll be using shortly.</p>
+
+<p>Next, I&rsquo;ll open <code>pipeline.js</code> in Sublime.  We want to load the <code>SignupModule</code> after dependencies but before any other javascript files.  So we&rsquo;ll put the path to our file here.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Dependencies like jQuery, or Angular are brought in here</span>
+</span><span class='line'>  <span class="s1">&#39;js/dependencies/**/*.js&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// All of the rest of your client-side js files</span>
+</span><span class='line'>  <span class="c1">// will be injected here in no particular order.</span>
+</span><span class='line'>  <span class="s1">&#39;js/public/signup/SignupModule.js&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;js/**/*.js&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when I refresh the browser, Angular no longer complains and if look back at the page source we can see that SignUpModule is being loaded before SignupController.</p>
+
+<p>So let&rsquo;s go back to signup.ejs in Sublime and insert the remainder of the markup for our Signup Page.   Let&rsquo;s start-up Sails using <code>Sails lift</code> and navigate the browser to localhost:1337/signup.  Although the page loads without errors, there&rsquo;s some obvious dependencies that need to be added in order for this page to look right.  First I&rsquo;ll add Bootstrap (e.g. <code>bootstrap.css</code>) to the <code>/assets/sytles</code> folder.  Similar to what we did with javascript files in the previous episode, Sails will automatically include links to the CSS in <code>signup.ejs</code>.  Taking a look at <code>signup.ejs</code> we can see the Styles tags that were added when I brought in the earlier mark-up as well as a link Grunt automatically created to the bootstrap file I just added.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&lt;!--SCRIPTS--&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!--SCRIPTS END--&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I&rsquo;m going to create a <code>fonts</code> folder and add some fonts we&rsquo;ll be using later in the interface.</p>
+
+<p>I&rsquo;m also going to add some <code>.less</code> files into the <code>assets/styles</code> folder that we&rsquo;ll being using later in the interface as well.</p>
+
+<p>You may have noticed the <code>importer.less</code> file which let&rsquo;s us control which less files are included the Styles Tag as well as their order.  Note that the Grunt task included in Sails will only compile the <code>.less</code> files that are referenced in this file.</p>
+
+<p>I&rsquo;m also be adding Jesús Rodríguez&rsquo;s <a href="https://github.com/Foxandxss">https://github.com/Foxandxss</a> fantastic angular messaging library Angular-toastr.  The library contains both a javascript and a css file.</p>
+
+<p>Finally, I&rsquo;ll add the <code>CompareTo</code> Angular Directive which will help us with comparing the value of form fields.  I&rsquo;ll place it in the <code>/js/dependencies</code> folder.</p>
+
+<p>So let&rsquo;s see where we are after these dependencies were added.  I&rsquo;ll head back to the browser refresh the page.  The console displays an <code>Uncaught reference error that Angular is not defined.</code>  Since this is coming from the <code>toastr</code> library my hunch is that we have a loading order error. And sure enough if we look at the page source, the <code>toaster</code> library is being loaded before Angular.   I&rsquo;ll head back to our project and <code>pipeline.js</code> in sublime and add a reference to Angular here (e.g. <code>'js/dependencies/angular.1.3.js',</code>) that will load Angular first before any of the other depedencies.</p>
+
+<p>Let&rsquo;s head back to the browser and refresh the page.   Great, there&rsquo;s no longer and error.</p>
+
+<p>Now let&rsquo;s take a look at some form validation in signup.ejs.  There are three components to the form field validation we&rsquo;re going to perform.  So taking a look at the name field.  We first use the ng-class directive to create the <code>has-error</code> class if the field name is invalid and dirty.  This will insert a red border around the input field.  Next we&rsquo;ll configure the validation parameters of the field itself.  In this case we&rsquo;re requiring that the field have a value as well as have a maxlength of 50 characters.  Finally, we&rsquo;ll set-up the text for our error message here.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required</span>
+</span><span class='line'><span class="c">and/or maxlength) --&gt;</span>
+</span><span class='line'><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help-block has-error&quot;</span> <span class="na">ng-if=</span><span class="s">&quot;signup.name.$dirty&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.name.$error.required&quot;</span><span class="nt">&gt;</span>Name is required.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.name.$error.maxlength&quot;</span><span class="nt">&gt;</span>The name cannot be more than 50 characters.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/span&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s see this in action.  I&rsquo;ll go back to the browser and type in a name.  Now If I remove the name, the required validation is triggered and if I add to many character&rsquo;s the maxlength validation will be triggered.</p>
+
+<p>Let&rsquo;s go back to signup.ejs and review the remaining form fields configuration.</p>
+
+<p>So the Title field&rsquo;s configuration is identical to the name, the title is required and has a max length of 50 characters.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- T I T L E --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;control-group form-group col-md-12&quot;</span>
+</span><span class='line'>  <span class="na">ng-class=</span><span class="s">&quot;{&#39;has-error&#39;:signup.title.$invalid &amp;&amp;</span>
+</span><span class='line'><span class="s">                        signup.title.$dirty}&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;label&gt;</span>Your title<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;e.g. Genius&quot;</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;signupForm.title&quot;</span> <span class="na">ng-maxlength=</span><span class="s">&quot;50&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help-block has-error&quot;</span> <span class="na">ng-if=</span><span class="s">&quot;signup.title.$dirty&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.title.$error.required&quot;</span><span class="nt">&gt;</span>Title is required.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.title.$error.maxlength&quot;</span><span class="nt">&gt;</span>The name cannot be more than 50 characters.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Email field is required and requires a properly formatted email address.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- E M A I L --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;control-group form-group col-md-12&quot;</span>
+</span><span class='line'><span class="na">ng-class=</span><span class="s">&quot;{&#39;has-error&#39;:signup.email.$invalid &amp;&amp;</span>
+</span><span class='line'><span class="s">                      signup.email.$dirty}&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;label&gt;</span>Your email address<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;nikola@tesla.com&quot;</span> <span class="na">name=</span><span class="s">&quot;email&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;signupForm.email&quot;</span> <span class="na">required</span> <span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help-block has-error&quot;</span> <span class="na">ng-if=</span><span class="s">&quot;signup.email.$dirty&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.email.$error.required&quot;</span><span class="nt">&gt;</span>Email address is required.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.email.$error.email&quot;</span><span class="nt">&gt;</span>Not a valid email address.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Password field is required and must be at least 6 characters.  Also notice that we&rsquo;re using the CompareTo directive to compare the password field with the confirmPassword model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- P A S S W O R D --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;control-group form-group col-md-6&quot;</span>
+</span><span class='line'><span class="na">ng-class=</span><span class="s">&quot;{&#39;has-error&#39;:signup.password.$invalid &amp;&amp;</span>
+</span><span class='line'><span class="s">                      signup.password.$dirty}&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;label&gt;</span>Choose a password<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="c">&lt;!-- Added the compareTo directive that compares the passowrds --&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;at least 6 characters&quot;</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;signupForm.password&quot;</span> <span class="na">id=</span><span class="s">&quot;password&quot;</span> <span class="na">required</span> <span class="na">ng-minlength=</span><span class="s">&quot;6&quot;</span> <span class="na">compare-to=</span><span class="s">&quot;signupForm.confirmPassword&quot;</span> <span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help-block has-error&quot;</span> <span class="na">ng-if=</span><span class="s">&quot;signup.password.$dirty&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.password.$error.required&quot;</span><span class="nt">&gt;</span>Password is required.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.password.$error.minlength&quot;</span><span class="nt">&gt;</span>Password must be at least 6 characters.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Password Confirmation field is required and must match the Password Field.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- C O N F I R M  P A S S W O R D --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;control-group form-group col-md-6&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;label&gt;</span>Re-enter your password<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;one more time&quot;</span> <span class="na">name=</span><span class="s">&quot;confirmation&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;signupForm.confirmPassword&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help-block has-error&quot;</span> <span class="na">ng-if=</span><span class="s">&quot;signup.confirmation.$dirty&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.password.$error.compareTo&quot;</span><span class="nt">&gt;</span>Password must match.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signup.confirmation.$error.required&quot;</span><span class="nt">&gt;</span>Confirmation password is required.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, we disable the form submission button via the <code>ng-diabled</code> directive until all of the form fields have valid values.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- C O N F I R M  P A S S W O R D --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&lt;!-- Disable signup button until the form has no errors --&gt;</span>
+</span><span class='line'><span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary btn-lg btn-block&quot;</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">ng-disabled=</span><span class="s">&quot;signup.$invalid&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;!signupForm.loading&quot;</span><span class="nt">&gt;</span>Create Account<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;overlord-loading-spinner fa fa-spinner&quot;</span> <span class="na">ng-show=</span><span class="s">&quot;signupForm.loading&quot;</span> <span class="nt">&gt;&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">ng-show=</span><span class="s">&quot;signupForm.loading&quot;</span><span class="nt">&gt;</span>Preparing your new account...<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/button&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Okay let&rsquo;s go back and take a look at the validations in action.  I&rsquo;m going to refresh the browser.</p>
+
+<p>Believe it or not that rounds out our signup page.  In the next episode we&rsquo;ll start to flesh out our initial API that connects the signup page with an endpoint that creates a user account via a model into a database.</p>
+
+<p>You can find all of the source code for this episode at the activityOverlord20 repo on github.</p>
+
+<p>And If have a moment plese follow me on twitter and be sure to signup for the Sailscasts mailing list so I can finally prove to my wife that there are actually folks watching this stuff.  As always thanks for watching.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">irl nathan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-20T16:12:00-06:00" pubdate data-updated="true">Jan 20<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/" title="Previous Post: Setting up the development environment and creating your first project">&laquo; Setting up the development environment and creating your first project</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/">Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in Our SignUp Page.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/">Setting Up the Development Environment and Creating Your First Project</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let's Start a New Adventure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - irl nathan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sailscasts';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
