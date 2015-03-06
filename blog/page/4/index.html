@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="In episode 17a you&rsquo;ll fix an issue by marshalling request parameters, that allowed a user to inject html to create an admin user. ">
+  <meta name="description" content="Transcript Howdy and welcome to the second part of these screencasts dealing with real-time events. In this episode we’ll implement much of the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,200 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Building a Sails Application: Ep22 - Manipulating the DOM Based Upon Changes via Real Time Model Events.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T17:30:00-05:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/oVrJ9NKjt0s" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome to the second part of these screencasts dealing with real-time events. In this episode we’ll implement much of the client side portion of our code.  As I said at the end of the last episode, you can implement your front-end, however, you’d like.  I’m just learning the front-end so I wanted to start with server-side views and then refactor what I’ve done to include a framework like backbone to transition into a single page application.  That, however, is for another day and here we’ll manipulate the DOM within our server-side views.</p>
+
+<p>So let’s go back to the app.js file located in the <code>assets/linker/js</code> directory and our event listener for the event message.  As you may recall, within this file we’ve established a connection with the socket server, subscribed to our User model’s “class” room and “instance” room via <code>socket.get()</code>.  And we’re now awaiting message via <code>socket.on('message', function(){})</code>.</p>
+
+<p>Now in addition to logging this message I want to make changes to the DOM depending upon the contents of the message.  To make the code cleaner, I’m going to define the callback function outside the event listener.</p>
+
+<p>Once again I’m not the most imaginative person when it comes to function names and as proof of this I’m going to name the callback <code>cometMessageReceivedFromServer</code>.  This will be the method that will route our messages depending upon the model that is being updated. And we’ll define it down here at the bottom of the app.js file.  I’m still going to log the message for debug purposes but now I’m going to check if the message is coming from the user model and if it is I’m going to call a new custom method called updateUserInDom and pass it the userId and the message.</p>
+
+<p><code>updateUserInDom</code> is going to determine which page will ultimately receive the changesand route it to the appropriate method for that page.  So in this case, the receiving page is <code>/user</code> or the User Administration Page and since the action or verb is update, we’re going to route the message to the <code>updateUser</code> method of an object called IndexPage. Remember these are all custom methods that I’m creating and have nothing to do with sails.</p>
+
+<p>The <code>updateUser</code> method is where we’ll update the DOM to display the <code>icon-online.png or icon-offline.png</code> depending upon the value of loggedIn.  If you take a look at the index.ejs file under the <code>views/user</code> directory, I’m populating each row of DOM with two custom data attributes, data-id and data-model.  These are then used as jquery criteria for identifying DOM elements.  So we’ll find the row of the user id that we want to change and then replace the image src with the correct icon.  Let’s see if it works</p>
+
+<p>As you can see, the login status icon changes immediately when another user logs in or out.</p>
+
+<p>What about when a new user is created?  We want to update the User Administration Page with the new user or deleted user and their login status.</p>
+
+<p>To do this we’ll use the <code>publishCreate and publishDestroy</code> methods.  So we head over to the create action of the user controller and insert the <code>publishCreate</code> method passing the created user as an argument. Then we’ll look at the destroy action and insert our <code>publishDestroy</code> method passing the id of the user that was destroyed.  That’s it for the server-side.  Back to the client and our app.js file.  We’ll start at our old friend <code>cometMessageReceivedFromServer</code> method.  From there we’ll proceed to the <code>updateUserInDom</code> method where the receiving page will again be <code>/user</code> or the User Administration page. But here we’ll two cases to our switch statement. One for the create action and one for the destroy action.  For the create action we’ll use the <code>addUser</code> method.  To clean things up and to show some functionality I’m going to use a template using the underscore library.  So let’s take a look at the template, which I’ve stored in the <code>linker/assets/templates</code> directory.</p>
+
+<p>This template represents one row of the User Administration Page. Before using this template there were a few things I needed to set-up. The first was to add the underscore library to <code>linker/assets/js</code> directory.  Next, I made a slight change to the Gruntfile, changing the default template files to inject, from html to ejs.  Finally, because we are using a hidden form for the delete button action, we need to have access to the csrf token.  Since the template is added after the index.ejs page has been rendered on the server, we needed a way to get at the token.</p>
+
+<p>There are several different ways this can be done (including make an ajax call to the server via a <code>/csrfToken</code> route). However,  I decided to make a change to the layout.ejs file appending the csrf token to my own namespaced attribute on the global window object.   That way when the layout.ejs file is rendered, my object will be appended to the page.</p>
+
+<p> So back in the app.js file I’ve built up an object called obj with the user plus the csrf token we obtained from the layout.ejs file.</p>
+
+<p>Here, I’m using jquery to grab the last tr on the page and apply the template after that last tr tag, passing in the necessary data for the template in our obj object.</p>
+
+<p>But what about when a user is deleted?  That’s a lot easier. We’ll add the <code>destroyUser</code> method and use jquery to find the appropriate user and remove that row from the DOM.</p>
+
+<p>Woah&hellip;let’s see if all that stuff worked.  I’ll restart the server and log myself in the first browser and create a user in the second browser and great&hellip;the user was added to the DOM with the correct login status.  Now I’ll log out and login as another user, and this time delete the user we just created&hellip;and both sides updated like we wanted.</p>
+
+<p>There’s one more thing to add.  Each time the server comes up we want to make sure that the online attribute of each user is set to false.  For that we can the sails bootstrap config file.  Because I used an empty object as the first argument, all the users will be updated. The second argument is the attribute I want to update, in this case online is set to false.  Finally I’ll trigger the callback back to the middleware stack. Now every time you start  the server, users online attribute will be reset to false.</p>
+
+<p>That was a long one.  For those of you who made it through, I hope it was informative and as always thanks for watching.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/">Building a Sails Application: Ep21 - Integrating socket.io and Sails With Custom Controller Actions Using Real Time Model Events.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T17:21:00-05:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/enyZYgjXRqQ" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Before we get started, we need to update the current version of sails to 0.9.7.  To do this, we’ll open our package.json file.  In the sails dependency we’ll change the version from whatever version you currently have to ~0.9.7.  Go into your terminal and in the root of our project directory type npm install and you’ll be ready to go.</p>
+
+<p>So I’m really excited to get started with this part of activityOverlord.  I’ll be taking us through, step-by-step, how sails makes use of web sockets to deliver real-time events in your application.</p>
+
+<p>First, let’s take a look at what we’ll have accomplished by the end of this episode. So, I’m going to log-in&hellip;and we’re at our user administration page, and of course I show logged in by this check mark. In order to show this functionality I’m going to actually utilize two different browsers. One just a regular browser and another that’s in incognito mode. So now I’m going to log-in here as Nikola Tesla and I don’t know if you saw this on this side but Nikola Tesla’s status changed without me having to refresh the browser. So now focus your attention on this side of the screen and I’ll sign-out and you can see that old Nick’s status has been updated to offline. What about if we add a user, so now I’m going to sign up a new user and we’ll use our friend Aimee Mann and Aimee appears on our list as well as her login status. And will go ahead and sign her out. And then finally let’s go back in as Nikola Tesla and we’ll remove Amy from the list.  Which in turn is removed from the other listening browser. But how does sails do that and how can we accomplish it. And that’s what we’re going to go into during this episode.</p>
+
+<h3>First let’s look at what we’ve learned so far…</h3>
+
+<p>In <strong>Episode 18</strong>, I went over how to use plain jane node and socket.io. We learned that websockets are actually an extension of http.  And since an http server can’t send data unless a client has requested it, web sockets allow for a server to send data unsolicited… You know what let me stop for a second. No one is dumb enough or brave enough to use these crazy Keynote transitions that I’m using. I found them so funny that I’ve decided to use them throughout this presentation. So I hope you take them in the spirit they are given and that they don’t distract you too much from the content. Anyway, back to programming.</p>
+
+<p>So the http server can’t send data unless the client has requested it and websockets allow for a server to send data unsolicited once an initial connection is made.  On the server side we built an http server with node, upgraded the http server to also act as a socket server and then on the client side we built up some html combined with javascript to connect to the server. Once the connection was made, any other client that connected would be eligible to send messages to the server which in turn emitted or broadcast those messages to the clients that were connected. We found out that part of a socket is just a unique id that identifies the socket or in our case the browser tab that is accessing the page.</p>
+
+<p>Lastly, I showed how socket.io provides the concept of rooms that allow you to group sockets so that instead of messages going to all connected sockets, one can send messages only to those sockets that are associated with a room.</p>
+
+<p>In <strong>Episode 20</strong>, I went over how sails can be used to emit messages based upon changes to a model using the rest blueprints.  That episode may have confused some folks, but after the next several episodes I encourage you to go back to episode 20 and it should make more sense.</p>
+
+<h3>So how does sails add value to websockets and socket.io?</h3>
+
+<p>Similar to the way it automates many of the tasks associated with building an MVC framework, sails automates many of the tasks associated with enabling real time events within the MVC pattern.</p>
+
+<p>I learn better by examples, so let’s look at one of the many ways sails automates enabling real-time functionality.  I’ve named this functionality Real Time Model Events.  And let me be clear here, Real Time Model Events is my term, it’s not something to do with javascript standards or anything the sail’s team uses, I just needed a way to identify some functionality and Real Time Model Events worked for me.  I’d be curious, after you see this episode, whether the term was helpful or confusing to you.</p>
+
+<p><strong>Okay but what the heck are Real Time Model Events?</strong>  Just like we create event handlers for DOM events using jquery, I’m going to show you a pattern to set-up event handlers for changes to models that get emitted to any socket that’s subscribed to the event.</p>
+
+<p>Currently we have a User model in activityOverlord.  One of the attributes of that model is a boolean called online.  We want to know whenever the value of online changes so that we can provide a real-time update to the user administration page whenever a user logs in or out of the application. <strong>So where do we put our code?</strong></p>
+
+<p>If you’ve experimented with creating a project in sails, you’ve already been running a socket server and connecting to it when you hit the initial sails welcome page.  Let’s check it out.</p>
+
+<p>So I’m going to create a new sails project called socketExample.  I’m going to start the sails’s server, and open up a page next to the terminal. Notice the handshake log message in the terminal.  That’s our tab making a socket connection to the server. But where is that taking place?  Let’s take a look at the code in the socketExample project.  I want you to notice in the assets/linker/js directory we have a file added when we created this project called app.js.  This app.js file is there to get you up and running with websockets.  The structure of this file is purely optional but I’m going to use it as the base for the functionality in activityOverlord.</p>
+
+<p>So here’s where we attempt to connect with the socket server. And then we listen for when this socket actually connects, and when it does, the socket starts listening for a message event from the server.</p>
+
+<p>But wait, we didn’t create the socket server itself.  That’s because sails does this for you automatically.  You can have raw access to the socket.io server and client methods, but what I want to show you here is that a bunch of the work is done for you automatically if you choose to use it.</p>
+
+<p><strong>So, how do I register an event for our User model, online attribute, to listen for changes?</strong>  We do that by using the following pattern.</p>
+
+<p>The first step happens on the server-side within a controller.  This involves subscribing the socket to the model “class” room and/or subscribing the socket to the model instance rooms.  Remember, when I say socket, in this example, I’m talking about the page or browser tab that already connected to the socket server via var socket = io.connect(); back in our app.js file.</p>
+
+<p>Now, <strong>You might be asking what’s the difference between subscribing to the model ‘class’ room versus the model ‘instance’ room?</strong>  Subscribing to the model “class” room will enable the socket to listen for  the creation of new model instances via a method called publishCreate().  Whereas subscribing to the instance class room enables the socket to listen for changes to existing models via the publishUpdate and/or publishDestroy methods. By the way, when you subscribe a socket to a model class room, that socket automatically gets introduced to the models instance room and will receive any changes via publishUpdate or publishDestroy.</p>
+
+<p>So in activityOverlord we have a User model and we want to listen for the creation of new user’s as well as changes to existing users&hellip;so let’s leave all these cheesey transitions behind and go implement that in the code.</p>
+
+<p>Here, we’re are in the user controller, and I’m going to add an action called subscribe.</p>
+
+<p>Sails gives us access to the requesting socket via req.socket.  So, first I’m going to subscribe to the User’s “class” room by entering User.subscribe and passing in req.socket as an argument.  We’ve now subscribed to the User model class room.</p>
+
+<p>Next, I’ll subscribe to the User model’s instance room by entering User.subscribe, again passing in the requesting socket via req.socket, but wait I need to pass a second argument, that being the existing instance user rooms or models.  No problem, I’ll just wrap these two subscribe methods in a find query method.  Now I can pass the returned users into the subscribe method as a second argument and we’ve now subscribed to the User model instance rooms.</p>
+
+<p>But what about publishCreate, publishUpdate, and publishDestroy, where do we put those methods?</p>
+
+<p>I’m going to come back to those methods in a minute, let’s move on in our pattern and address where we call our subscribe action.  For that we’re going to move from the server back to our client.  As you recall in app.js we’ve been notified by the socket server that a connection has been made and we’re now waiting on a message event.  This is where we’re going to use a new method called socket.get() and we’re going to use it to “hit” our subscribe action.</p>
+
+<p><strong>You might be asking, I thought get was an http method, what does that have to do with sockets?</strong>  Sails allows you to make requests like you would using http.  You can not only make a get request over sockets, you can also use post, put, and destroy. I’m going to do a separate screencasts on using these methods but I wanted to mention that they were available.</p>
+
+<p>So we’re back in app.js and here’s the code&hellip;that’s it, we’re now subscribed to both the class room and instance rooms of the User.model when each page is loaded.</p>
+
+<p><strong>So let’s review.</strong>  We’ve connected to the socket server, we’ve subscribed to the User model class and instance rooms by calling the subscribe action of the UserController via socket.get and then within the subscribe action, subscribing to the user model by calling User.subscribe, and finally listening for message events from the socket server.  We can now return to our controllers and start sending messages to our sockets based upon additions and changes to our model.</p>
+
+<p>We started out this screencast with a goal of letting users know when other users login via the User Administration page. So let’s get to the session controller and do just that.</p>
+
+<p>So here we are in the create action of the session controller.  When a user authenticates, we’re going to let other users know by using the publishUpdate method.  We’re going to pass the user id as the first argument, and then an object which will contain the changes that we want to send to other sockets. In this case whether loggedIn is true or false and the userid.  Let’s try it out.</p>
+
+<p>Okay, we have two browsers here, one in regular modeand  one in incognito mode with the chrome console open in both tabs.  I’m going to log into activityOverlord, which should trigger the publishUpdate and log it to the console.  But the message event is not showing up in the console, what’s up?  Well first let’s look at the terminal.  Woah there’s a bunch going on here.</p>
+
+<p>First, don’t be confused by the fact that the version of sails is v0.9.4 and that I’m getting these errors about installing sails locally.  While creating these screencasts, I was using the development branch of sails in order to get the latest web socket functionality.  You should be on 0.9.5 which encompassed the development branch when this screencast was made.</p>
+
+<p>There are however some interesting errors here.  Let’s take a look at this warning that we are trying to render a view (session/new) over sockets. If we look back at our subscribe action, we don’t have anything responding to our action.  Which is an important reminder that we should at least send back a 200 if the action is successful.  I’ll do that now.  But why are we getting a warning that we’re trying to render a view?  Ahh, let’s take a look at our policies.  The current policy that will affect our subscribe action is admin.  And when you take a look at that policy, it requires that we be authenticated before gaining access to the action.  And look what happens if we’re not authenticated.  We’re redirected to session/new which actually does render a view.</p>
+
+<p>This is simple enough to fix.  We’ll just add subscribe to our flash policy.  Let’s see what happens.</p>
+
+<p>I’ll reload the sails server, login in, and there’s our message in the console.  And if we look at it, the message contains the user.id and that loggedin is true&hellip;perfect.  Now you may ask why didn’t the browser that I logged in on also have a console message?  It actually did, however, after I logged in successfully, the browser  was redirected to the User Administration page which was refreshed instantly making it difficult to see the message before the browser refreshed.</p>
+
+<p><strong>What about when the user logs out?</strong>  We’ll add a similar publishUpdate method within the delete action of the SessionController.  Instead of setting loggedIn as true will set it to false.  So after restarting the sails server, we’ll log out which produces a new message that has the loggedIn attribute set to false.</p>
+
+<p>This is kind of the half-way point of this screencast.  In the next episode I’ll go over one way of handling the DOM manipulation on the client based upon the events we’re receiving from our socket.  See ya at the next screencast and thanks a lot for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -212,94 +406,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/">Episode 20: Adding Real-time Events to Models in 4 Lines of Code</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-15T16:39:00-05:00" pubdate data-updated="true">Sep 15<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/09/15/episode-20-adding-real-time-events-to-models-in-4-lines-of-code/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In episode 20 you&rsquo;ll use an app to explore and understand how socket.io works within sails using a client side app that renders the majority of its views via ajax.  With four lines of code, the app monitors the user model and alerts any subscribing sockets with changes to the model.</p>
-
-<p>Special thanks to Srinivas Tamada and his on adding sound via jquery and can found at (&ldquo;<a href="http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html">http://www.9lessons.info/2013/04/play-notification-sound-using-jquery.html</a>&rdquo;).</p>
-
-<p>The repo for this episode can be found at: (&ldquo;<a href="https://github.com/irlnathan/uglyGuineaPig">https://github.com/irlnathan/uglyGuineaPig</a>&rdquo;)</p>
-
-<iframe width="640" height="390" src="http://www.youtube.com/embed/a4aVdEw7HlM" frameborder="0" allowfullscreen></iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/">Building a Sails Application: Ep19 - Create the Necessary Ui and Mechanics for Sign-in and Sign-out in Preparation for Using Web Sockets.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-10T12:55:00-05:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/09/10/building-a-sails-application-ep19-create-the-necessary-ui-and-mechanics-for-sign-in-and-sign-out-in-preparation-for-using-web-sockets/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In episode 19 you&rsquo;ll create the necessary ui and mechanics for sign-in and sign-out in preparation for using web sockets.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/v-Q-Hp9nBwM?feature=player_embedded" frameborder="0" allowfullscreen></iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/5/">&larr; Older</a>
@@ -317,6 +423,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/">Building an Angular Application in Sails: Ep5 - Creating Custom Actions and an Intro to Node-machines.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/">Building an Angular Application in Sails: Ep4 - Implementing Requests in Angular to a Sails API.</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/">Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in Our SignUp Page.</a>
       </li>
     
@@ -326,14 +440,6 @@
     
       <li class="post">
         <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let&#8217;s Start a New Adventure</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a>
       </li>
     
   </ul>

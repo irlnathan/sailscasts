@@ -259,12 +259,24 @@
         <lastmod>2015-01-20T16:34:55-06:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/
+        </loc>
+        <lastmod>2015-03-06T17:10:48-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/
+        </loc>
+        <lastmod>2015-03-06T17:07:03-06:00</lastmod>
+    </url>
+    <url>
         <loc>http://irlnathan.github.io/sailscasts/blog/archives/</loc>
-        <lastmod>2015-01-20T16:34:55-06:00</lastmod>
+        <lastmod>2015-03-06T17:10:48-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/</loc>
-        <lastmod>2015-01-20T16:34:55-06:00</lastmod>
+        <lastmod>2015-03-06T17:10:48-06:00</lastmod>
     </url>
     <url>
         <loc>http://irlnathan.github.io/sailscasts/making-activityoverlord/</loc>

@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building an Angular Application in Sails: Ep4 - Implementing requests in Angular to a Sails API. - sailsCasts</title>
+  <meta name="author" content="irl nathan">
+
+  
+  <meta name="description" content="Follow me on twitter here. Subscribe to the sailscasts mailing list here. The repo for this episode can be found here. Transcript Howdy from Austin &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api">
+  <link href="/sailscasts/favicon.png" rel="icon">
+  <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
+  <script src="/sailscasts/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/sailscasts/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43421644-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sailscasts/">sailsCasts</a></h1>
+  
+    <h2>Learning about sails.js one screencast at a time.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sailscasts/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:irlnathan.github.io/sailscasts" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sailscasts/">Blog</a></li>
+  <li><a href="/sailscasts/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Building an Angular Application in Sails: Ep4 - Implementing Requests in Angular to a Sails API.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-06T17:03:00-06:00" pubdate data-updated="true">Mar 6<span>th</span>, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/eOZ7n-5uASo" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<p>The repo for this episode can be found <a href="https://github.com/irlnathan/activityoverlord20">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy from Austin and welcome back.</p>
+
+<p>It&rsquo;s now time to get into implementing our Sails back-end api for the signup page.  In terms of workflow, we&rsquo;re going to let the signup page drive the requirements of our Sails <em>back-end</em>.  So looking at the signup page I want to find all of the places where the frontend needs to make requests of our backend.</p>
+
+<p>Not to get too nerdy here, but really we&rsquo;ve already made a <code>request</code> from our browser to our Sails back-end when we loaded the signup page.  When I navigated to <code>localhost:1337/signup</code> with the browser, the Sails web server passed our request to the router, which parsed the request, in this case, /signup and matched it with a handler in the routes.js file ultimately responding with this view.  So now that we have the signup page rendered in our browser, what other elements in the page need to make requests?</p>
+
+<p>There are at least three different elements that will make requests to the Sails back end api.  They include <code>/</code> when the user clicks the activityOverlord2.0 logo, to <code>/login</code> when the user clicks the Sign In button, and to <code>/signup</code> when the user clicks the Create Account button.  I&rsquo;m going to implement the request to <code>/signup</code> first.  Now, some of you might be wondering, wait, we&rsquo;ve already handled a request to <code>/signup</code>.  And that&rsquo;s true but it&rsquo;s to GET /signup, where GET is the HTTP verb that the browser tpically uses to request web pages.  This new request, however, will use the HTTP verb POST as in POST <code>/signup</code>.  If this is starting to make your head spin, get your balance and head over to this episode which explains HTTP routing in nauseating detail.  Actually I, I hope it isn&rsquo;t nauseating.</p>
+
+<p>Ok,  this POST <code>/signup</code> request will take the gathered contents of this form and send it to the Sails server via an AJAX request from Angular.</p>
+
+<p>So let&rsquo;s set this up and go b  ack in our text editor, wait where&rsquo;s sublime.  I love sublime text but I wanted to experiment with the Atom editor from github for the next serveral episodes&hellip;.anyway we&rsquo;re in signup.ejs.  And we need to implement this function that the ng-submit directive is pointing to: `submitSignupForm()&#8220;.  But where do we declare that function?  We&rsquo;ll declare it in our controller which we pointed to via the ng-controller directive here.  The actual controller code is contained in a file named SignupController.js by convention because really we could&rsquo;ve named the fie foo.  So here&rsquo;s where we actually created the controller.  So I&rsquo;ll declare the function here.  But this function has no connection or binding to the markup.  We&rsquo;ll use the Angular $scope object to make this connection.  Angular characterizes the $scope object as the glue between the controller and directives in the markup.  So on the onehand we have controllers contained in javascript files and on the other we have directives contained in mark-up.  And the $scope object is used as the bridge between them.</p>
+
+<p>So let&rsquo;s fire up sails using Sails lift and go into the chrome browser and navigate to <code>localhost:1337/signup</code>.  And as you can see here we&rsquo;ve got an error&hellip;our $scope object has not defined.  What&rsquo;s happened is the $scope has not been injected into our function.  But we can easily remedy that by passing the scope as an argument into the function.  Now when we refresh the browser, we no longer have an issue.  But we&rsquo;re not out of the woods yet.</p>
+
+<p>Angular determines a controller&rsquo;s dependencies from the arguments to the controller&rsquo;s constructor function.  So if we minify our JavaScript for the Signup controller, all of the function arguments including $scope would be minified as well.  So $scope could turn into the letter a and Angular&rsquo;s dependency injector would not be able to identify services correctly.  But there&rsquo;s an easy fix here.  I can add an array to the constructor here that adds a string for $scope and since strings aren&rsquo;t minified, Angular has a way to match the name with the argument.  Let&rsquo;s go back into browser and refresh and make sure everything works.</p>
+
+<p>Okay great, Next, we&rsquo;ll enable the loading states we created in the previous episode.  I&rsquo;ll set-up the initial loading state by adding  another attribute to the scope object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// set-up loading state</span>
+</span><span class='line'>  <span class="nx">$scope</span><span class="p">.</span><span class="nx">signupForm</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">loading</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, don&rsquo;t be confused by my adding the <code>signupForm</code> attribute between the scope object and the loading attribute.  I&rsquo;m just gonna namespace everything concerning the signup form to under this attribute.  So when our submitSignupForm() function is executed we want the loading state to change to true. If we look at the markup and specifically the create account button, you can see what&rsquo;s changing based upon the loading state.  If the loading state is false, the button will display the Create Account text.  If it&rsquo;s true, the button will display our spinner animation with the text Preparing your new account within the button.  Okay, let&rsquo;s see if this works.  I&rsquo;ll go back to the signup page and since we have validation I need to put in some valid values and when I click the create account button you can see the loading state change.</p>
+
+<p>So now let&rsquo;s add the ajax request to our function and we&rsquo;re going to do that with an Angular service $http. If you&rsquo;ve ever done an ajax request in jquery, this is going to look very familiar.  First, let&rsquo;s inject it into the function and the array like we did with the $scope object.  So we&rsquo;re going to put in the path and any data we want to send with the request.  In order to bind the form fields to these data attributes we&rsquo;re going to use $scope again.  And remember the $scope is linking the values that we&rsquo;re capturing in the mark-up via the ng-model directive.  So let&rsquo;s do that for the rest of our fields in the form.  We&rsquo;ve got title, and email, and password.  Okay great, now let&rsquo;s declare our success and error handlers.  So on success I want to change the location of the browser to <code>/user</code>.  This has the effect of making a <code>GET</code> request to <code>/user</code>.  If the request generates an error, I want to catch that error and for now just log the response.  Finally, I&rsquo;ll create this catchall function and either way I want to reset the loading state back to false.</p>
+
+<p>We&rsquo;re now going to transition from the front-end to the back-end.  From the angular framework to the Sails framework.  Our goal is to create  a user by gathering up account information and sending it to Sails.  So let&rsquo;s implement some stuff and then I&rsquo;ll circle back and explain what we did in more detail.</p>
+
+<p>Head over to the terminal and type sails generate api user.  With this simple set of commands and a bunch of tools and automation from Sails, we have almost everything we need for our API.  Start the Sails server by typing sails lift.</p>
+
+<p>Because we created a model, Sails is asking us a question about migrations, we&rsquo;ll come back to this.  For now I&rsquo;m going to use the second option &mdash; <code>alter</code>.</p>
+
+<p>Next, let&rsquo;s go into the browser and navigate to <code>localhost:1337/user</code>.  We&rsquo;ve just used one of Sails blueprint shortcut actions.  By navigating to &lsquo;/user&rsquo; we made a <code>GET</code> request to the server for all the user records.  And since we haven&rsquo;t created any records yet, not suprisingly we get an empty array.  But using the create action blueprint shortcut I&rsquo;ll create our first user record &mdash; Humphrey Bogart.  Sails also has blueprint rest or RESTful actions.  From within POSTMAN, really one of the best tool on the planet for testing routes, I&rsquo;ll make a POST request to /user with these route parameters for our next user Aimee Mann.   Chances are you&rsquo;ll create your own Controller Actions by the time you get to production.  However, Blueprints are incredibly useful in the design phase of your API.  If you interested in learning more about Blueprint capabilities, head over to this episode where I break them down in a bunch of detail.</p>
+
+<p>So the path we want to associate with create a user is <code>/signup</code>.  So head back into the editor and open up <code>\config\routes.js</code>.  I&rsquo;m going to add the route <code>POST /signup</code> which will be handled by the <code>UserController.create</code> action. Let&rsquo;s restart Sails and navigate to the signup page.  Finally, I&rsquo;ll signup my hero Nikola Tesla.  And there&rsquo;s our list of records.</p>
+
+<p>So briefly I want to go over what we&rsquo;ve done.  We created a route that connects the request to a controller and action. When the api was created, Sails provided us with a user controller and a create action (via blueprints) automatically.  Sails also created a user model that has model methods like .create, .find, .update, and .destroy.  Finally, the user model can retrieve and save records from a variety of databases via adapters.</p>
+
+<p>In the next episode we&rsquo;ll transition from Sails blueprints to our custom action.  I&rsquo;ll also introduce a brand new Sails concept &mdash; node machines.  Thanks as always for watching and be sure to follow me on twitter and signup for the Sailscasts mailing list.  Also go checkout and signup for the beta of the Sails team&rsquo;s latest creation Treeline.io.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">irl nathan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-06T17:03:00-06:00" pubdate data-updated="true">Mar 6<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/" title="Previous Post: Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in our SignUp Page.">&laquo; Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in our SignUp Page.</a>
+      
+      
+        <a class="basic-alignment right" href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/" title="Next Post: Building an Angular Application in Sails: Ep5 - Creating custom actions and an intro to node-machines.">Building an Angular Application in Sails: Ep5 - Creating custom actions and an intro to node-machines. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/">Building an Angular Application in Sails: Ep5 - Creating Custom Actions and an Intro to Node-machines.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/">Building an Angular Application in Sails: Ep4 - Implementing Requests in Angular to a Sails API.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/">Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in Our SignUp Page.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/">Setting Up the Development Environment and Creating Your First Project</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let's Start a New Adventure</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - irl nathan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sailscasts';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

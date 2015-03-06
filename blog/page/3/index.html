@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Transcript Howdy. Today I’m here to talk about my quest to understand the mysterious world of node module dependencies. The good news is, in the end &hellip;">
+  <meta name="description" content="Transcript Howdy, I was recently asked whether there was a way to create dummy or fake data for testing in a sails project. One way to accomplish &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,904 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">sailsCasts Answers: Ep3 - How Do I Create Sample &#8216;Dummy&#8217; Users for My Sails Project?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-19T15:02:00-06:00" pubdate data-updated="true">Nov 19<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/19/sailscasts-answers-ep3-how-do-i-create-sample-dummy-users-for-my-sails-project/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/KYaAf9itjjo" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy, I was recently asked whether there was a way to create dummy or fake data for testing  in a sails project.  One way to accomplish this is using <code>/config/bootstrap.js</code>.  Although I can automate the creation of the users, I’ll still need some fake users for sails to create.  Instead of manually typing in each user’s attributes, I found this really handy online tool called <a href="http://www.generatedata.com/">generatedate</a>.  You have a bunch of options of how you want your data generated.  In this example I&rsquo;ll select name, company, and email selecting the simple json format.  I’ll copy all of these users and head over to the <code>bootstrap.js</code> file.</p>
+
+<p>I&rsquo;ll copy our new users into an array called dummyUsers.  Next I&rsquo;ll use the <code>count()</code> method on our <code>user</code> model.  If there are any records in the User model than I&rsquo;ll call the callback and nothing will be altered in the database.  However, if there is no data in the model, I&rsquo;ll use the <code>create()</code> method on the User model, passing in the array <code>dummyUsers</code> and then calling the callback.  Note that the <code>boostrap.js</code> is run once each time sails is started via <code>sails lift</code>.</p>
+
+<p>So, let&rsquo;s see if that worked.  I&rsquo;ll go over to the terminal and enter sails lift.  Next, I&rsquo;ll get a list of user by entering <code>/user</code> into the browser.  And there&rsquo;s our hundred or so users.</p>
+
+<p>I’ve posted a link to the <a href="https://github.com/irlnathan/sails-bootstrap-example">github repo</a> of this project and I hope this was helpful.  Thanks as always for watching.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/05/building-a-sails-application-ep26-deploying-a-sails-app-to-heroku/">Building a Sails Application Ep26 - Deploying a Sails App to Heroku.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-05T22:30:00-06:00" pubdate data-updated="true">Nov 5<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/11/05/building-a-sails-application-ep26-deploying-a-sails-app-to-heroku/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/05/building-a-sails-application-ep26-deploying-a-sails-app-to-heroku/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/ClHsv81XeaE" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome back.  Like most of episodes this one is going to move quickly. I do this so they don’t go on forever, however, I highly recommend stopping and rewatching parts that might go to fast.   So, I thought it would be useful to go over how to deploy activityOverlord into the wild.  This episode will cover deployment to heroku, a self-described cloud application platform.</p>
+
+<p><img class="center" src="/sailscasts/images/ep26/deployment.004.jpg"></p>
+
+<p>Heroku makes it really easy to deploy node apps without a lot of the overhead typically associated with deploymnet.  Although this episode will concentrate on heroku, I plan on covering other platforms in future episodes.</p>
+
+<p>First, let’s look at the current stack of technologies used by activityOverlord.</p>
+
+<p><img class="center" src="/sailscasts/images/ep26/deployment.005.jpg"></p>
+
+<p>I’m running OS X Mountain Lion locally on a MacBook Pro.  I’ve got node installed and sails of course runs on top of that.   Our models, currently the user model,  uses a mongodb database also running locally on mountain lion.  And finally, we store our sessions and sockets in memory.</p>
+
+<p>To do this deployment the stack of technologies is going to change.</p>
+
+<p>For example, instead of running locally on OS X Mountain Lion, node and sails will run on an instance of the hardware and software provided by heroku.  Looking at the heroku docs, node.js runs on instances of <a href="https://devcenter.heroku.com/articles/stack">Ubuntu 10.04</a>.</p>
+
+<p>Next, instead of our current local mongodb database, we’ll create a new instance of the database on a hosted solution provided by mongohq. Finally, we’ll move our in memory socket and session store to redis and specifically redis-to-go hosted by heroku as well.</p>
+
+<p><img class="center" src="/sailscasts/images/ep26/deployment.010.jpg"></p>
+
+<p>Moving from local mongodb to hosted mongohq
+So you’ll first need to create an account on mongohq.   Once you have an account and are logged in, create a new hosted mongodb instance using the sandbox option.  Although this option isn’t for production it works for the purposes our project.  Next, I created a user for the database that we’ll use to authenticate in our app.</p>
+
+<p>So I want to incorporate this hosted database in my local instance of activityOverlord before we move it to heroku and we do that by changing the <code>local.js</code> file.  First let’s do a bit of review.</p>
+
+<p><img class="center" src="/sailscasts/images/ep26/deployment.014.jpg"></p>
+
+<p>Our local configuration of mongoDB uses <code>local.js</code> within the config folder while <code>adapters.js</code> is completely commented out at the moment. The <code>adapters.js</code> file is one place sails looks to for connections to databases.  The local.js file overrides anything contained in <code>adapters.js</code>.  Also recall that local.js is part of <code>.gitignore</code> so the file will not be saved to git or our repo.</p>
+
+<p>The impact of this is that anything sails relies upon in terms of configuration in local.js will not be part of the deployment unless we provide for it somewhere else in the code or by using environment variables prior to deployment.</p>
+
+<p>Before we address the deployment issues lets first go into the code and make a few changes to <code>local.js</code> to use our new mongohq instance.</p>
+
+<p>We no longer need the host, user, password, and database attributes because they are combined in a new attribute called url.  I’ll copy and paste the url from the mongohq interface and then insert the username and password I created earlier for the database.</p>
+
+<p>/config/local.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">adapters</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="s1">&#39;default&#39;</span><span class="o">:</span> <span class="s1">&#39;mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">mongo</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">module</span>   <span class="o">:</span> <span class="s1">&#39;sails-mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;mongodb://admin:1234@paulo.mongohq.com:10099/activityoverlord&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">schema</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let’s see if this worked.  I’ll go into the terminal and lift activityoverlord.  Next, I’ll create a new user and great it looks like things are working.  So, I’ll go back into mongohq and into the user collection and there’s my new user.  To start things off, I’ll change my admin attribute to true. Now, I’ll log-in to the account and&hellip;great I have my admin user set-up.</p>
+
+<p>Okay, now, let’s deploy to heroku.  If you don’t already have an account on heroku, go ahead and create one now.  Next, you’ll want to install the heroku toolbelt which can be found <a href="https://toolbelt.heroku.com/">here</a>. Finally, you’ll want to login to heroku from the terminal.  So let’s go to the terminal and type heroku login, this is going to ask us for our  heroku credentials and the first time you run it, it’s also going to set-up your public SSH key.  Don’t worry If you don’t already have one, heroku will walk you through setting one up.</p>
+
+<p>So now that we have an account, got the toolbelt installed, and we’ve logged in from the terminal, we want to back to the heroku dashboard and select create a new app.  If you want to enter in an app name it will need to be something other than activityoverlord as app names must be unique.  If you don’t put in an app name, heroku will create one for you and regardless, you can always go back and rename your app later.</p>
+
+<p>Now you’ll recall that we have a local.js file pointing to the mongodb database hosted on mongohq. Since <code>local.js</code> will not be part of our repo because of <code>.gitignore</code> we need some way of letting the heroku server instance know about the mongodb configuration and we do this with environment variables.  So let’s go back into our <code>adapters.js</code> file and I’m going to copy and paste the mongodb configuration information from our local.js file into this adapters.js file.  However, I’m going to replace where we have a string that contains the Username, password,path, and port of our mongodb instance on mongohq with an environment variable called DB_URL and that’s going to be prefaced by process.env.</p>
+
+<p>/config/adapters.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s1">&#39;default&#39;</span><span class="o">:</span> <span class="s1">&#39;mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">mongo</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">module</span>   <span class="o">:</span> <span class="s1">&#39;sails-mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DB_URL</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">schema</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, process.env is a node object that contains our environment which also includes the environment variables that we’ll add to it.  So to add the environment variable to our heroku instance, let’s go back to the terminal and we’ll type <code>heroku config:set DB_URL=</code>  and to get our path I’ll look in our <code>local.js</code> and copy the path of our mongohq instance and paste it here, I’ll also add &mdash;app activitityoverlord1 to point specify which app to associate with.</p>
+
+<p>So we’ve set DB_URL on the remote heroku instance using <code>heroku config:set</code> and used that environment variable in our <code>adapters.js</code> file to point to our mongoHQ instance.</p>
+
+<p>So how is heroku going to start ativityoverlord?  We do that by creating a <code>Procfile</code> in the root of our app.  A Procfile is a mechanism for declaring what commands are run by our app’s dynos on the Heroku platform. More on dynos in a second.  Let’s go back into the code and add a new file named Procfile with no extension.  The file will have one line: <code>web: node app.js</code></p>
+
+<p>Next, make sure you have sails-mongo in your <code>package.json</code> file and that it’s installed in node_modules.  In fact it’s probably best to do an npm install to make sure you have all of the depencies installed.  Now we need to link up the heroku end point with our project.  Let’s go back to the heroku dashboard and look under the settings tab. Go ahead and c opy the git url and then go back to the terminal and enter: <code>git remote add heroku &lt;and then paste the git url here&gt;</code> and press enter.  Add all of your changes to git using: <code>git add .</code> and then commit them using <code>git commit -am “my very descriptive change log”</code>.  Finally push the project by entering: <code>git push heroku master</code>.</p>
+
+<p>The last step before we fire up our browser and look at activityOverlord is to set up a dyno  for our app.  Heroku suggests thinking of a dyno asa virtualized Unix container.  In sum, it’s the place where our app will run.  To assign one dyno to our app, type: <code>heroku ps:scale web=1</code>.</p>
+
+<p>So let’s go back into the browser, refresh the app, and log-in.  Everything looks to be working, however, open up the console and you’ll see an error.  Socket.io is doing its job.  Websockets isn’t working so its failing over to long polling so we still have a connection.  As it turns out, heroku has just started to support web sockets and you must enable it on the application instance.  To do that, we’ll go back to the console and type <code>heroku labs:enable websockets</code>.   It can take a second before websockets starts working.  There we go.  Also, I have had issues with it periodically failing and going back to web polling, but it is in beta so we’ll see how it improves over the coming weeks.</p>
+
+<p>Next, I want to take a look at moving our session and socket store to redis.  But first, why would we want to do this in the first place?  Let’s take the following example.  I have three instances of heroku running activityOverlord on each instance. I use a load balancer to distribute the incoming requests across the three instances.</p>
+
+<p><img class="center" src="/sailscasts/images/ep26/deployment.025.jpg"></p>
+
+<p>Suppose we store sessions in memory, and on the first request the load balancer sends us to instance A where we authenticate and the session cookie is set for that server instance.  On the next request we’re sent to instance B, where we haven’t yet authenticated and therefore won’t be able to access the resources we would have had access on instance A.  Therefore we need some way for the multiple instances of our application to share the same session store.</p>
+
+<p><img class="center" src="/sailscasts/images/ep26/deployment.028.jpg"></p>
+
+<p>This is why we’re moving our session and socket store to redis.</p>
+
+<p>So let’s set-up redis.  We’ll head back to the heroku dashboard and our activityoverlord instance. Select add-ons and redis-to-go. Under Plans, select Nano, or the free plan.  I had to put in a credit card despite picking the free option.  Select add nano for free. Go back to you instance of activityoverlord and select redis-to-go nano under add-ons.</p>
+
+<p>Here you’ll see the configuration path to our redis instance.  First, let’s go into activityoverlord and our <code>session.js</code> file.  As the documentation suggests, I’m going to uncomment, the adapter, host, port, db, and password keys. We can then go back to our redis-to-go configuration file and copy and paste each value into the keys in <code>session.js</code>.</p>
+
+<p>/config/session.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">adapter</span><span class="o">:</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;soldierfish.redistogo.com&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">port</span><span class="o">:</span> <span class="mi">9599</span><span class="p">,</span>
+</span><span class='line'>  <span class="c1">// ttl: &lt;redis session TTL in seconds&gt;,</span>
+</span><span class='line'>  <span class="nx">db</span><span class="o">:</span> <span class="s1">&#39;redistogo&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">pass</span><span class="o">:</span> <span class="s1">&#39;d5d68502e87bf36e5d6d25d9c0f37b5a&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Okay, let’s see if this worked.  I’ll go back into the terminal and commit my changes and then push them to our heroku instance.  Now let’s go back to the browser and try to log in.  Even though that worked the true test, is whether our session id is in the redis database.  To determine this, I’m going to use the <code>redis-cli</code> command line tool.  To use this tool we need to again use the host, port and password to authenticate to the database.  Once connected I’ll use the <code>keys</code> command passing in an <code>*</code> as an argument to get all keys.  And there’s our session key, great.  The redis website has good documentation on other useful commands.</p>
+
+<p>You might be asking yourself, I don’t really want to put my redis database credentials in my github repo, and you know you would be right, that would be a very bad idea!  So instead we can use environment variables to set these credentials to our heroku instance.  Let’s go back into <code>session.js</code> and change the values for the host, port, db, and pass keys to environment variables.</p>
+
+<p>/config/session.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">adapter</span><span class="o">:</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">host</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_HOST</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PORT</span><span class="p">,</span>
+</span><span class='line'>  <span class="c1">// ttl: &lt;redis session TTL in seconds&gt;,</span>
+</span><span class='line'>  <span class="nx">db</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_DB</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">pass</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the server instance will be looking for those environment variables for the values.  We’ll set them on the heroku instance the same way we did for <code>DB_URL</code> using <code>heroku config:set</code>.</p>
+
+<p>Okay, now let’s do the same for sockets.  We’ll go back to <code>sockets.js</code>.  Similar to <code>session.js</code> we’ll uncomment the host, port, db, and pass keys and then insert the environment variables for the values.</p>
+
+<p>/config/sockets.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">adapter</span><span class="o">:</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">host</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_HOST</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PORT</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">db</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_DB</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">pass</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASS</span><span class="p">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, I’m going to go back to the terminal and commit my changes again and push them to our heroku instance.  Now I’ll go back to the browser, notice that I don’t have to login as my session is now maintained by redis whereas before we were doing things in memory which required us to login each time the server was lifted.  I’ll manually log out and log back in. And great it looks like everything is working.</p>
+
+<p>Okay, the last thing I want to address with deployment is changing the value of the <code>NODE_ENV</code> variable from development to production.  For sails one of the biggest outwardly facing changes as a result of using production instead of development is that all of our css files will be combined and minified into one file.  Javascript files will also be combined and minified as well.  In addition many modules utilize <code>NODE_ENV</code> as a hook to determine whether to make changes based upon its value.  We’re going to actually set the environment variable in our <code>Procfile</code>.  So let’s go over to the <code>Procfile</code> and add <code>web: NODE_ENV=production node app.js</code>.  I’ll commit my changes and push them to heroku.  Back in the browser I’ll refresh the page and then look at the source to confirm that all of my css is minified in one file and all of my javascript is minified in one file.</p>
+
+<p>So now that we’ve successfully deployed activityOverlord to Heroku I want to address the work-flow for moving forward with development.  The repo for activityOverlord will have the following set-up for <code>local.js</code>, <code>adapter.js</code>, <code>session.js</code>, and <code>sockets.js</code>.  The <code>local.js</code> file will default to our local instance of mongodb.</p>
+
+<p>/config/local.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">1337</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The runtime &quot;environment&quot; of your Sails app is either &#39;development&#39; or &#39;production&#39;.</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// In development, your Sails app will go out of its way to help you</span>
+</span><span class='line'>  <span class="c1">// (for instance you will receive more descriptive error and debugging output)</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// In production, Sails configures itself (and its dependencies) to optimize performance.</span>
+</span><span class='line'>  <span class="c1">// You should always put your app in production mode before you deploy it to a server-</span>
+</span><span class='line'>  <span class="c1">// This helps ensure that your Sails app remains stable, performant, and scalable.</span>
+</span><span class='line'>  <span class="c1">// </span>
+</span><span class='line'>  <span class="c1">// By default, Sails sets its environment using the `NODE_ENV` environment variable.</span>
+</span><span class='line'>  <span class="c1">// If NODE_ENV is not set, Sails will run in the &#39;development&#39; environment.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">environment</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">||</span> <span class="s1">&#39;development&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// LOCAL MONGO DB</span>
+</span><span class='line'>  <span class="nx">adapters</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="s1">&#39;default&#39;</span><span class="o">:</span> <span class="s1">&#39;mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">mongo</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">module</span>   <span class="o">:</span> <span class="s1">&#39;sails-mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">host</span>     <span class="o">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">user</span>     <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">password</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">database</span> <span class="o">:</span> <span class="s1">&#39;activityoverlord&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">schema</span>   <span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// // // HOSTED MONGO HQ</span>
+</span><span class='line'>  <span class="c1">// adapters: {</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//  &#39;default&#39;: &#39;mongo&#39;,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//   mongo: {</span>
+</span><span class='line'>  <span class="c1">//     module   : &#39;sails-mongo&#39;,</span>
+</span><span class='line'>  <span class="c1">//     url: &quot;mongodb://admin:1234@paulo.mongohq.com:10099/activityoverlord&quot;,</span>
+</span><span class='line'>  <span class="c1">//     schema: true</span>
+</span><span class='line'>  <span class="c1">//   }</span>
+</span><span class='line'>  <span class="c1">// }</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want the local version of activityOverlord to use hosted mongohq instance, just uncomment and comment the following lines.  Since <code>local.js</code> will overwrite <code>adapters.js</code> we can leave the existing code in it.</p>
+
+<p>/config/adapters.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">adapters</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s1">&#39;default&#39;</span><span class="o">:</span> <span class="s1">&#39;mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">mongo</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">module</span>   <span class="o">:</span> <span class="s1">&#39;sails-mongo&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">url</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DB_URL</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">schema</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Session.js will use the in memory session store, but when you want to deploy just uncomment these lines and comment your in memory config.</p>
+
+<p>/config/session.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">session</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Session secret is automatically generated when your new app is created</span>
+</span><span class='line'>  <span class="c1">// Replace at your own risk in production-- you will invalidate the cookies of your users,</span>
+</span><span class='line'>  <span class="c1">// forcing them to log in again. </span>
+</span><span class='line'>  <span class="nx">secret</span><span class="o">:</span> <span class="s1">&#39;d494d185735d00432bc3485d32bd5ca8&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// In production, uncomment the following lines to set up a shared redis session store</span>
+</span><span class='line'>  <span class="c1">// that can be shared across multiple Sails.js servers</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// HOSTED REDIS INSTANCE</span>
+</span><span class='line'>  <span class="nx">adapter</span><span class="o">:</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">host</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_HOST</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PORT</span><span class="p">,</span>
+</span><span class='line'>  <span class="c1">// ttl: &lt;redis session TTL in seconds&gt;,</span>
+</span><span class='line'>  <span class="nx">db</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_DB</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">pass</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASS</span>
+</span><span class='line'>  <span class="c1">// prefix: &#39;sess:&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// // USE IN MEMORY</span>
+</span><span class='line'>  <span class="c1">//   adapter: &#39;memory&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Uncomment the following lines to use your Mongo adapter as a session store</span>
+</span><span class='line'>  <span class="c1">// adapter: &#39;mongo&#39;,</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// host: &#39;localhost&#39;,</span>
+</span><span class='line'>  <span class="c1">// port: 27017,</span>
+</span><span class='line'>  <span class="c1">// db: &#39;sails&#39;,</span>
+</span><span class='line'>  <span class="c1">// collection: &#39;sessions&#39;,</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// Optional Values:</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// # Note: url will override other connection settings</span>
+</span><span class='line'>  <span class="c1">// url: &#39;mongodb://user:pass@host:port/database/collection&#39;,</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// username: &#39;&#39;,</span>
+</span><span class='line'>  <span class="c1">// password: &#39;&#39;,</span>
+</span><span class='line'>  <span class="c1">// auto_reconnect: false,</span>
+</span><span class='line'>  <span class="c1">// ssl: false,</span>
+</span><span class='line'>  <span class="c1">// stringify: true</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The same holds true for the <code>Sockets.js</code> configuration file.</p>
+
+<p>/config/sockets.js</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * Socket Configuration</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * These configuration options provide transparent access to Sails&#39; encapsulated</span>
+</span><span class='line'><span class="cm"> * pubsub/socket server for complete customizability.</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * For more information on using Sails with Sockets, check out:</span>
+</span><span class='line'><span class="cm"> * http://sailsjs.org/#documentation</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">sockets</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// `transports`</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// A array of allowed transport methods which the clients will try to use.</span>
+</span><span class='line'>  <span class="c1">// The flashsocket transport is disabled by default</span>
+</span><span class='line'>  <span class="c1">// You can enable flashsockets by adding &#39;flashsocket&#39; to this list:</span>
+</span><span class='line'>  <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>  <span class="s1">&#39;websocket&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;htmlfile&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;xhr-polling&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;jsonp-polling&#39;</span>
+</span><span class='line'> <span class="p">],</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Use this option to set the datastore socket.io will use to manage rooms/sockets/subscriptions:</span>
+</span><span class='line'>  <span class="c1">// default: memory</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// HOSTED REDIS INSTANCE</span>
+</span><span class='line'>  <span class="nx">adapter</span><span class="o">:</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">host</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_HOST</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PORT</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">db</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_DB</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">pass</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASS</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// IN MEMORY</span>
+</span><span class='line'>     <span class="c1">// adapter: &#39;memory&#39;,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Worth mentioning is that, if `adapter` config is `redis`, </span>
+</span><span class='line'>  <span class="c1">// but host/port is left unset, Sails will try to connect to redis </span>
+</span><span class='line'>  <span class="c1">// running on localhost via port 6379  </span>
+</span><span class='line'>  <span class="c1">// `authorization`</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// Global authorization for Socket.IO access, </span>
+</span><span class='line'>  <span class="c1">// this is called when the initial handshake is performed with the server.</span>
+</span><span class='line'>  <span class="c1">// </span>
+</span><span class='line'>  <span class="c1">// By default (`authorization: true`), when a socket tries to connect, Sails verifies</span>
+</span><span class='line'>  <span class="c1">// that a valid cookie was sent with the upgrade request.  If the cookie doesn&#39;t match</span>
+</span><span class='line'>  <span class="c1">// any known user session, a new user session is created for it.</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// However, in the case of cross-domain requests, it is possible to receive a connection</span>
+</span><span class='line'>  <span class="c1">// upgrade request WITHOUT A COOKIE (for certain transports)</span>
+</span><span class='line'>  <span class="c1">// In this case, there is no way to keep track of the requesting user between requests,</span>
+</span><span class='line'>  <span class="c1">// since there is no identifying information to link him/her with a session.</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// If you don&#39;t care about keeping track of your socket users between requests,</span>
+</span><span class='line'>  <span class="c1">// you can bypass this cookie check by setting `authorization: false`</span>
+</span><span class='line'>  <span class="c1">// which will disable the session for socket requests (req.session is still accessible </span>
+</span><span class='line'>  <span class="c1">// in each request, but it will be empty, and any changes to it will not be persisted)</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// On the other hand, if you DO need to keep track of user sessions, </span>
+</span><span class='line'>  <span class="c1">// you can pass along a ?cookie query parameter to the upgrade url, </span>
+</span><span class='line'>  <span class="c1">// which Sails will use in the absense of a proper cookie</span>
+</span><span class='line'>  <span class="c1">// e.g. (when connection from the client):</span>
+</span><span class='line'>  <span class="c1">// io.connect(&#39;http://localhost:1337?cookie=smokeybear&#39;)</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// (Un)fortunately, the user&#39;s cookie is (should!) not accessible in client-side js.</span>
+</span><span class='line'>  <span class="c1">// Using HTTP-only cookies is crucial for your app&#39;s security.</span>
+</span><span class='line'>  <span class="c1">// Primarily because of this situation, as well as a handful of other advanced</span>
+</span><span class='line'>  <span class="c1">// use cases, Sails allows you to override the authorization behavior </span>
+</span><span class='line'>  <span class="c1">// with your own custom logic by specifying a function, e.g:</span>
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">    authorization: function authorizeAttemptedSocketConnection(reqObj, cb) {</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">        // Any data saved in `handshake` is available in subsequent requests</span>
+</span><span class='line'><span class="cm">        // from this as `req.socket.handshake.*`</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">        //</span>
+</span><span class='line'><span class="cm">        // to allow the connection, call `cb(null, true)`</span>
+</span><span class='line'><span class="cm">        // to prevent the connection, call `cb(null, false)`</span>
+</span><span class='line'><span class="cm">        // to report an error, call `cb(err)`</span>
+</span><span class='line'><span class="cm">    }</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="nx">authorization</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Match string representing the origins that are allowed to connect to the Socket.IO server</span>
+</span><span class='line'>  <span class="nx">origins</span><span class="o">:</span> <span class="s1">&#39;*:*&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Should we use heartbeats to check the health of Socket.IO connections?</span>
+</span><span class='line'>  <span class="nx">heartbeats</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// When client closes connection, the # of seconds to wait before attempting a reconnect.</span>
+</span><span class='line'>  <span class="c1">// This value is sent to the client after a successful handshake.</span>
+</span><span class='line'>  <span class="s1">&#39;close timeout&#39;</span><span class="o">:</span> <span class="mi">60</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The # of seconds between heartbeats sent from the client to the server</span>
+</span><span class='line'>  <span class="c1">// This value is sent to the client after a successful handshake.</span>
+</span><span class='line'>  <span class="s1">&#39;heartbeat timeout&#39;</span><span class="o">:</span> <span class="mi">60</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The max # of seconds to wait for an expcted heartbeat before declaring the pipe broken</span>
+</span><span class='line'>  <span class="c1">// This number should be less than the `heartbeat timeout`</span>
+</span><span class='line'>  <span class="s1">&#39;heartbeat interval&#39;</span><span class="o">:</span> <span class="mi">25</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The maximum duration of one HTTP poll-</span>
+</span><span class='line'>  <span class="c1">// if it exceeds this limit it will be closed.</span>
+</span><span class='line'>  <span class="s1">&#39;polling duration&#39;</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Enable the flash policy server if the flashsocket transport is enabled</span>
+</span><span class='line'>  <span class="c1">// &#39;flash policy server&#39;: true,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// By default the Socket.IO client will check port 10843 on your server </span>
+</span><span class='line'>  <span class="c1">// to see if flashsocket connections are allowed.</span>
+</span><span class='line'>  <span class="c1">// The Adobe Flash Player normally uses 843 as default port, </span>
+</span><span class='line'>  <span class="c1">// but Socket.io defaults to a non root port (10843) by default</span>
+</span><span class='line'>  <span class="c1">//</span>
+</span><span class='line'>  <span class="c1">// If you are using a hosting provider that doesn&#39;t allow you to start servers</span>
+</span><span class='line'>  <span class="c1">// other than on port 80 or the provided port, and you still want to support flashsockets </span>
+</span><span class='line'>  <span class="c1">// you can set the `flash policy port` to -1</span>
+</span><span class='line'>  <span class="s1">&#39;flash policy port&#39;</span><span class="o">:</span> <span class="mi">10843</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Used by the HTTP transports. The Socket.IO server buffers HTTP request bodies up to this limit. </span>
+</span><span class='line'>  <span class="c1">// This limit is not applied to websocket or flashsockets.</span>
+</span><span class='line'>  <span class="s1">&#39;destroy buffer size&#39;</span><span class="o">:</span> <span class="s1">&#39;10E7&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Do we need to destroy non-socket.io upgrade requests?</span>
+</span><span class='line'>  <span class="s1">&#39;destroy upgrade&#39;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Should Sails/Socket.io serve the `socket.io.js` client? </span>
+</span><span class='line'>  <span class="c1">// (as well as WebSocketMain.swf for Flash sockets, etc.)</span>
+</span><span class='line'>  <span class="s1">&#39;browser client&#39;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Cache the Socket.IO file generation in the memory of the process</span>
+</span><span class='line'>  <span class="c1">// to speed up the serving of the static files.</span>
+</span><span class='line'>  <span class="s1">&#39;browser client cache&#39;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Does Socket.IO need to send a minified build of the static client script?</span>
+</span><span class='line'>  <span class="s1">&#39;browser client minification&#39;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Does Socket.IO need to send an ETag header for the static requests?</span>
+</span><span class='line'>  <span class="s1">&#39;browser client etag&#39;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Adds a Cache-Control: private, x-gzip-ok=&quot;&quot;, max-age=31536000 header to static requests, </span>
+</span><span class='line'>  <span class="c1">// but only if the file is requested with a version number like /socket.io/socket.io.v0.9.9.js.</span>
+</span><span class='line'>  <span class="s1">&#39;browser client expires&#39;</span><span class="o">:</span> <span class="mi">315360000</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Does Socket.IO need to GZIP the static files?</span>
+</span><span class='line'>  <span class="c1">// This process is only done once and the computed output is stored in memory. </span>
+</span><span class='line'>  <span class="c1">// So we don&#39;t have to spawn a gzip process for each request.</span>
+</span><span class='line'>  <span class="s1">&#39;browser client gzip&#39;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Optional override function to serve all static files, </span>
+</span><span class='line'>  <span class="c1">// including socket.io.js et al.</span>
+</span><span class='line'>  <span class="c1">// Of the form :: function (req, res) { /* serve files */ }</span>
+</span><span class='line'>  <span class="s1">&#39;browser client handler&#39;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Meant to be used when running socket.io behind a proxy. </span>
+</span><span class='line'>  <span class="c1">// Should be set to true when you want the location handshake to match the protocol of the origin. </span>
+</span><span class='line'>  <span class="c1">// This fixes issues with terminating the SSL in front of Node </span>
+</span><span class='line'>  <span class="c1">// and forcing location to think it&#39;s wss instead of ws.</span>
+</span><span class='line'>  <span class="s1">&#39;match origin protocol&#39;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Direct access to the socket.io MQ store config</span>
+</span><span class='line'>  <span class="c1">// The &#39;adapter&#39; property is the preferred method</span>
+</span><span class='line'>  <span class="c1">// (`undefined` indicates that Sails should defer to the &#39;adapter&#39; config)</span>
+</span><span class='line'>  <span class="nx">store</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// A logger instance that is used to output log information.</span>
+</span><span class='line'>  <span class="c1">// (`undefined` indicates deferment to the main Sails log config)</span>
+</span><span class='line'>  <span class="nx">logger</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The amount of detail that the server should output to the logger.</span>
+</span><span class='line'>  <span class="c1">// (`undefined` indicates deferment to the main Sails log config)</span>
+</span><span class='line'>  <span class="s1">&#39;log level&#39;</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Whether to color the log type when output to the logger.</span>
+</span><span class='line'>  <span class="c1">// (`undefined` indicates deferment to the main Sails log config)</span>
+</span><span class='line'>  <span class="s1">&#39;log colors&#39;</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// A Static instance that is used to serve the socket.io client and its dependencies.</span>
+</span><span class='line'>  <span class="c1">// (`undefined` indicates use default)</span>
+</span><span class='line'>  <span class="s1">&#39;static&#39;</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The entry point where Socket.IO starts looking for incoming connections. </span>
+</span><span class='line'>  <span class="c1">// This should be the same between the client and the server.</span>
+</span><span class='line'>  <span class="nx">resource</span><span class="o">:</span> <span class="s1">&#39;/socket.io&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>We’ve covered a bunch of material in this episode.  I hope you found it helpful and as always thanks for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -710,200 +1608,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Building a Sails Application: Ep22 - Manipulating the DOM Based Upon Changes via Real Time Model Events.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-10T17:30:00-05:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep22-manipulating-the-dom-based-upon-changes-via-real-time-model-events/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/oVrJ9NKjt0s" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Howdy and welcome to the second part of these screencasts dealing with real-time events. In this episode we’ll implement much of the client side portion of our code.  As I said at the end of the last episode, you can implement your front-end, however, you’d like.  I’m just learning the front-end so I wanted to start with server-side views and then refactor what I’ve done to include a framework like backbone to transition into a single page application.  That, however, is for another day and here we’ll manipulate the DOM within our server-side views.</p>
-
-<p>So let’s go back to the app.js file located in the <code>assets/linker/js</code> directory and our event listener for the event message.  As you may recall, within this file we’ve established a connection with the socket server, subscribed to our User model’s “class” room and “instance” room via <code>socket.get()</code>.  And we’re now awaiting message via <code>socket.on('message', function(){})</code>.</p>
-
-<p>Now in addition to logging this message I want to make changes to the DOM depending upon the contents of the message.  To make the code cleaner, I’m going to define the callback function outside the event listener.</p>
-
-<p>Once again I’m not the most imaginative person when it comes to function names and as proof of this I’m going to name the callback <code>cometMessageReceivedFromServer</code>.  This will be the method that will route our messages depending upon the model that is being updated. And we’ll define it down here at the bottom of the app.js file.  I’m still going to log the message for debug purposes but now I’m going to check if the message is coming from the user model and if it is I’m going to call a new custom method called updateUserInDom and pass it the userId and the message.</p>
-
-<p><code>updateUserInDom</code> is going to determine which page will ultimately receive the changesand route it to the appropriate method for that page.  So in this case, the receiving page is <code>/user</code> or the User Administration Page and since the action or verb is update, we’re going to route the message to the <code>updateUser</code> method of an object called IndexPage. Remember these are all custom methods that I’m creating and have nothing to do with sails.</p>
-
-<p>The <code>updateUser</code> method is where we’ll update the DOM to display the <code>icon-online.png or icon-offline.png</code> depending upon the value of loggedIn.  If you take a look at the index.ejs file under the <code>views/user</code> directory, I’m populating each row of DOM with two custom data attributes, data-id and data-model.  These are then used as jquery criteria for identifying DOM elements.  So we’ll find the row of the user id that we want to change and then replace the image src with the correct icon.  Let’s see if it works</p>
-
-<p>As you can see, the login status icon changes immediately when another user logs in or out.</p>
-
-<p>What about when a new user is created?  We want to update the User Administration Page with the new user or deleted user and their login status.</p>
-
-<p>To do this we’ll use the <code>publishCreate and publishDestroy</code> methods.  So we head over to the create action of the user controller and insert the <code>publishCreate</code> method passing the created user as an argument. Then we’ll look at the destroy action and insert our <code>publishDestroy</code> method passing the id of the user that was destroyed.  That’s it for the server-side.  Back to the client and our app.js file.  We’ll start at our old friend <code>cometMessageReceivedFromServer</code> method.  From there we’ll proceed to the <code>updateUserInDom</code> method where the receiving page will again be <code>/user</code> or the User Administration page. But here we’ll two cases to our switch statement. One for the create action and one for the destroy action.  For the create action we’ll use the <code>addUser</code> method.  To clean things up and to show some functionality I’m going to use a template using the underscore library.  So let’s take a look at the template, which I’ve stored in the <code>linker/assets/templates</code> directory.</p>
-
-<p>This template represents one row of the User Administration Page. Before using this template there were a few things I needed to set-up. The first was to add the underscore library to <code>linker/assets/js</code> directory.  Next, I made a slight change to the Gruntfile, changing the default template files to inject, from html to ejs.  Finally, because we are using a hidden form for the delete button action, we need to have access to the csrf token.  Since the template is added after the index.ejs page has been rendered on the server, we needed a way to get at the token.</p>
-
-<p>There are several different ways this can be done (including make an ajax call to the server via a <code>/csrfToken</code> route). However,  I decided to make a change to the layout.ejs file appending the csrf token to my own namespaced attribute on the global window object.   That way when the layout.ejs file is rendered, my object will be appended to the page.</p>
-
-<p> So back in the app.js file I’ve built up an object called obj with the user plus the csrf token we obtained from the layout.ejs file.</p>
-
-<p>Here, I’m using jquery to grab the last tr on the page and apply the template after that last tr tag, passing in the necessary data for the template in our obj object.</p>
-
-<p>But what about when a user is deleted?  That’s a lot easier. We’ll add the <code>destroyUser</code> method and use jquery to find the appropriate user and remove that row from the DOM.</p>
-
-<p>Woah&hellip;let’s see if all that stuff worked.  I’ll restart the server and log myself in the first browser and create a user in the second browser and great&hellip;the user was added to the DOM with the correct login status.  Now I’ll log out and login as another user, and this time delete the user we just created&hellip;and both sides updated like we wanted.</p>
-
-<p>There’s one more thing to add.  Each time the server comes up we want to make sure that the online attribute of each user is set to false.  For that we can the sails bootstrap config file.  Because I used an empty object as the first argument, all the users will be updated. The second argument is the attribute I want to update, in this case online is set to false.  Finally I’ll trigger the callback back to the middleware stack. Now every time you start  the server, users online attribute will be reset to false.</p>
-
-<p>That was a long one.  For those of you who made it through, I hope it was informative and as always thanks for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/">Building a Sails Application: Ep21 - Integrating socket.io and Sails With Custom Controller Actions Using Real Time Model Events.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-10T17:21:00-05:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/10/building-a-sails-application-ep21-integrating-socket-dot-io-and-sails-with-custom-controller-actions-using-real-time-model-events/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/enyZYgjXRqQ" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>Before we get started, we need to update the current version of sails to 0.9.7.  To do this, we’ll open our package.json file.  In the sails dependency we’ll change the version from whatever version you currently have to ~0.9.7.  Go into your terminal and in the root of our project directory type npm install and you’ll be ready to go.</p>
-
-<p>So I’m really excited to get started with this part of activityOverlord.  I’ll be taking us through, step-by-step, how sails makes use of web sockets to deliver real-time events in your application.</p>
-
-<p>First, let’s take a look at what we’ll have accomplished by the end of this episode. So, I’m going to log-in&hellip;and we’re at our user administration page, and of course I show logged in by this check mark. In order to show this functionality I’m going to actually utilize two different browsers. One just a regular browser and another that’s in incognito mode. So now I’m going to log-in here as Nikola Tesla and I don’t know if you saw this on this side but Nikola Tesla’s status changed without me having to refresh the browser. So now focus your attention on this side of the screen and I’ll sign-out and you can see that old Nick’s status has been updated to offline. What about if we add a user, so now I’m going to sign up a new user and we’ll use our friend Aimee Mann and Aimee appears on our list as well as her login status. And will go ahead and sign her out. And then finally let’s go back in as Nikola Tesla and we’ll remove Amy from the list.  Which in turn is removed from the other listening browser. But how does sails do that and how can we accomplish it. And that’s what we’re going to go into during this episode.</p>
-
-<h3>First let’s look at what we’ve learned so far…</h3>
-
-<p>In <strong>Episode 18</strong>, I went over how to use plain jane node and socket.io. We learned that websockets are actually an extension of http.  And since an http server can’t send data unless a client has requested it, web sockets allow for a server to send data unsolicited… You know what let me stop for a second. No one is dumb enough or brave enough to use these crazy Keynote transitions that I’m using. I found them so funny that I’ve decided to use them throughout this presentation. So I hope you take them in the spirit they are given and that they don’t distract you too much from the content. Anyway, back to programming.</p>
-
-<p>So the http server can’t send data unless the client has requested it and websockets allow for a server to send data unsolicited once an initial connection is made.  On the server side we built an http server with node, upgraded the http server to also act as a socket server and then on the client side we built up some html combined with javascript to connect to the server. Once the connection was made, any other client that connected would be eligible to send messages to the server which in turn emitted or broadcast those messages to the clients that were connected. We found out that part of a socket is just a unique id that identifies the socket or in our case the browser tab that is accessing the page.</p>
-
-<p>Lastly, I showed how socket.io provides the concept of rooms that allow you to group sockets so that instead of messages going to all connected sockets, one can send messages only to those sockets that are associated with a room.</p>
-
-<p>In <strong>Episode 20</strong>, I went over how sails can be used to emit messages based upon changes to a model using the rest blueprints.  That episode may have confused some folks, but after the next several episodes I encourage you to go back to episode 20 and it should make more sense.</p>
-
-<h3>So how does sails add value to websockets and socket.io?</h3>
-
-<p>Similar to the way it automates many of the tasks associated with building an MVC framework, sails automates many of the tasks associated with enabling real time events within the MVC pattern.</p>
-
-<p>I learn better by examples, so let’s look at one of the many ways sails automates enabling real-time functionality.  I’ve named this functionality Real Time Model Events.  And let me be clear here, Real Time Model Events is my term, it’s not something to do with javascript standards or anything the sail’s team uses, I just needed a way to identify some functionality and Real Time Model Events worked for me.  I’d be curious, after you see this episode, whether the term was helpful or confusing to you.</p>
-
-<p><strong>Okay but what the heck are Real Time Model Events?</strong>  Just like we create event handlers for DOM events using jquery, I’m going to show you a pattern to set-up event handlers for changes to models that get emitted to any socket that’s subscribed to the event.</p>
-
-<p>Currently we have a User model in activityOverlord.  One of the attributes of that model is a boolean called online.  We want to know whenever the value of online changes so that we can provide a real-time update to the user administration page whenever a user logs in or out of the application. <strong>So where do we put our code?</strong></p>
-
-<p>If you’ve experimented with creating a project in sails, you’ve already been running a socket server and connecting to it when you hit the initial sails welcome page.  Let’s check it out.</p>
-
-<p>So I’m going to create a new sails project called socketExample.  I’m going to start the sails’s server, and open up a page next to the terminal. Notice the handshake log message in the terminal.  That’s our tab making a socket connection to the server. But where is that taking place?  Let’s take a look at the code in the socketExample project.  I want you to notice in the assets/linker/js directory we have a file added when we created this project called app.js.  This app.js file is there to get you up and running with websockets.  The structure of this file is purely optional but I’m going to use it as the base for the functionality in activityOverlord.</p>
-
-<p>So here’s where we attempt to connect with the socket server. And then we listen for when this socket actually connects, and when it does, the socket starts listening for a message event from the server.</p>
-
-<p>But wait, we didn’t create the socket server itself.  That’s because sails does this for you automatically.  You can have raw access to the socket.io server and client methods, but what I want to show you here is that a bunch of the work is done for you automatically if you choose to use it.</p>
-
-<p><strong>So, how do I register an event for our User model, online attribute, to listen for changes?</strong>  We do that by using the following pattern.</p>
-
-<p>The first step happens on the server-side within a controller.  This involves subscribing the socket to the model “class” room and/or subscribing the socket to the model instance rooms.  Remember, when I say socket, in this example, I’m talking about the page or browser tab that already connected to the socket server via var socket = io.connect(); back in our app.js file.</p>
-
-<p>Now, <strong>You might be asking what’s the difference between subscribing to the model ‘class’ room versus the model ‘instance’ room?</strong>  Subscribing to the model “class” room will enable the socket to listen for  the creation of new model instances via a method called publishCreate().  Whereas subscribing to the instance class room enables the socket to listen for changes to existing models via the publishUpdate and/or publishDestroy methods. By the way, when you subscribe a socket to a model class room, that socket automatically gets introduced to the models instance room and will receive any changes via publishUpdate or publishDestroy.</p>
-
-<p>So in activityOverlord we have a User model and we want to listen for the creation of new user’s as well as changes to existing users&hellip;so let’s leave all these cheesey transitions behind and go implement that in the code.</p>
-
-<p>Here, we’re are in the user controller, and I’m going to add an action called subscribe.</p>
-
-<p>Sails gives us access to the requesting socket via req.socket.  So, first I’m going to subscribe to the User’s “class” room by entering User.subscribe and passing in req.socket as an argument.  We’ve now subscribed to the User model class room.</p>
-
-<p>Next, I’ll subscribe to the User model’s instance room by entering User.subscribe, again passing in the requesting socket via req.socket, but wait I need to pass a second argument, that being the existing instance user rooms or models.  No problem, I’ll just wrap these two subscribe methods in a find query method.  Now I can pass the returned users into the subscribe method as a second argument and we’ve now subscribed to the User model instance rooms.</p>
-
-<p>But what about publishCreate, publishUpdate, and publishDestroy, where do we put those methods?</p>
-
-<p>I’m going to come back to those methods in a minute, let’s move on in our pattern and address where we call our subscribe action.  For that we’re going to move from the server back to our client.  As you recall in app.js we’ve been notified by the socket server that a connection has been made and we’re now waiting on a message event.  This is where we’re going to use a new method called socket.get() and we’re going to use it to “hit” our subscribe action.</p>
-
-<p><strong>You might be asking, I thought get was an http method, what does that have to do with sockets?</strong>  Sails allows you to make requests like you would using http.  You can not only make a get request over sockets, you can also use post, put, and destroy. I’m going to do a separate screencasts on using these methods but I wanted to mention that they were available.</p>
-
-<p>So we’re back in app.js and here’s the code&hellip;that’s it, we’re now subscribed to both the class room and instance rooms of the User.model when each page is loaded.</p>
-
-<p><strong>So let’s review.</strong>  We’ve connected to the socket server, we’ve subscribed to the User model class and instance rooms by calling the subscribe action of the UserController via socket.get and then within the subscribe action, subscribing to the user model by calling User.subscribe, and finally listening for message events from the socket server.  We can now return to our controllers and start sending messages to our sockets based upon additions and changes to our model.</p>
-
-<p>We started out this screencast with a goal of letting users know when other users login via the User Administration page. So let’s get to the session controller and do just that.</p>
-
-<p>So here we are in the create action of the session controller.  When a user authenticates, we’re going to let other users know by using the publishUpdate method.  We’re going to pass the user id as the first argument, and then an object which will contain the changes that we want to send to other sockets. In this case whether loggedIn is true or false and the userid.  Let’s try it out.</p>
-
-<p>Okay, we have two browsers here, one in regular modeand  one in incognito mode with the chrome console open in both tabs.  I’m going to log into activityOverlord, which should trigger the publishUpdate and log it to the console.  But the message event is not showing up in the console, what’s up?  Well first let’s look at the terminal.  Woah there’s a bunch going on here.</p>
-
-<p>First, don’t be confused by the fact that the version of sails is v0.9.4 and that I’m getting these errors about installing sails locally.  While creating these screencasts, I was using the development branch of sails in order to get the latest web socket functionality.  You should be on 0.9.5 which encompassed the development branch when this screencast was made.</p>
-
-<p>There are however some interesting errors here.  Let’s take a look at this warning that we are trying to render a view (session/new) over sockets. If we look back at our subscribe action, we don’t have anything responding to our action.  Which is an important reminder that we should at least send back a 200 if the action is successful.  I’ll do that now.  But why are we getting a warning that we’re trying to render a view?  Ahh, let’s take a look at our policies.  The current policy that will affect our subscribe action is admin.  And when you take a look at that policy, it requires that we be authenticated before gaining access to the action.  And look what happens if we’re not authenticated.  We’re redirected to session/new which actually does render a view.</p>
-
-<p>This is simple enough to fix.  We’ll just add subscribe to our flash policy.  Let’s see what happens.</p>
-
-<p>I’ll reload the sails server, login in, and there’s our message in the console.  And if we look at it, the message contains the user.id and that loggedin is true&hellip;perfect.  Now you may ask why didn’t the browser that I logged in on also have a console message?  It actually did, however, after I logged in successfully, the browser  was redirected to the User Administration page which was refreshed instantly making it difficult to see the message before the browser refreshed.</p>
-
-<p><strong>What about when the user logs out?</strong>  We’ll add a similar publishUpdate method within the delete action of the SessionController.  Instead of setting loggedIn as true will set it to false.  So after restarting the sails server, we’ll log out which produces a new message that has the loggedIn attribute set to false.</p>
-
-<p>This is kind of the half-way point of this screencast.  In the next episode I’ll go over one way of handling the DOM manipulation on the client based upon the events we’re receiving from our socket.  See ya at the next screencast and thanks a lot for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/4/">&larr; Older</a>
@@ -921,6 +1625,14 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/">Building an Angular Application in Sails: Ep5 - Creating Custom Actions and an Intro to Node-machines.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/">Building an Angular Application in Sails: Ep4 - Implementing Requests in Angular to a Sails API.</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/">Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in Our SignUp Page.</a>
       </li>
     
@@ -930,14 +1642,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     
       <li class="post">
         <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let&#8217;s Start a New Adventure</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2014/01/17/sailscasts-answers-ep8-how-do-blueprint-actions-and-blueprint-routes-work-in-sails/">sailsCasts Answers: Ep8 - How Do Blueprint: Actions and Blueprint: Routes Work in Sails?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2014/01/14/sailscasts-answers-ep7-how-do-i-create-a-restful-json-crud-api-in-sails-from-scratch/">sailsCasts Answers: Ep7: How Do I Create a Restful Json CRUD Api in Sails From Scratch?</a>
       </li>
     
   </ul>
