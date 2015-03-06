@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2015-03-06T17:11:24-06:00</updated>
+  <updated>2015-03-06T17:17:13-06:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -18,7 +18,63 @@
     <link href="http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/"/>
     <updated>2015-03-06T17:04:00-06:00</updated>
     <id>http://irlnathan.github.io/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/jaGpf7t5y0Q" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<p>The repo for this episode can be found <a href="https://github.com/irlnathan/activityoverlord20">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>In the last episode we implemented a request to <code>/signup</code> using a Sails blueprint action.  The default blueprint create action is fine but I really don&rsquo;t want to save passwords in clear text and I also want to generate a gravatar for each user.  Let&rsquo;s overwrite the blueprint create action with our own signup action. This will also let me introduce a new concept to the Sails community &mdash; node machines.</p>
+
+<p>So let&rsquo;s head back to the editor and open up the UserController.js file.   I&rsquo;m going to create an empty signup action here:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">signup</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, let&rsquo;s navigate your browser to node-machine.org which is kind of the mothership of node-machine information.  The first thing to understand is that machines are built on the existing and very powerful node module framework.  Second, the node-machine specification and the machines located at nodemachine.org are completely open source and MIT licensed.  Third, machines are packaged up in something called a machinepack that can be required just like any other node module from npm.  So, I&rsquo;ll show you how to create node-machines in future screencasts, for now, we&rsquo;ll be consumers of a couple of them.</p>
+
+<p>I know I want to encrypt passwords so let&rsquo;s browse the existing machinepacks.  So here&rsquo;s one called passwords.  And there&rsquo;s a machine called encryptPassword that looks kind of interesting.  With machines you know exactly what inputs you can use and exactly what you&rsquo;ll get out from the exits.  I&rsquo;m just going to copy the example usage here and paste it into my signup action.  I&rsquo;ll also move my existing response to the success exit of the machine.</p>
+
+<p>I&rsquo;m also going to move our response into the success exit.  Finally, I&rsquo;ll grab the password as an input to the machine from a request parameter and if there&rsquo;s an error I&rsquo;ll let Sails handle it with res,negotiate and respond with the error.  I&rsquo;m also going to change the default result arguent to a more meaningful name like encrypted password.</p>
+
+<p>So in addition to encrypting the password I want to create a gravatar url from the email address that we get from our user.  Let&rsquo;s go back to node-machine.org and browse to the gravatar machinepack.  The getImageUrl machine returns a URL of a gravatar based upon an inputted email address.   This machine actually has two ways we can set it up.  The example usage is using `execSync()<code>, which allows me to use the machine sychronously.  I want to use the machine asynchronously so I'll use</code>.exec()&#8220;.  Therefore, I&rsquo;ll also provide both success and error handlers.</p>
+
+<p>So we&rsquo;ve encrypted our passwords and generated a gravatar URL.  Next we&rsquo;ll save these attributes along with the other fields in our signup form using the create method of our user model.  I&rsquo;ve also added an attribute lastLoggedIn and assigned it the value of the date method.  If we get an error I&rsquo;ll let Sails handle it with res,negotiate and respond with the error.  Otherwise I&rsquo;ll return a response with the id of the new user record as json.</p>
+
+<p>We need to install the two machines we&rsquo;re using.  Open up the terminal window and type npm install machinepack-passwords -save.  Next, we&rsquo;ll install the gravatar machinepack by typing <code>npm install machinepack-gravatar -save</code>.</p>
+
+<p>Okay, let&rsquo;s make sure all of this works.  Restart Sails using sails lift.  Again we&rsquo;re going to get this message about migration.  Our choices are:  Safe, Drop, and Alter</p>
+
+<p>If I set migrations to <code>safe</code>,  sails doesn&rsquo;t do anything other than create a connection to the database and run queries. It&rsquo;s the default environment for production and should be used whenever you are working with data you don&rsquo;t want to risk losing.</p>
+
+<p>Instead of trying to migrate the data in the database this mode drops the database and creates brand new tables, essentially giving you a fresh start.  If you have a bootstrap file that resets your data on every lift then the drop migration is a good way to get going when your models are constantly changing in the beginning of a project.</p>
+
+<p><code>alter</code> is next step up from <code>drop</code>.  The difference is that before it drops the database it tries to store all the records in memory and when the table has been re-created it attempts to re-insert them into the new data structure. It&rsquo;s useful if you have a very small data set and are making trivial changes to the data schema.  We&rsquo;ll ultimately be using safe mode but for now we&rsquo;ll use alter.  We can set this mode by going into the config/models.js file and uncommenting this line.</p>
+
+<p>So let&rsquo;s lift sails using sails lift.  Navigate your browser to <code>localhost:1337/signup</code>.  I&rsquo;ll add another one of my heros Neil Armstrong.  And as you can see we have a new record with an encrypted password, a gravatar URL and our lastLoggedIn Attribute.</p>
+
+<p>So far we&rsquo;ve been using our user model without any attributes.  And that&rsquo;s fine, especially for nosql databases.  In this current project, we&rsquo;re using Sails local disk database that has characteristics of a no-sql database.  We&rsquo;ll be swapping it out for mongo in an upcoming episode.  At this point, I want to prevent duplicate users and I also want to prevent the storage of fields other than those I define in my model.  This is just a double check because we&rsquo;re specifying the fields we want to create in our controller action.  So we&rsquo;re currently in the user model via the /models/User.js file.  I&rsquo;m going to add some attributes here.  We&rsquo;re already doing a bunch of validation client side, but since those are not necessarily secure, we&rsquo;ll reinforce the validation on the back-end.  I&rsquo;ll use the required attribute on some of the fields and the unique attribute on the email field.  This will prevent duplicate email addresses from being saved.</p>
+
+<p>So let&rsquo;s go back to our signup action in the user controller.  First I want to parse the error I get back from Sails regarding the duplicate email address.  Let&rsquo;s log the error and take a look at what we get back.  So in POSTMAN with Sails lifted.  I&rsquo;ll create the Nikola Tesla record.  Now when I try to add Tesla again, I get the unique error.  So let&rsquo;s go back into the action and handle that error.  This also let&rsquo;s me introduce you to custom responses.  So if an error exists and it has to do with the email attribute, and the rule that&rsquo;s being violated is the unique attribute, then I want to respond with this emailAddressInUse function.  I&rsquo;m going to place that function as a custom response in the responses folder.  Let&rsquo;s go ahead and take a look that resonse.  So, I&rsquo;ll get access to the response and then return a more easily parsable object back to the client.  So let&rsquo;s re-lift  Sails and in POSTMAN try to add Mr. Tesla again and we get our error object.</p>
+
+<p>Let&rsquo;s provide for a better user experience to this error on the front end.  First we&rsquo;ll go into the SignUp Module and inject the toastr service we started in the last episode.  This will provide us with some great looking messages.  Next, we&rsquo;ll do something similar in the SignupController injecting the toastr service into our controller.  So now we need handle the duplicate error response from Sails passing an error message to the user.  In the last episode we already set this up in the markup of our signup page.  So start Sails and navigate your browser to <code>localhost:1337/signup</code>.  I&rsquo;ll attempt to create Nikola Tesla one more time.  And there&rsquo;s our duplicate user error message, however, the loading state hasn&rsquo;t changed as evidenced by the animated Create Account button.  Okay the reason for this is something most refer to as old age.  But the good news it&rsquo;s an easy fix. So, head back to SignupController and change signupForm.location: false to  signupForm.loading: false which is what actually was intended but for you know what.  Just to show you it&rsquo;s fixed I&rsquo;ll add Nikola again for the last time.  And we get both the message and the button with the correct loading state.</p>
+
+<p>Alright, in the next episode we&rsquo;ll add our login state through a request to /login, our profile page, and a database switch to mongodb.  Thanks as always for watching and be sure to follow me on twitter and signup for the Sailscasts mailing list.  Also go checkout and signup for the beta of the Sails team&rsquo;s latest creation Treeline.io.</p>
 ]]></content>
   </entry>
   
