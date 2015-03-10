@@ -4,7 +4,7 @@
   <title><![CDATA[sailsCasts]]></title>
   <link href="http://irlnathan.github.io/sailscasts/atom.xml" rel="self"/>
   <link href="http://irlnathan.github.io/sailscasts/"/>
-  <updated>2015-03-06T17:17:13-06:00</updated>
+  <updated>2015-03-10T12:05:28-05:00</updated>
   <id>http://irlnathan.github.io/sailscasts/</id>
   <author>
     <name><![CDATA[irl nathan]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building an Angular Application in Treeline Sneak Peak: Implementing the signup page in treeline.]]></title>
+    <link href="http://irlnathan.github.io/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/"/>
+    <updated>2015-03-10T11:48:00-05:00</updated>
+    <id>http://irlnathan.github.io/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline</id>
+    <content type="html"><![CDATA[<iframe width="640" height="390" src="http://www.youtube.com/embed/KH5E2TL-_e8" frameborder="0" allowfullscreen></iframe>
+
+
+<h3>Signup for the Treeline Beta <a href="http://treeline.io">here</a>.</h3>
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy.</p>
+
+<p>So, I wanted to do a quick screencast previewing a new project from the Sails crew called Treeline.  So, let&rsquo;s get busy.</p>
+
+<p>In the last two episodes we implemented the <code>/signup</code> request via Sails blueprints and then a custom controller action.  Today, I want to show you how I would do this in Treeline.  So I have a Treeline project here, which should look very similar to a Sails project because that&rsquo;s what it is with some very powerful additions.  I&rsquo;ve copied the assets folder from our existing activityOverlord20 project to the assets folder here.  So we have the same front-end asset structure, but I&rsquo;m going to create the back-end api in treeline.</p>
+
+<p>So here I am in the Main Treeline Dashboard. We&rsquo;ll go to apps, we&rsquo;ll create a new app, and not surprisingly we&rsquo;ll call it activityoverlord20.  And the first thing we&rsquo;re going to do is create our model.  Now, in the past episode we created a user mode.  We&rsquo;ll add attributes to that model the first being name and notice that I&rsquo;m going to add an example, and treeline will infer which type is appropriate.   Next, I&rsquo;ll add the other attributes title, email, password, and gravatar url.</p>
+
+<p>So now that we have our user model let&rsquo;s define the two routes that our front end requires.  The first route will be GET /signup.  This takes us into the circuit view.  Since we just want to display our signup.ejs view we can specify that in an empty circuit here. Okay, next I&rsquo;ll create the route to POST /signup.  As you may recall we first wanted to take the password from our form and encrypt it.  We used node-machines to do that.  You can think of treeline as the visual interface for node-machines.  So I&rsquo;ll just drag the encrypt password machine as a part that will fit on something called a circuit.  And then I&rsquo;ll access the password field from our signup page via a route paramter.</p>
+
+<p>Next we want to convert an email address into a gravatar url.   I&rsquo;ll search for the gravatar machinepack and install it.  And from with that machinepack I&rsquo;ll get the getImageUrl machine and put it on our circuit as well. Now similar to what we did with the encrypt password, I need to get our email address from our form and I&rsquo;ll do that with a route parameter.</p>
+
+<p>At this point we wanted to make sure that we had unique email addresses and if we didn&rsquo;t to let the front in know via a 409 status code.  So I&rsquo;ll drag a findone user machine over to our circuit and look up the email address provided by our form in the user model.  If a record is found, we know the email address is taken and we want to let the front end know so I&rsquo;ll respond with a 409 status.  If a record is not found, we want to go ahead and create the user so I&rsquo;ll drag a create user machine over and start connecting the user model with our form fields.  We&rsquo;ll do this mainly through route parameters, so for the name we&rsquo;ll get the route parameter, for the password we&rsquo;re going to actually get the output of our encrypt password machine.  For the email we&rsquo;ll go ahead and use a route parameter, we&rsquo;ll do the same for the title field, and finally for the gravatar url we&rsquo;ll use the output of the gravatar machine.</p>
+
+<p>Okay let&rsquo;s see all of this in action.  So we&rsquo;ve built the api in Treeline and Treeline syncs the controller and model with our local project when I lift it using Treeline preview. So let&rsquo;s head to our browser and navigate to localhost:1337/signup which will make the GET request to <code>/signup</code> and our signup view.  Next, let&rsquo;s go ahead and create a User record &ndash; Nikola Tesla.</p>
+
+<p>Let&rsquo;s go back to the signup page and create Nikola Tesla again and see if our duplicate email message is triggered.</p>
+
+<p>And there it is&hellip;so this really just scratches the surface of the power of treeline.  In addition to the activityoverlord20 screencasts I plan to do additional videos on this new tool.  If you&rsquo;re interested in using treeline, head over to treeline.io and sign up for the beta.  As always thanks for watching.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building an Angular Application in Sails: Ep5 - Creating custom actions and an intro to node-machines.]]></title>
@@ -3322,22 +3360,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
 <iframe width="640" height="390" src="http://www.youtube.com/embed/877gSvq05fM" frameborder="0" allowfullscreen></iframe>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[sailsCasts Answers: Ep1 - Question about using a service to allow inheritance in a model.]]></title>
-    <link href="http://irlnathan.github.io/sailscasts/blog/2013/09/15/sailscasts-answers-ep1-question-about-using-a-service-to-allow-inheritance-in-a-model/"/>
-    <updated>2013-09-15T23:28:00-05:00</updated>
-    <id>http://irlnathan.github.io/sailscasts/blog/2013/09/15/sailscasts-answers-ep1-question-about-using-a-service-to-allow-inheritance-in-a-model</id>
-    <content type="html"><![CDATA[<p>You can find the original question in googlegroups here: <a href="https://groups.google.com/forum/#!topic/sailsjs/GTGoOGHAEvE">https://groups.google.com/forum/#!topic/sailsjs/GTGoOGHAEvE</a></p>
-
-<p>The Question: I have a few models, where two of them will have the same fields as the first. So i want to set their prototype to the first model. Is there any special way you guys are doing this?</p>
-
-<p>Here&rsquo;s the Answer:</p>
-
-<iframe width="640" height="390" src="http://www.youtube.com/embed/038CRoDLU7o" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>

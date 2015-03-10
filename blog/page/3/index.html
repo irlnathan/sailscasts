@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Transcript Howdy, I was recently asked whether there was a way to create dummy or fake data for testing in a sails project. One way to accomplish &hellip;">
+  <meta name="description" content="Transcript Howdy and welcome to another thought provoking, informative sailscasts answers. Okay, maybe that&rsquo;s a bit of a stretch but welcome &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,166 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">sailsCasts Answers: Ep4 - Creating a More Attractive Url in Sails With slugs&#8230;really?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-20T15:08:00-06:00" pubdate data-updated="true">Nov 20<span>th</span>, 2013</time>
+        
+           | <a href="/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/11/20/sailscasts-answers-ep4-creating-a-more-attractive-url-in-sails-with-slugs-dot-dot-dot-really/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/TBj8RGS88jE" frameborder="0" allowfullscreen></iframe>
+
+
+<h1>Transcript</h1>
+
+<p>Howdy and welcome to another thought provoking, informative sailscasts answers.  Okay, maybe that&rsquo;s a bit of a stretch but welcome all the same.  I&rsquo;ve been asked a number of times how to implement a more attractive url system in sails&hellip;commonly using slugs.</p>
+
+<p>Let&rsquo;s take a look at an example. In activityOverlord when you&rsquo;re on the user profile page, the url is something like this <code>http://localhost:1337/user/show/5220fa7b8764043122000001</code>.  The ending part here is a mongoid.  And that id is not very human friendly.  What would be better is to have something like the person&rsquo;s username.  I&rsquo;ll be doing a separate episode incorporating attrative urls into activityOverlord, however, in this screencast I&rsquo;m going to show you how to do it generically for any project.</p>
+
+<p>So I&rsquo;ll create a new project called slugsville by entering <code>sails new slugsville --linker</code> with the linker flag.  Next I&rsquo;ll change into the slugsville folder and generate a user controller and model using <code>sails generate user</code>.  So, let&rsquo;s take a look at the user model.  I&rsquo;m going to paste in attributes for name, company, email, and phone as well as an attribute called slug.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">attributes</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">name</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">slug</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">email</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">email</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">unique</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">company</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">phone</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s switch to the user controller. I have a fairly generic create action that creates a user with params I&rsquo;ll send through the  <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">Postman</a> chrome extension and then we&rsquo;ll return a json object.  When the user is created, however, we need to put some logic in that will process the username removing any spaces and lower casing the string before saving the value into the slug model attribute.  We&rsquo;ll do this by adding a <code>beforeCreate()</code> method to our <code>User</code> model.</p>
+
+<p>So going back to the <code>User</code> model, I&rsquo;ll add the <code>beforeCreate()</code> method first chekcing whether <code>name</code> exists and then assigning the <code>slug</code> attribute the value of name with no spaces and all lowercase.  Finally we&rsquo;ll use the next() method to continue.  Let&rsquo;s see if that worked.</p>
+
+<p>I&rsquo;ll go into the terminal and start the sails server using <code>sails lift</code>.  Next, we&rsquo;ll go into the browser and using the postman chrome extension, I&rsquo;ll create a new user with the following attributes.  And great both the user and more importantly the slug were created.</p>
+
+<p>So now let&rsquo;s use this slug as a route parameter.  I&rsquo;ll head over into the `/config/routes.js file located in the config folder where we&rsquo;ll create two routes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">routes</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s1">&#39;get /:slug&#39;</span><span class="o">:</span> <span class="s1">&#39;UserController.profile&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;get /user/:slug&#39;</span><span class="o">:</span> <span class="s1">&#39;UserController.profile&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// By default, your root route (aka home page) points to a view</span>
+</span><span class='line'>  <span class="c1">// located at `views/home/index.ejs`</span>
+</span><span class='line'>  <span class="c1">// </span>
+</span><span class='line'>  <span class="c1">// (This would also work if you had a file at: `/views/home.ejs`)</span>
+</span><span class='line'>  <span class="s1">&#39;/&#39;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">view</span><span class="o">:</span> <span class="s1">&#39;home/index&#39;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Both <code>/:slug</code> and <code>/user/:slug</code> will bind themselves to the profile action of the User controller.  In the User controller, I&rsquo;ll create an action called profile. Next I&rsquo;ll grab the slug param and assign it to the var slug.  I want to let anything we catch with the slug param that has a dot in it like <code>image.png</code> to pass through without hitting our find method.  That way we reduce the overhead of searching for a user for params we know are not a name.  So if the param has a dot in it, we&rsquo;ll return next() which will continue to the next piece of middleware (if any).</p>
+
+<p>Next, we&rsquo;ll try to find a user by the slug attribute passing in the slug variable we obtained form the param.  If we don&rsquo;t find a user, we&rsquo;ll again return <code>next()</code>.  If we do have a user I&rsquo;m going to pass the entire user object to the view, in this case <code>profile.ejs</code>.</p>
+
+<p><code>profile.ejs</code> is a simple view template that displays the user name, company, email, and phone.  Finally, I&rsquo;m going to go back to the User controller and add a foo action to make sure that my action blueprint routes still work.  If your not familiar with blueprint routes, I&rsquo;m currently working on episode explaining blueprint routes, the first of which is devoted to action routes.  Here I&rsquo;m just adding the action foo that will return a 200 response.</p>
+
+<p>Okay, let&rsquo;s see if all of this worked?  First, I&rsquo;m going to create a few other users within postman.  Here&rsquo;s a list of our users.  I can still access them via the id using <code>/user/1</code>.  But now I can access them by their username either at <code>/username</code> or <code>/user/username</code>.  I can also access my foo action.</p>
+
+<p>I think that&rsquo;s a much better approach.  I&rsquo;ve left a link to this project&rsquo;s repo here if your interested and I hope that it was helpful and as always thanks for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1540,74 +1700,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/">Building a Sails Application: Ep23 - Adding Real-time Flash Messages Using Real-time Model Events.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-16T09:25:00-05:00" pubdate data-updated="true">Oct 16<span>th</span>, 2013</time>
-        
-           | <a href="/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2013/10/16/building-a-sails-application-ep23-adding-real-time-flash-messages-using-real-time-model-events/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/uvmPeuu2IYM" frameborder="0" allowfullscreen></iframe>
-
-
-<h1>Transcript</h1>
-
-<p>In this screencast, we’ll add a flash message that will  let all users know when someone logs-in, logs-out, is added or deleted.  So here, I’ve logged in on one browser normally and I’ll log in on another browser using  icognito mode&hellip;and there’s our flash message.  When I log out I see the flash message indicating the logout on the other browser.  Now I’ll create a new user account and we see the corresponding flash message.  Finally, I’ll delete the account and the flash message notifying us of the change is displayed..</p>
-
-<p>So following our Real Time Model Events pattern from episodes 21 and 22, we’re already subscribed to the user class room and instance models.  We did that on the server-side by creating a subscribe action to our user controller which does the actual room subscriptions.  On the client-side within app.js we initiate the subscription by using: <code>socket.get('/user/subscribe');</code>which, similar to an http get, hits our subscribe action.</p>
-
-<p>So now all we have to do is use the publish methods to let the socket of any browser tab know that one of our events has occurred.  First, let’s look at when the user logs-in. For that we’ll go into our session controller.  We’re already using publishUpdate to let the socket know that someone has logged in, now we can expand this object to pass the user.name and an action attribute with a value of ‘ has logged in.’</p>
-
-<p>On the client side, I’m going to open app.js and add to our popularly named cometMessageReceivedFromServer method to include an if statement that checks whether the message.verb is not equal to destroy and if it’s not call the displayFlashActivity method. This method, plays a sound and then through jquery displays the flash message.</p>
-
-<p>In order to set this up we need to do a couple of quick things.  First, I created a sounds folder which not surprisingly contain sound files.  And then since I want this sound available on every page I put the following tags in the layout.ejs file.</p>
-
-<p>So let’s see if this works.  I’ll log-in and great, we get a slightly annoying sound and our flash message.</p>
-
-<p>Back in the session controller’s destroy action, I’ll add an update when the user logs out. We expand the object again to include the user.name but this time an action attribute with the value of ‘ has logged out.’</p>
-
-<p>Next, let’s open the User Controller’s create action and we’re already using <code>publishCreate(user)</code> to update our User Administration page.  So here I’ll just add the action attribute to the user object and we’ll be good to go.</p>
-
-<p>Finally, let’s look at the destroy action of the user controller.  Here we’re using the publishDestroy method to let our User Administration page know that a user was destroyed.  The publishDestroy method only passes the id of the destroyed model, so I’m going to also use the publishUpdate method to pass the user.name and user.action to our client.</p>
-
-<p>Now let’s see if this all works.</p>
-
-<p>I have our two browsers open one in regular one in incognito mode.  I’ve logged into one side and now I’ll log into the other&hellip;there’s our flash message. When I log out we see the flash message. When I add a user we get the appropriate flash message. Finally, when I delete the user account, we’re notified of the event.</p>
-
-<p>Although this all works, I’d really prefer that you have to be logged in order to receive the flash messages.  I’d also like the flexibility of making the activities persistent, that is saved to a database.  So in the next screencast we’ll refactor this code to do just that.</p>
-
-<p>Thanks for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/4/">&larr; Older</a>
@@ -1625,6 +1717,10 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/">Building an Angular Application in Treeline Sneak Peak: Implementing the Signup Page in Treeline.</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/">Building an Angular Application in Sails: Ep5 - Creating Custom Actions and an Intro to Node-machines.</a>
       </li>
     
@@ -1638,10 +1734,6 @@ TypeError: Cannot read property &lsquo;name&rsquo; of undefined</p>
     
       <li class="post">
         <a href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/">Setting Up the Development Environment and Creating Your First Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let&#8217;s Start a New Adventure</a>
       </li>
     
   </ul>

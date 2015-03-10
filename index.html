@@ -9,7 +9,7 @@
   <meta name="author" content="irl nathan">
 
   
-  <meta name="description" content="Follow me on twitter here. Subscribe to the sailscasts mailing list here. The repo for this episode can be found here. Transcript In the last &hellip;">
+  <meta name="description" content="Signup for the Treeline Beta here. Follow me on twitter here. Subscribe to the sailscasts mailing list here. Transcript Howdy. So, I wanted to do a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/">Building an Angular Application in Treeline Sneak Peak: Implementing the Signup Page in Treeline.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-10T11:48:00-05:00" pubdate data-updated="true">Mar 10<span>th</span>, 2015</time>
+        
+           | <a href="/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/KH5E2TL-_e8" frameborder="0" allowfullscreen></iframe>
+
+
+<h3>Signup for the Treeline Beta <a href="http://treeline.io">here</a>.</h3>
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy.</p>
+
+<p>So, I wanted to do a quick screencast previewing a new project from the Sails crew called Treeline.  So, let&rsquo;s get busy.</p>
+
+<p>In the last two episodes we implemented the <code>/signup</code> request via Sails blueprints and then a custom controller action.  Today, I want to show you how I would do this in Treeline.  So I have a Treeline project here, which should look very similar to a Sails project because that&rsquo;s what it is with some very powerful additions.  I&rsquo;ve copied the assets folder from our existing activityOverlord20 project to the assets folder here.  So we have the same front-end asset structure, but I&rsquo;m going to create the back-end api in treeline.</p>
+
+<p>So here I am in the Main Treeline Dashboard. We&rsquo;ll go to apps, we&rsquo;ll create a new app, and not surprisingly we&rsquo;ll call it activityoverlord20.  And the first thing we&rsquo;re going to do is create our model.  Now, in the past episode we created a user mode.  We&rsquo;ll add attributes to that model the first being name and notice that I&rsquo;m going to add an example, and treeline will infer which type is appropriate.   Next, I&rsquo;ll add the other attributes title, email, password, and gravatar url.</p>
+
+<p>So now that we have our user model let&rsquo;s define the two routes that our front end requires.  The first route will be GET /signup.  This takes us into the circuit view.  Since we just want to display our signup.ejs view we can specify that in an empty circuit here. Okay, next I&rsquo;ll create the route to POST /signup.  As you may recall we first wanted to take the password from our form and encrypt it.  We used node-machines to do that.  You can think of treeline as the visual interface for node-machines.  So I&rsquo;ll just drag the encrypt password machine as a part that will fit on something called a circuit.  And then I&rsquo;ll access the password field from our signup page via a route paramter.</p>
+
+<p>Next we want to convert an email address into a gravatar url.   I&rsquo;ll search for the gravatar machinepack and install it.  And from with that machinepack I&rsquo;ll get the getImageUrl machine and put it on our circuit as well. Now similar to what we did with the encrypt password, I need to get our email address from our form and I&rsquo;ll do that with a route parameter.</p>
+
+<p>At this point we wanted to make sure that we had unique email addresses and if we didn&rsquo;t to let the front in know via a 409 status code.  So I&rsquo;ll drag a findone user machine over to our circuit and look up the email address provided by our form in the user model.  If a record is found, we know the email address is taken and we want to let the front end know so I&rsquo;ll respond with a 409 status.  If a record is not found, we want to go ahead and create the user so I&rsquo;ll drag a create user machine over and start connecting the user model with our form fields.  We&rsquo;ll do this mainly through route parameters, so for the name we&rsquo;ll get the route parameter, for the password we&rsquo;re going to actually get the output of our encrypt password machine.  For the email we&rsquo;ll go ahead and use a route parameter, we&rsquo;ll do the same for the title field, and finally for the gravatar url we&rsquo;ll use the output of the gravatar machine.</p>
+
+<p>Okay let&rsquo;s see all of this in action.  So we&rsquo;ve built the api in Treeline and Treeline syncs the controller and model with our local project when I lift it using Treeline preview. So let&rsquo;s head to our browser and navigate to localhost:1337/signup which will make the GET request to <code>/signup</code> and our signup view.  Next, let&rsquo;s go ahead and create a User record &ndash; Nikola Tesla.</p>
+
+<p>Let&rsquo;s go back to the signup page and create Nikola Tesla again and see if our duplicate email message is triggered.</p>
+
+<p>And there it is&hellip;so this really just scratches the surface of the power of treeline.  In addition to the activityoverlord20 screencasts I plan to do additional videos on this new tool.  If you&rsquo;re interested in using treeline, head over to treeline.io and sign up for the beta.  As always thanks for watching.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -719,62 +787,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let&#8217;s Start a New Adventure</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-01T12:24:00-06:00" pubdate data-updated="true">Jan 1<span>st</span>, 2015</time>
-        
-           | <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/#disqus_thread"
-             data-disqus-identifier="http://irlnathan.github.io/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/EHIybLmoxfE" frameborder="0" allowfullscreen></iframe>
-
-
-<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
-
-<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
-
-<h1>Transcript</h1>
-
-<p>Howdy all&hellip;Happy New Year, and welcome.</p>
-
-<p>Well for those of you who have listened to the previous activityOverlord screencasts the good news is I am armed with Keynote v6.5, which is filled with even more cheesey animations for me to abuse, the bad news is I&rsquo;m even older than I was in the last series of screencasts. Seriously though I think I can overcome that and take you on another programming journey, this time updating Activity Overlord to v2.0.  Now what&rsquo;s in v2.0? The major updates include using a bunch of new features in v0.11 of Sails as well as updating the front-end UI to use AngularJS.</p>
-
-<p>The current plan is to get the the original activityOverlord videos up to date ASAP.  Time permitting I&rsquo;ll continue making screencasts that take deeper dives into various concepts addressed in building the app.  The videos will be hosted on youtube under the ponzicoder channel with transcripts available at the following <a href="http://irlnathan.github.io/sailscasts/">gihub page</a>.  The source code is hosted in a repo on github <a href="github.com/irlnathan/activityoverlord20">here</a>. If you like what you see and want to make an old guy happy, please follow me on twitter <a href="https://twitter.com/irlnathan">here</a> and as important subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
-
-<p>If you find bugs feel free to send a pull request to this github repo &mdash; <a href="http://github.com/irlnathan/activityoverlord20.">http://github.com/irlnathan/activityoverlord20.</a>  If what I just said makes absolutely no sense, I&rsquo;ll be covering git and github in future screencasts.  If you have questions, there are a variety of forums to ask them.  The Sails irc channel, Stackoverflow using the tag sailsjs, and the Sails google group are all active.</p>
-
-<p>Needless to say I&rsquo;m really excited about this new series&hellip;and as always thanks for watching.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/sailscasts/blog/page/2/">&larr; Older</a>
@@ -790,6 +802,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/">Building an Angular Application in Treeline Sneak Peak: Implementing the Signup Page in Treeline.</a>
+      </li>
+    
+      <li class="post">
         <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/">Building an Angular Application in Sails: Ep5 - Creating Custom Actions and an Intro to Node-machines.</a>
       </li>
     
@@ -803,10 +819,6 @@
     
       <li class="post">
         <a href="/sailscasts/blog/2015/01/09/setting-up-the-development-environment-and-creating-your-the-project/">Setting Up the Development Environment and Creating Your First Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sailscasts/blog/2015/01/01/lets-start-a-new-adventure/">Let&#8217;s Start a New Adventure</a>
       </li>
     
   </ul>
