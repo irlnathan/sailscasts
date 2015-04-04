@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building an Angular Application in Sails: Ep6 - User Authentication in Angular and Sails. - sailsCasts</title>
+  <meta name="author" content="irl nathan">
+
+  
+  <meta name="description" content="Signup for the Treeline Beta here. Follow me on twitter here. Subscribe to the sailscasts mailing list here. Transcript Howdy. In the last episode &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://irlnathan.github.io/sailscasts/blog/2015/04/04/building-an-angular-application-in-sails-ep6-user-authentication-in-angular-and-sails">
+  <link href="/sailscasts/favicon.png" rel="icon">
+  <link href="/sailscasts/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/sailscasts/atom.xml" rel="alternate" title="sailsCasts" type="application/atom+xml">
+  <script src="/sailscasts/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/sailscasts/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43421644-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sailscasts/">sailsCasts</a></h1>
+  
+    <h2>Learning about sails.js one screencast at a time.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sailscasts/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:irlnathan.github.io/sailscasts" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sailscasts/">Blog</a></li>
+  <li><a href="/sailscasts/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Building an Angular Application in Sails: Ep6 - User Authentication in Angular and Sails.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-04T13:39:00-05:00" pubdate data-updated="true">Apr 4<span>th</span>, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://irlnathan.github.io/sailscasts">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe width="640" height="390" src="http://www.youtube.com/embed/IqpjIQ0pfkA" frameborder="0" allowfullscreen></iframe>
+
+
+<h3>Signup for the Treeline Beta <a href="http://treeline.io">here</a>.</h3>
+
+<p>Follow me on twitter <a href="https://twitter.com/irlnathan">here</a>.</p>
+
+<p>Subscribe to the sailscasts mailing list <a href="http://irlnathan.github.io/sailscastsnewsletter/">here</a>.</p>
+
+<h1>Transcript</h1>
+
+<p>Howdy.</p>
+
+<p>In the last episode we finished out the signup page.  We now want to take that information and allow users to login, better known as user authentication.  So far we&rsquo;ve created one Angular module for the signup page connected to our Sails API. And this is under a broader category of public pages or those pages that don&rsquo;t require a user to be logged in to see them.  We also need a homepage that will also be public.  Finally we need a view, I&rsquo;m going to call the dashboard that will require that the user be logged in to our back-end.</p>
+
+<p>So we have three Angular modules for activityOverlordv2.0.  You can of course accomplish the same end result in a variety of different ways, but I&rsquo;ve chosen this approach for simplicity and ease of SEO.</p>
+
+<p>Ok, let&rsquo;s start with the homepage.</p>
+
+<p>We&rsquo;ll first replace the current mark-up in homepage.ejs within the view folder with this new mark-up.  The markup contains our top level navigation, which includes the sign in button that triggers a <code>PUT</code> request to <code>/login</code>,  as well as a sign-up button that triggers a <code>GET</code> request to <code>/signup</code>. I realize I&rsquo;m going through this pretty fast but don&rsquo;t despair, I have a repo that has all of the code for your review.</p>
+
+<p>Let&rsquo;s look at the Angular module and controller for the homepage.   The homepage and signup module&rsquo;s are identical both inject the toastr and compareTo services.  The homepage controller adds a new method to the scope called <code>submitLoginForm</code>.  Similar to signup form, <code>submitLoginForm</code> initially sets the loading state to <code>true</code>.  We then make a <code>PUT</code> request to <code>/login</code> passing in an <code>email</code> field as well as a <code>password</code> field from the $scope object.  If the request is successful, we&rsquo;ll make the equivalent of the a <code>GET</code> request to <code>/</code>.  If we&rsquo;re unsuccessful we&rsquo;ll handle the known errors, in this case a bad email/password combination through the <code>toastr</code> service and return.  We&rsquo;ll also handle any unexpected error here.  Finally, in either case we&rsquo;re toggle the <code>loginForm</code> loading state back to false.</p>
+
+<p>So now that we have the front-end set up for the <code>Homepage</code>, let&rsquo;s switch gears to the back-end Sails API.</p>
+
+<p>The first thing I want to do is handle the <code>PUT</code> request to <code>/login</code>.   So I&rsquo;ll add that <code>route</code> to the <code>routes.js</code> file here. We want this to trigger a <code>login</code> action in our <code>UserControlller</code>.  Next, we&rsquo;ll head over to our user controller in <code>UserController.js</code>.  So let&rsquo;s add the add the <code>login</code> action.  The next block of code I&rsquo;ll add first takes the email address that was passed from the login form and searches our <code>user</code> model for an existing user. If it doesn&rsquo;t find one we&rsquo;ll send back a <code>404</code> status which will trigger the <code>toastr</code> message in the HomePageController.  Next, we&rsquo;ll be using another machinepack, called machinepack-passwords.  Within the machinepack we&rsquo;ll use the <code>checkPassword</code> machine passing in the user provided password from the login form as well as the encrypted password found by the <code>findOne</code> method of our <code>user</code> model.  Within this <code>machine</code> we handle any unexpected error first and then if the <code>passwords</code> don&rsquo;t match we again send a <code>404 status</code> via <code>res.notFound()</code>.  For reference, these responses can be found in the responses folder here.  If we get a match, we need to log the user in so we&rsquo;ll create a new parameter on the session via <code>req.session.me</code> and give it the value of the <code>id</code> of the user we found earlier with <code>findOne</code> method of the <code>user</code> model.  The last thing we need to do is let the front-end know everything went well and we do that by returning with <code>res.ok()</code>.</p>
+
+<p>Let&rsquo;s see all of this in action.  I&rsquo;ll start Sails with <code>sails lift</code> and we&rsquo;ve got an issue here.  I know what it is because I&rsquo;m old and forgetful. So, I&rsquo;m going to go into the <code>routes.js</code> file and you&rsquo;ll see that I just missed a comma here. So let&rsquo;s go back and try that again. Okay, Sails is up and running, let&rsquo;s go to the browser and let&rsquo;s hit <code>localhost:1337</code>. Okay, so the reason we&rsquo;re getting a <code>404</code> not found is we don&rsquo;t have a route that handles a <code>GET</code> request to <code>/</code>. Now we could remedy this very quickly by going back to the <code>routes.js</code> file, and we&rsquo;ll create a route here, that handles a <code>GET</code> request to <code>/</code>, which will trigger the homepage and we&rsquo;ll restart Sails here&hellip;go back into the browser and refresh and ther&rsquo;s our homepage and that&rsquo;s great.  But what I really want is a way to marshall between whether a user is authenticated, that is, logged in, and if they&rsquo;re logged in I want to display one front end and if they&rsquo;re not logged in a different front end. I can do that by adding a page controller to Sails.  So let&rsquo;s do that. First, I&rsquo;ll add the controller via <code>sails generate controller page</code>. Now let&rsquo;s go back into Atom and we have our <code>PageController</code> here which is empty.  I&rsquo;m going to add an action here <code>showHomePage</code>.</p>
+
+<p>We first check if the user is logged in via the <code>me</code> parameter on the session, so, if <code>req.session.me</code> does not exist, I want to load the homepage and I&rsquo;m going to do that by return <code>res.view('homepage')</code>. Otherwise if the user is logged in, I&rsquo;m going to use the <code>findOne</code> method of the <code>user</code> model to look for that user. So I&rsquo;ll pass in the <code>userId</code> which is the value of the <code>me</code> parameter on the session. First I&rsquo;ll look for an unexpected error here and I&rsquo;ll handle that with <code>res.negotiate</code> if it exists. If I don&rsquo;t find a user, I&rsquo;m going to return the user to the homepage. Now if I do find a user, I&rsquo;m going to return a view that we haven&rsquo;t created yet called <code>dashboard</code>. I&rsquo;m going to bootstrap some information that I found via the <code>findOne</code> method of the user model on the page itself.</p>
+
+<p>Before we create the dashboard view you may be asking what&rsquo;s going to trigger this <code>showHomePage</code> action. Well, we&rsquo;re going to do that by going into, <code>routes.js</code> and substituting this current view with our <code>PageController</code> and our <code>PageController</code> action <code>showHomePage</code>. So now any time there&rsquo;s a <code>GET</code> request to <code>/</code> our page controller will marshall which front end the user receives.</p>
+
+<p>Now let&rsquo;s implement our dashboard page.  The mark-up for the dashboard page is straightforward.  As with the signup and homepage views, the dashboard view will have some top level navigation.  The part I want to concentrate on is the bootstrapped data we get from the page controller&rsquo;s <code>showHomePage</code> action.  So using <code>ejs</code> we&rsquo;ll add the parameters of the <code>me</code> object from the <code>showHOmePage</code> action on to <code>window.SAILS_LOCALS</code>.</p>
+
+<p>Next, let&rsquo;s add the very minimal dashboard module and controller. I&rsquo;ve added these files under a separate folder named <code>private</code> to distinguish between the Angular code that will be executed when a user is authenticated and code that is public and does not require authentication.</p>
+
+<p>I want to ensure that the new Angular modules I&rsquo;ve added will be loaded before any controllers, so I&rsquo;ll go back to <code>pipeline.js</code> found in the <code>tasks</code> folder and add the path to the two new modules &mdash; <code>HomepageModule</code> and `DashboardModule&#8217;.  This will insure that the modules will be loaded into the page first.</p>
+
+<p>Okay, let&rsquo;s see this all in action. So I&rsquo;ll start Sails, with <code>sails lift</code>, and then navigate my browser to <code>localhost:1337</code>.  In the previous episode we created an account, <code>nikola@tesla.com</code> with the password <code>123456</code> and I&rsquo;m going to use that now.  Now if you don&rsquo;t have that user created, no big deal, just click on the sign up now button and create that user, <code>nikola@tesla.com</code> with the password <code>123456</code>, then go back to <code>localhost:1337</code> and start from there&hellip;and we have our dashboard page. And if we view the page source, we can see that we have our bootstrap user right here on the page.  So let&rsquo;s go back to the <code>PageController</code> really quickly here&hellip;<code>req.session.me</code> existed, we used that with the <code>findOne</code> method of the <code>user</code> model&hellip;it found the user and then passed the user object via the <code>me</code> parameter and bootstrapped it onto the dashboard page.</p>
+
+<p>So there are a couple of things we still need to implement here. We have this sign-out link, that if i click on it it&rsquo;s going to give us a <code>404</code> and that&rsquo;s because we don&rsquo;t have a route that handles that link&hellip;so this link is making a <code>GET</code> request to <code>/logout</code> and we don&rsquo;t have a route for that so let&rsquo;s take care of that first.  So now that <code>GET</code> request to <code>/logout</code> will be tied to or will trigger the <code>UserController</code> and this new action on the controller. So let&rsquo;s go up to <code>UserController</code> and let&rsquo;s add a <code>logout</code> action.</p>
+
+<p>So similar to our login action we&rsquo;re going to look for the user id on <code>req.session.me</code>&hellip;we&rsquo;re going to pass that to the <code>findOne</code> method of our <code>user</code> model&hellip;we&rsquo;re going to handle the errors if they exist and if it finds a user, we&rsquo;re going to essentially log that user out by making <code>req.session.me</code> equal to <code>null</code>. Then we&rsquo;re going to return with a new response, <code>backToHomePage()</code>. So let&rsquo;s take a look at that response.</p>
+
+<p>So this response is basically for convenience&hellip;if logout were an AJAX request, Sails will know that that request just wants a JSON status code response. In our case we&rsquo;re making a <code>GET</code> request via the browser, so we just want to redirect back to <code>/</code> and let our page controller handle it.  Okay let&rsquo;s see this in action.</p>
+
+<p>So I&rsquo;ll go and restart Sails, and we&rsquo;ll go back and log-in.  So now when I hit the signout link the <code>PageController</code> sends me back to the homepage.</p>
+
+<p>There&rsquo;s just a couple of other things we need to do. Within the <code>UserController</code>, <code>signup</code> action we want the user to be logged in after they&rsquo;re signed up. So we&rsquo;ll do that right here. And within the signup page controller, on a successful signup we made a <code>GET</code> request via the browser to <code>/user</code> and now we just want to ake that <code>/</code>.</p>
+
+<p>Let&rsquo;s go ahead and restart one more time. And we&rsquo;ll now go to signup, and I&rsquo;ll create a new user <code>b</code>, <code>b@b.com</code>&hellip;and everything works.  So the user was created and logged-in&hellip;and let&rsquo;s take a look at the page source&hellip;and there we are there&rsquo;s our bootstrapped data.</p>
+
+<p>Thanks for making it through the many voices of Sailscasts.  Although it might seem that there are different Irl&rsquo;s on this Sailscast, I assure you that it was the same ole guy throughout&hellip;al beit Allergy-challenged.  So now we know how to create a user, save it to a database using the Sails ORM, and then use that information to authenticate a user marshalling between different Angular front-ends depending upon the user&rsquo;s log-in status.</p>
+
+<p>There&rsquo;s been quite a bit going on in Sails and Treeline so expect an update shortly via the Sailscasts mailing list.  If you&rsquo;re not signed up, head over here to subscribe and you can always follow me on Twitter here.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">irl nathan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-04T13:39:00-05:00" pubdate data-updated="true">Apr 4<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="/sailscasts//twitter.com/share" class="twitter-share-button" data-url="http://irlnathan.github.io/sailscasts/blog/2015/04/04/building-an-angular-application-in-sails-ep6-user-authentication-in-angular-and-sails/" data-via="" data-counturl="http://irlnathan.github.io/sailscasts/blog/2015/04/04/building-an-angular-application-in-sails-ep6-user-authentication-in-angular-and-sails/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/" title="Previous Post: Building an Angular Application in Treeline Sneak Peak: Implementing the signup page in treeline.">&laquo; Building an Angular Application in Treeline Sneak Peak: Implementing the signup page in treeline.</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/04/04/building-an-angular-application-in-sails-ep6-user-authentication-in-angular-and-sails/">Building an Angular Application in Sails: Ep6 - User Authentication in Angular and Sails.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/10/building-an-angular-application-in-treeline-sneak-peak-implementing-the-signup-page-in-treeline/">Building an Angular Application in Treeline Sneak Peak: Implementing the Signup Page in Treeline.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-creating-custom-actions-and-an-intro-to-node-machines/">Building an Angular Application in Sails: Ep5 - Creating Custom Actions and an Intro to Node-machines.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/03/06/building-an-angular-application-in-sails-ep4-implementing-requests-in-angular-to-a-sails-api/">Building an Angular Application in Sails: Ep4 - Implementing Requests in Angular to a Sails API.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sailscasts/blog/2015/01/20/building-an-angular-application-in-sails-ep3-understanding-asset-delivery-options-in-our-signup-page/">Building an Angular Application in Sails: Ep3 - Understanding Asset Delivery Options in Our SignUp Page.</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - irl nathan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sailscasts';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://irlnathan.github.io/sailscasts/blog/2015/04/04/building-an-angular-application-in-sails-ep6-user-authentication-in-angular-and-sails/';
+        var disqus_url = 'http://irlnathan.github.io/sailscasts/blog/2015/04/04/building-an-angular-application-in-sails-ep6-user-authentication-in-angular-and-sails/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
